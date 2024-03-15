@@ -14,6 +14,25 @@ const Login = ({ userState, setUserState }) => {
   const [error, setError] = useState("");
   const router = useRouter();
 
+  //FUNCTION: Valida si el usuario esta logueado
+  useEffect(() => {
+    const validateUser = onAuthStateChanged(auth, (user) => {
+      // NO esta logueado lo manda a inicio
+      if (!user) {
+        console.log("user.uid:", user);
+        if (router.pathname !== "/") {
+          router.push("/");
+        }
+      }
+      // SI esta logueado se asigna la key a la variable userState
+      if (user) {
+        console.log("user.uid:", user.uid);
+      }
+    });
+
+    return () => validateUser();
+  }, []);
+
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
@@ -24,21 +43,11 @@ const Login = ({ userState, setUserState }) => {
       );
       const user = userCredential.user;
       setUserState(user.uid);
-
-      // Guardar el estado de autenticación en el almacenamiento local
-      localStorage.setItem("userState", user.uid);
       router.push("/Dashboard");
     } catch (error) {
       setError(error.message);
     }
   };
-
-  useEffect(() => {
-    console.log("PRIMERO", userState);
-    const value = localStorage.getItem("userState") || undefined;
-    setUserState(value);
-    console.log("DESPUES", userState);
-  }, [userState]);
 
   return (
     <main className=" flex justify-center items-center min-h-screen">

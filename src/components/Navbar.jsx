@@ -4,15 +4,11 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 
 const Navbar = ({ userState, setUserState }) => {
-  const router = useRouter();
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      // Limpiar el localStorage al cerrar sesión
-      localStorage.removeItem("userState");
       // Recargar la página
       window.location.reload();
-      router.push("/"); // Redirigir al usuario a la página de inicio (o donde desees)
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }

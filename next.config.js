@@ -9,6 +9,8 @@ const nextConfig = {
     MESSAGINGSENDERID: process.env.MESSAGINGSENDERID,
     APPID: process.env.APPID,
     ADMINID: process.env.ADMINID,
+    ADMIN_ID: process.env.ADMIN_ID,
+    ACTIVISTA_ID: process.env.ACTIVISTA_ID,
   },
 };
 

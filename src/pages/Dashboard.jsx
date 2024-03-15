@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 
-const Dashboard = ({ userState, setUserState }) => {
+const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
 
   //FUNCTION: Se ejecuta al cargar la pagina
@@ -37,6 +37,12 @@ const Dashboard = ({ userState, setUserState }) => {
     <main>
       <section className=" flex flex-col gap-5 justify-center items-center min-h-screen">
         <div>Dashboard</div> <div>USUARIO: {userState}</div>
+        {adminID.includes(userState) ? (
+          <div className=" font-bold text-lime-500">ADMIN</div>
+        ) : null}
+        {activistaID.includes(userState) ? (
+          <div className=" font-bold  text-sky-600">ACTIVISTA</div>
+        ) : null}
       </section>
     </main>
   );

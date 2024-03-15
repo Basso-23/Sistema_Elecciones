@@ -1,16 +1,12 @@
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import {
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  getAuth,
-  signOut,
-} from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 
 const Dashboard = ({ userState, setUserState }) => {
   const router = useRouter();
 
+  //FUNCTION: Se ejecuta al cargar la pagina
   useEffect(() => {
     console.log("USUARIO:", userState);
   }, [userState]);
@@ -18,19 +14,19 @@ const Dashboard = ({ userState, setUserState }) => {
   //FUNCTION: Valida si el usuario esta logueado
   useEffect(() => {
     const validateUser = onAuthStateChanged(auth, (user) => {
-      //* NO esta logueado lo manda a inicio
-      if (!user) {
-        if (router.pathname !== "/") {
-          router.push("/");
-        }
-      }
-      //* SI esta logueado se asigna la key a la variable userState
+      //* SI esta logueado se asigna la key del usuario a la variable userState y no puede ver la pantalla de Login
       if (user) {
         if (router.pathname === "/") {
           router.push("/Dashboard");
         }
         setUserState(user.uid);
         console.log("user.uid:", user.uid);
+      }
+      //* NO esta logueado, redirige a Login
+      if (!user) {
+        if (router.pathname !== "/") {
+          router.push("/");
+        }
       }
     });
 
@@ -39,7 +35,9 @@ const Dashboard = ({ userState, setUserState }) => {
 
   return (
     <main>
-      <div>Dashboard</div> <div>{userState}</div>
+      <section className=" flex flex-col gap-5 justify-center items-center min-h-screen">
+        <div>Dashboard</div> <div>USUARIO: {userState}</div>
+      </section>
     </main>
   );
 };

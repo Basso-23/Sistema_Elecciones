@@ -11,6 +11,7 @@ const Login = ({ userState, setUserState }) => {
     password: "",
   });
 
+  //FUNCTION: Se ejecuta al cargar la pagina
   useEffect(() => {
     console.log("USUARIO:", userState);
   }, [userState]);
@@ -18,19 +19,19 @@ const Login = ({ userState, setUserState }) => {
   //FUNCTION: Valida si el usuario esta logueado
   useEffect(() => {
     const validateUser = onAuthStateChanged(auth, (user) => {
-      //* NO esta logueado lo manda a inicio
-      if (!user) {
-        if (router.pathname !== "/") {
-          router.push("/");
-        }
-      }
-      //* SI esta logueado se asigna la key a la variable userState
+      //* SI esta logueado se asigna la key del usuario a la variable userState y no puede ver la pantalla de Login
       if (user) {
         if (router.pathname === "/") {
           router.push("/Dashboard");
         }
         setUserState(user.uid);
         console.log("user.uid:", user.uid);
+      }
+      //* NO esta logueado, redirige a Login
+      if (!user) {
+        if (router.pathname !== "/") {
+          router.push("/");
+        }
       }
     });
 
@@ -46,7 +47,6 @@ const Login = ({ userState, setUserState }) => {
   //FUNCTION: Maneja el submit del form LOGIN
   const handleLogin = async (e) => {
     e.preventDefault();
-
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -54,10 +54,13 @@ const Login = ({ userState, setUserState }) => {
         formLogin.password
       );
       const user = userCredential.user;
+
+      //* Asigna la key del usuario a la variable userState
       setUserState(user.uid);
+      //* Redirige a Dashboard
       router.push("/Dashboard");
     } catch (error) {
-      setError(error.message);
+      console.log("Error al iniciar sesión:", error);
     }
   };
 

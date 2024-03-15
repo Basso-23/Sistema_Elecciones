@@ -12,20 +12,23 @@ const Dashboard = ({ userState, setUserState }) => {
   const router = useRouter();
 
   useEffect(() => {
-    console.log("USER STATE", userState);
+    console.log("USUARIO:", userState);
   }, [userState]);
 
   //FUNCTION: Valida si el usuario esta logueado
   useEffect(() => {
     const validateUser = onAuthStateChanged(auth, (user) => {
-      // NO esta logueado lo manda a inicio
+      //* NO esta logueado lo manda a inicio
       if (!user) {
         if (router.pathname !== "/") {
           router.push("/");
         }
       }
-      // SI esta logueado se asigna la key a la variable userState
+      //* SI esta logueado se asigna la key a la variable userState
       if (user) {
+        if (router.pathname === "/") {
+          router.push("/Dashboard");
+        }
         setUserState(user.uid);
         console.log("user.uid:", user.uid);
       }

@@ -16,13 +16,21 @@ const Navbar = ({ userState, setUserState }) => {
 
   return (
     <main>
-      <div className=" flex justify-between">
+      {/*//SECTION: Navbar container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+      <section className=" flex justify-between py-4">
         <div>LOGO</div>
-        <div className="flex gap-10">
-          <div>{userState}</div>
-          <button onClick={handleSignOut}>Cerrar Sesión</button>
-        </div>
-      </div>
+        {userState ? (
+          <div className="flex gap-10 items-center">
+            ID: {userState}
+            <button
+              onClick={handleSignOut}
+              className=" px-10 py-1 bg-red-600 text-white uppercase tracking-wide active:scale-95 transition-all"
+            >
+              Cerrar Sesión
+            </button>
+          </div>
+        ) : null}
+      </section>
     </main>
   );
 };

@@ -1,9 +1,5 @@
-import Inicio from "./Inicio";
+const Inicio = () => {
+  return <div className=" flex flex-col gap-20">Inicio</div>;
+};
 
-export default function App({ catalogo, setCatalogo }) {
-  return (
-    <>
-      <Inicio catalogo={catalogo} setCatalogo={setCatalogo} />
-    </>
-  );
-}
+export default Inicio;

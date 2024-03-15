@@ -37,7 +37,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const VoterTable = ({ data }) => {
     const [sortedData, setSortedData] = useState(data);
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsToShow = 4;
+    const [currentOrder, setCurrentOrder] = useState("Por defecto");
+    const itemsToShow = 5;
 
     // Función para cambiar la página actual
     const handlePageChange = (pageNumber) => {
@@ -62,16 +63,17 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         return 0;
       });
       setSortedData(sorted);
+      setCurrentOrder(field);
       setCurrentPage(1); // Volver a la primera página después de ordenar
     };
 
-    if (adminID.includes(userState)) {
-    }
+    // Filtrar los datos según el ID del activista
+    let filteredData = sortedData; // Inicializar filteredData con todos los datos
 
-    // Filtrar los datos que contienen el ID del activista en el campo activista_asignado
-    const filteredData = sortedData.filter(
-      (item) => item.activista_asignado === userState
-    );
+    if (activistaID.includes(userState)) {
+      // Si el usuario es Activista: filtrar los datos que contienen el ID del activista en el campo activista
+      filteredData = sortedData.filter((item) => item.activista === userState);
+    }
 
     // Calcular el índice inicial y final de los elementos en la página actual
     const indexOfLastData = currentPage * itemsToShow;
@@ -79,47 +81,60 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
 
     return (
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th onClick={() => handleSort("nombre")}>Nombre</th>
-              <th onClick={() => handleSort("apellido")}>Apellido</th>
-              <th onClick={() => handleSort("cedula")}>Cedula</th>
-              <th>Direccion</th>
-              <th>Telefono</th>
-              <th onClick={() => handleSort("centro_de_votacion")}>
-                Centro de Votación
-              </th>
-              <th onClick={() => handleSort("mesa_de_votacion")}>
-                Mesa de Votación
-              </th>
-              <th onClick={() => handleSort("activista_asignado")}>
-                Activista Asignado
-              </th>
-              <th onClick={() => handleSort("estado_de_votacion")}>
-                Estado de Votación
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {currentData.map((item, index) => (
-              <tr key={index}>
-                <td>{item.nombre}</td>
-                <td>{item.apellido}</td>
-                <td>{item.cedula}</td>
-                <td>{item.direccion}</td>
-                <td>{item.telefono}</td>
-                <td>{item.centro_de_votacion}</td>
-                <td>{item.mesa_de_votacion}</td>
-                <td>{item.activista_asignado}</td>
-                <td>{item.estado_de_votacion}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className=" flex flex-col">
+        <div className=" capitalize">
+          Ordenado por: <strong>{currentOrder}</strong>
+        </div>
+        <div className=" w-full grid  grid-cols-9 mt-20  border-b border-t">
+          <button onClick={() => handleSort("nombre")}>Nombre</button>
+          <button onClick={() => handleSort("apellido")}>Apellido</button>
+          <button onClick={() => handleSort("cedula")}>Cedula</button>
+          <div>Direccion</div>
+          <div>Telefono</div>
+          <button onClick={() => handleSort("centro_de_votacion")}>
+            Centro de Votación
+          </button>
+          <button className=" text-center" onClick={() => handleSort("mesa")}>
+            Mesa
+          </button>
+
+          <button
+            className=" text-center"
+            onClick={() => handleSort("estado_de_votacion")}
+          >
+            Estado
+          </button>
+          <button
+            className=" text-center"
+            onClick={() => handleSort("activista")}
+          >
+            Activista
+          </button>
+        </div>
+        {currentData.map((item, index) => (
+          <div
+            className=" w-full grid  grid-cols-9 border-b border-t tablaContenido "
+            key={index}
+          >
+            <div>{item.nombre}</div>
+            <div>{item.apellido}</div>
+            <div>{item.cedula}</div>
+            <div>{item.direccion}</div>
+            <div>{item.telefono}</div>
+            <div>{item.centro_de_votacion}</div>
+            <div className="justify-center">{item.mesa}</div>
+            <div
+              className={
+                item.estado_de_votacion
+                  ? " bg-lime-500 my-2 mx-4"
+                  : "bg-red-600 my-2 mx-4"
+              }
+            ></div>
+            <div className=" overflow-x-auto scroll1 ">{item.activista}</div>
+          </div>
+        ))}
         {/* Paginación */}
-        <div>
+        <div className="mx-auto mt-10 flex gap-10">
           <button onClick={prevPage} disabled={currentPage === 1}>
             Anterior
           </button>
@@ -152,17 +167,16 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   return (
     <main>
-      <section className=" flex justify-center mt-20">
-        <VoterTable data={example_db} />
-      </section>
       <section className=" flex flex-col gap-5 justify-center items-center mt-20">
-        <div>USUARIO: {userState}</div>
         {adminID.includes(userState) ? (
           <div className=" font-bold text-lime-500">ADMIN</div>
         ) : null}
         {activistaID.includes(userState) ? (
           <div className=" font-bold  text-sky-600">ACTIVISTA</div>
         ) : null}
+      </section>
+      <section className=" flex justify-center">
+        <VoterTable data={example_db} />
       </section>
     </main>
   );

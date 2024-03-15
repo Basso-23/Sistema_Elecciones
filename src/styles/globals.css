@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  background-color: #ffffff;
+  color: #151515;
+}
+
+body {
+}
+
+.pageSize {
+  max-width: 1250px;
+  width: 100%;
+}
+
+.fixedCenterX {
+  left: 50%;
+  transform: translateX(-50%);
+}

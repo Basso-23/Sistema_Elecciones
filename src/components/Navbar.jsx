@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
+import { useRouter } from "next/router";
 
 const Navbar = ({ userState, setUserState }) => {
+  const router = useRouter();
   //FUNCTION: Cerrar Sesion
   const handleSignOut = async () => {
     try {
       await signOut(auth);
-      //* Recargar la página
-      window.location.reload();
+      //* Redirige a Inicio
+      router.push("/");
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     }
+    clean();
+  };
+
+  //FUNCTION: Limpia la variable que guarda el ID del usuario
+  const clean = () => {
+    setUserState();
   };
 
   return (

@@ -8,7 +8,7 @@ const example_db = [
     telefono: "123-456-7890",
     centro_de_votacion: "Escuela Primaria ABC",
     mesa: 1,
-    activista: "OA9Pp1DD1Mhrc3BTemaicGbNOCq1",
+    activista: "2@activista.com",
     estado_de_votacion: false,
   },
   {
@@ -20,7 +20,7 @@ const example_db = [
     telefono: "987-654-3210",
     centro_de_votacion: "Centro Comunitario",
     mesa: 3,
-    activista: "OA9Pp1DD1Mhrc3BTemaicGbNOCq1",
+    activista: "2@activista.com",
     estado_de_votacion: true,
   },
   {
@@ -32,7 +32,7 @@ const example_db = [
     telefono: "135-792-4680",
     centro_de_votacion: "Biblioteca Pública",
     mesa: 2,
-    activista: "agrV5u9eWORhvGWCuauu42zcYxh2",
+    activista: "1@activista.com",
     estado_de_votacion: false,
   },
   {
@@ -44,7 +44,7 @@ const example_db = [
     telefono: "246-801-3579",
     centro_de_votacion: "Centro Comunitario",
     mesa: 5,
-    activista: "OA9Pp1DD1Mhrc3BTemaicGbNOCq1",
+    activista: "2@activista.com",
     estado_de_votacion: false,
   },
   {
@@ -56,7 +56,7 @@ const example_db = [
     telefono: "987-654-3210",
     centro_de_votacion: "Biblioteca Pública",
     mesa: 5,
-    activista: "agrV5u9eWORhvGWCuauu42zcYxh2",
+    activista: "1@activista.com",
     estado_de_votacion: true,
   },
   {
@@ -68,7 +68,7 @@ const example_db = [
     telefono: "567-890-1234",
     centro_de_votacion: "Centro Cívico",
     mesa: 2,
-    activista: "agrV5u9eWORhvGWCuauu42zcYxh2",
+    activista: "1@activista.com",
     estado_de_votacion: true,
   },
   {
@@ -80,7 +80,7 @@ const example_db = [
     telefono: "678-901-2345",
     centro_de_votacion: "Universidad Nacional",
     mesa: 2,
-    activista: "hnmXKCGSiXbGOoUKcoqEPAccmgp1",
+    activista: "3@activista.com",
     estado_de_votacion: false,
   },
   {
@@ -92,7 +92,7 @@ const example_db = [
     telefono: "789-012-3456",
     centro_de_votacion: "Centro de Convenciones",
     mesa: 8,
-    activista: "hnmXKCGSiXbGOoUKcoqEPAccmgp1",
+    activista: "3@activista.com",
     estado_de_votacion: true,
   },
   {
@@ -104,7 +104,7 @@ const example_db = [
     telefono: "890-123-4567",
     centro_de_votacion: "Parque Recreativo",
     mesa: 4,
-    activista: "OA9Pp1DD1Mhrc3BTemaicGbNOCq1",
+    activista: "2@activista.com",
     estado_de_votacion: true,
   },
   {
@@ -116,7 +116,7 @@ const example_db = [
     telefono: "456-789-0123",
     centro_de_votacion: "Parque Recreativo",
     mesa: 8,
-    activista: "hnmXKCGSiXbGOoUKcoqEPAccmgp1",
+    activista: "3@activista.com",
     estado_de_votacion: false,
   },
 ];

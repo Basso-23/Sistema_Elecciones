@@ -20,8 +20,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         if (router.pathname === "/") {
           router.push("/Dashboard");
         }
-        setUserState(user.uid);
-        console.log("user.uid:", user.uid);
+        setUserState(user.email);
+        console.log("user.email:", user.email);
       }
       //* NO esta logueado, redirige a Login
       if (!user) {

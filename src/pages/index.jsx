@@ -24,8 +24,8 @@ const Login = ({ userState, setUserState }) => {
         if (router.pathname === "/") {
           router.push("/Dashboard");
         }
-        setUserState(user.uid);
-        console.log("user.uid:", user.uid);
+        setUserState(user.email);
+        console.log("user.email:", user.email);
       }
       //* NO esta logueado, redirige a Login
       if (!user) {
@@ -56,7 +56,7 @@ const Login = ({ userState, setUserState }) => {
       const user = userCredential.user;
 
       //* Asigna la key del usuario a la variable userState
-      setUserState(user.uid);
+      setUserState(user.email);
       //* Redirige a Dashboard
       router.push("/Dashboard");
     } catch (error) {

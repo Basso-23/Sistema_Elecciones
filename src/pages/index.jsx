@@ -65,33 +65,38 @@ const Login = ({ userState, setUserState }) => {
   };
 
   return (
-    <main className=" flex justify-center items-center min-h-screen">
+    <main className=" flex justify-center items-center min-h-screen bg-[#FAFAFA] px-3">
       {/*//SECTION: Form container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-      <section>
-        <form className="flex gap-5 items-center" onSubmit={handleLogin}>
-          <label>
-            <InputForm
-              name="email"
-              value={formLogin.email}
-              placeholder={"Email"}
-              type={"email"}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            <InputForm
-              name="password"
-              value={formLogin.password}
-              placeholder={"Contraseña"}
-              type={"password"}
-              onChange={handleChange}
-            />
-          </label>
+      <section className=" aspect-[10/8.5] w-full max-w-[650px] bubble flex justify-center items-center min-h-[455px]">
+        <form
+          className="flex flex-col justify-center gap-5 items-center bg-white p-10 w-full max-w-[390px] shadow-md rounded-lg text-center relative"
+          onSubmit={handleLogin}
+        >
+          <div className=" w-[80px] aspect-square rounded-full absolute fixedCenterX bg-[#4A77F7] top-0 -mt-10"></div>
+          <h1 className=" text-xl font-bold mb-2 pt-6">
+            Sign up and get access to the full guide right now
+          </h1>
+          <InputForm
+            name="email"
+            value={formLogin.email}
+            placeholder={"Email"}
+            type={"email"}
+            onChange={handleChange}
+          />
+
+          <InputForm
+            name="password"
+            value={formLogin.password}
+            placeholder={"Contraseña"}
+            type={"password"}
+            onChange={handleChange}
+          />
+
           <button
-            className=" px-10 py-1 bg-lime-500 text-white uppercase tracking-wide active:scale-95 transition-all"
+            className=" px-10 py-2 text-sm font-medium tracking-wide bg-[#4A77F7] text-white mt-2 rounded-md w-full text-center"
             type="submit"
           >
-            Iniciar Sesión
+            Iniciar sesión
           </button>
         </form>
       </section>

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "^5.0.17",
     "@fontsource-variable/jost": "^5.0.18",
     "@material-tailwind/react": "^2.1.8",
     "autoprefixer": "10.4.14",

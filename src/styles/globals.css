@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  background-color: #ffffff;
+  background-color: #fafafa;
   color: #151515;
 }
 
@@ -31,9 +31,6 @@
   margin: 0 10px;
 }
 
-body {
-}
-
 .pageSize {
   max-width: 1250px;
   width: 100%;
@@ -43,6 +40,7 @@ body {
   left: 50%;
   transform: translateX(-50%);
 }
+
 button {
   text-align: start;
 }
@@ -50,4 +48,15 @@ button {
 .tablaContenido div {
   display: flex;
   align-items: center;
+}
+
+.title {
+  font-size: 28px;
+}
+
+.bubble {
+  background-image: url(../assets/bubble.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }

@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import "@fontsource-variable/inter";
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import { useRouter } from "next/router";
@@ -17,16 +18,25 @@ const App = ({ Component, pageProps, router }) => {
     process.env.ACTIVISTA_ID ? JSON.parse(process.env.ACTIVISTA_ID) : []
   );
   return (
-    <div className="pageSize mx-auto">
-      <Navbar userState={userState} setUserState={setUserState} />
-      <Component
-        key={router.pathname}
-        {...pageProps}
-        userState={userState}
-        setUserState={setUserState}
-        adminID={adminID}
-        activistaID={activistaID}
-      />
+    <div style={{ fontFamily: "Inter Variable, sans-serif" }}>
+      {userState ? (
+        <Navbar userState={userState} setUserState={setUserState} />
+      ) : null}
+
+      <div
+        className={
+          userState ? "pageSize mx-auto pt-[75px]" : "pageSize mx-auto pt-[0px]"
+        }
+      >
+        <Component
+          key={router.pathname}
+          {...pageProps}
+          userState={userState}
+          setUserState={setUserState}
+          adminID={adminID}
+          activistaID={activistaID}
+        />
+      </div>
     </div>
   );
 };

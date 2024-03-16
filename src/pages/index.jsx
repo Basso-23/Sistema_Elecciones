@@ -6,6 +6,8 @@ import InputForm from "@/components/InputForm";
 
 const Login = ({ userState, setUserState }) => {
   const router = useRouter();
+  const [error, setError] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [formLogin, setFormLogin] = useState({
     email: "",
     password: "",
@@ -46,6 +48,7 @@ const Login = ({ userState, setUserState }) => {
 
   //FUNCTION: Maneja el submit del form LOGIN
   const handleLogin = async (e) => {
+    setLoader(true);
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -57,9 +60,16 @@ const Login = ({ userState, setUserState }) => {
 
       //* Asigna la key del usuario a la variable userState
       setUserState(user.email);
+      //* Cambia el estado del error si esta en true (para que no se muestre el texto de correo o contraseña incorrecta)
+      setError(false);
       //* Redirige a Dashboard
       router.push("/Dashboard");
     } catch (error) {
+      setError(true);
+      setTimeout(() => {
+        setLoader(false);
+      }, 500);
+
       console.log("Error al iniciar sesión:", error);
     }
   };
@@ -100,12 +110,34 @@ const Login = ({ userState, setUserState }) => {
               onChange={handleChange}
             />
           </div>
+          {/*//* Mensaje de error */}
+          {error ? (
+            <div className=" text-[11px] text-[#9e0032] -mt-4">
+              Correo electrónico o contaseña incorrecta. Vuelve a intentarlo.
+            </div>
+          ) : null}
+
           {/*//* Submit button */}
           <button
-            className=" px-10 py-[16px] text-sm font-medium tracking-wide bg-[#0061FE] hover:bg-[#2645e0] text-white mt-5 w-full text-center glowLogin transition-all"
+            className={`py-[16px] text-sm font-medium tracking-wide text-white mt-5 w-full text-center transition-all ${
+              loader
+                ? "bg-[#aeaeae] pointer-events-none"
+                : " bg-[#0061FE] hover:bg-[#2645e0]"
+            }`}
             type="submit"
           >
-            Continuar
+            {/*//*Loader */}
+            {loader ? (
+              <div className=" flex relative justify-center ">
+                <div class="lds-ellipsis -ml-14 ">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            ) : (
+              <div> Continuar </div>
+            )}
           </button>
         </form>
       </section>

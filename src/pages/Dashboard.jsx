@@ -6,10 +6,15 @@ import { example_db } from "@/components/example_db";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
+  const [load, setLoad] = useState(false);
 
   //FUNCTION: Se ejecuta al cargar la pagina
   useEffect(() => {
     console.log("USUARIO:", userState);
+
+    setTimeout(() => {
+      setLoad(true);
+    }, 500);
   }, [userState]);
 
   //FUNCTION: Valida si el usuario esta logueado
@@ -167,9 +172,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   return (
     <main>
-      <section className=" flex justify-center">
-        <VoterTable data={example_db} />
-      </section>
+      {load ? (
+        <section className=" flex justify-center">
+          <VoterTable data={example_db} />
+        </section>
+      ) : null}
 
       <div className=" absolute bottom-0 right-2 text-[#9e9e9e] text-sm tracking-wide">
         ID: {userState}

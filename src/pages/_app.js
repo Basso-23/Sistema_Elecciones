@@ -19,15 +19,9 @@ const App = ({ Component, pageProps, router }) => {
   );
   return (
     <div style={{ fontFamily: "Inter Variable, sans-serif" }}>
-      {userState ? (
-        <Navbar userState={userState} setUserState={setUserState} />
-      ) : null}
+      <Navbar userState={userState} setUserState={setUserState} />
 
-      <div
-        className={
-          userState ? "pageSize mx-auto pt-[75px]" : "pageSize mx-auto pt-[0px]"
-        }
-      >
+      <div className={userState ? " sm:pt-[70px] pt-[50px]" : " pt-[0px]"}>
         <Component
           key={router.pathname}
           {...pageProps}

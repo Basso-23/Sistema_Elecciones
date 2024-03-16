@@ -23,12 +23,18 @@ const Navbar = ({ userState, setUserState }) => {
   };
 
   return (
-    <main className=" bg-white shadow-md z-50 fixed w-full h-[75px] flex items-center">
+    <main className=" bg-white border-b z-50 fixed w-full sm:h-[70px] h-[50px] flex items-center">
       {/*//SECTION: Navbar container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-      <section className="pageSize flex justify-between py-4 mx-auto">
-        <div className=" font-bold title">
-          PapaCat<strong className=" text-[#FB592B]">.</strong>
+      <section className="flex justify-between py-4 sm:px-6">
+        <div className="flex gap-3 items-center font-semibold text-2xl">
+          {/*//* Logo */}
+          <div className=" sm:w-10 sm:h-10 w-[50px] h-[50px] bg-[#0061FE] justify-center items-center flex text-white">
+            ?
+          </div>
+          {/*//* Titulo */}
+          <div>Papacat</div>
         </div>
+
         {userState ? (
           <div className="flex gap-10 items-center">
             ID: {userState}

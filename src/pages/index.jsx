@@ -65,38 +65,47 @@ const Login = ({ userState, setUserState }) => {
   };
 
   return (
-    <main className=" flex justify-center items-center min-h-screen bg-[#FAFAFA] px-3">
+    <main className=" flex justify-center min-h-[100lvh] px-6">
       {/*//SECTION: Form container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-      <section className=" aspect-[10/8.5] w-full max-w-[650px] bubble flex justify-center items-center min-h-[455px]">
+      <section className="mt-[120px] h-fit w-full justify-center flex">
         <form
-          className="flex flex-col justify-center gap-5 items-center bg-white p-10 w-full max-w-[390px] shadow-md rounded-lg text-center relative"
+          className="flex flex-col gap-5 w-full sm:max-w-[390px] sm:min-w-[350px] "
           onSubmit={handleLogin}
         >
-          <div className=" w-[80px] aspect-square rounded-full absolute fixedCenterX bg-[#4A77F7] top-0 -mt-10"></div>
-          <h1 className=" text-xl font-bold mb-2 pt-6">
-            Sign up and get access to the full guide right now
+          {/*//* Titulo */}
+          <h1 className=" text-[25px] font-semibold mb-2 pt-6">
+            Inicia sesión
           </h1>
-          <InputForm
-            name="email"
-            value={formLogin.email}
-            placeholder={"Email"}
-            type={"email"}
-            onChange={handleChange}
-          />
-
-          <InputForm
-            name="password"
-            value={formLogin.password}
-            placeholder={"Contraseña"}
-            type={"password"}
-            onChange={handleChange}
-          />
-
+          {/*//* Input correo electrónico */}
+          <div>
+            <div className=" text-[12px] text-[#9e9e9e] mb-1">
+              Correo electrónico
+            </div>
+            <InputForm
+              name="email"
+              value={formLogin.email}
+              placeholder={""}
+              type={"email"}
+              onChange={handleChange}
+            />
+          </div>
+          {/*//* Input contraseña */}
+          <div>
+            <div className=" text-[12px] text-[#9e9e9e] mb-1">Contraseña</div>
+            <InputForm
+              name="password"
+              value={formLogin.password}
+              placeholder={""}
+              type={"password"}
+              onChange={handleChange}
+            />
+          </div>
+          {/*//* Submit button */}
           <button
-            className=" px-10 py-2 text-sm font-medium tracking-wide bg-[#4A77F7] text-white mt-2 rounded-md w-full text-center"
+            className=" px-10 py-[16px] text-sm font-medium tracking-wide bg-[#0061FE] hover:bg-[#2645e0] text-white mt-5 w-full text-center glowLogin transition-all"
             type="submit"
           >
-            Iniciar sesión
+            Continuar
           </button>
         </form>
       </section>

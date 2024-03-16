@@ -3,7 +3,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 import { useRouter } from "next/router";
 
-const Navbar = ({ userState, setUserState }) => {
+const Navbar = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
   //FUNCTION: Cerrar Sesion
   const handleSignOut = async () => {
@@ -25,22 +25,29 @@ const Navbar = ({ userState, setUserState }) => {
   return (
     <main className=" bg-white border-b z-50 fixed w-full sm:h-[70px] h-[50px] flex items-center">
       {/*//SECTION: Navbar container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-      <section className="flex justify-between py-4 sm:px-6">
+      <section className="flex justify-between py-4 sm:px-6 w-full">
         <div className="flex gap-3 items-center font-semibold text-2xl">
           {/*//* Logo */}
           <div className=" sm:w-10 sm:h-10 w-[50px] h-[50px] bg-[#0061FE] justify-center items-center flex text-white">
             ?
           </div>
           {/*//* Titulo */}
-          <div>Papacat</div>
+          <div className=" sm:flex hidden">Papacat</div>
         </div>
 
         {userState ? (
-          <div className="flex gap-10 items-center">
-            ID: {userState}
+          <div className="flex gap-6 items-center">
+            <div>
+              {adminID.includes(userState) ? (
+                <div className=" font-bold text-lime-500">ADMIN</div>
+              ) : null}
+              {activistaID.includes(userState) ? (
+                <div className=" font-bold  text-[#0061FE]">ACTIVISTA</div>
+              ) : null}
+            </div>
             <button
               onClick={handleSignOut}
-              className=" px-10 py-1 bg-red-600 text-white uppercase tracking-wide active:scale-95 transition-all"
+              className=" border-l pl-6 text-sm tracking-wide transition-all hover:text-[#0061FE]"
             >
               Cerrar Sesión
             </button>

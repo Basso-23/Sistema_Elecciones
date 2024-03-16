@@ -19,7 +19,12 @@ const App = ({ Component, pageProps, router }) => {
   );
   return (
     <div style={{ fontFamily: "Inter Variable, sans-serif" }}>
-      <Navbar userState={userState} setUserState={setUserState} />
+      <Navbar
+        userState={userState}
+        setUserState={setUserState}
+        adminID={adminID}
+        activistaID={activistaID}
+      />
 
       <div className={userState ? " sm:pt-[70px] pt-[50px]" : " pt-[0px]"}>
         <Component

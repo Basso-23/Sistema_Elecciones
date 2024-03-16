@@ -167,17 +167,13 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   return (
     <main>
-      <section className=" flex flex-col gap-5 justify-center items-center mt-20">
-        {adminID.includes(userState) ? (
-          <div className=" font-bold text-lime-500">ADMIN</div>
-        ) : null}
-        {activistaID.includes(userState) ? (
-          <div className=" font-bold  text-sky-600">ACTIVISTA</div>
-        ) : null}
-      </section>
       <section className=" flex justify-center">
         <VoterTable data={example_db} />
       </section>
+
+      <div className=" absolute bottom-0 right-2 text-[#9e9e9e] text-sm tracking-wide">
+        ID: {userState}
+      </div>
     </main>
   );
 };

@@ -80,7 +80,7 @@ const Login = ({ userState, setUserState }) => {
   };
 
   return (
-    <main className=" flex justify-center min-h-[100lvh] px-6 overflow-hidden">
+    <main className=" flex justify-center px-6">
       {/*//SECTION: Form container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
       <section className="mt-[120px] h-fit w-full justify-center flex">
         <form
@@ -134,7 +134,7 @@ const Login = ({ userState, setUserState }) => {
             {/*//*Loader */}
             {loader ? (
               <div className=" flex relative justify-center ">
-                <div class="lds-ellipsis -ml-14 ">
+                <div className="lds-ellipsis -ml-14 ">
                   <div></div>
                   <div></div>
                   <div></div>

@@ -26,7 +26,7 @@ const Navbar = ({ userState, setUserState, adminID, activistaID }) => {
   return (
     <main className=" bg-white border-b z-50 fixed w-full sm:h-[70px] h-[50px] flex items-center">
       {/*//SECTION: Navbar container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-      <section className="flex justify-between py-4 sm:px-6 w-full">
+      <section className="flex justify-between py-4 sm:px-6 pageSize w-full">
         <div className="flex gap-3 items-center">
           {/*//* Logo */}
           <div className=" sm:w-10 sm:h-10 w-[50px] h-[50px] bg-[#0061FE] justify-center items-center flex text-white p-[7px]">
@@ -40,10 +40,12 @@ const Navbar = ({ userState, setUserState, adminID, activistaID }) => {
 
         {userState ? (
           <div className="flex gap-6 items-center">
-            <div className="font-bold  text-[#0061FE]">
+            {/*//* Tipo de usuario */}
+            <div className="  text-[#0061FE] text-[14px] font-semibold">
               {adminID.includes(userState) ? <div>ADMIN</div> : null}
               {activistaID.includes(userState) ? <div>ACTIVISTA</div> : null}
             </div>
+            {/*//* Cerrar Sesión */}
             <button
               onClick={handleSignOut}
               className=" border-l pl-6 text-sm tracking-wide transition-all hover:text-[#0061FE]"

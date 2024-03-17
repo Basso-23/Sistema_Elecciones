@@ -3,10 +3,21 @@ import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 import { example_db } from "@/components/example_db";
+import Info from "@/icons/Info";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
   const [load, setLoad] = useState(false);
+  const [tempKey, setTempKey] = useState("");
+  const [infoModal, setInfoModal] = useState(false);
+  const [moreInfo, setMoreInfo] = useState();
+
+  useEffect(() => {
+    console.log("Temp Key:", tempKey);
+
+    const newItems = example_db.filter((item) => item.key === tempKey);
+    setMoreInfo(newItems);
+  }, [tempKey]);
 
   //FUNCTION: Se ejecuta al cargar la pagina
   useEffect(() => {
@@ -44,7 +55,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     const [sortedData, setSortedData] = useState(data);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentOrder, setCurrentOrder] = useState("Por defecto");
-    const itemsToShow = 5;
+    const itemsToShow = 50;
 
     // Función para cambiar la página actual
     const handlePageChange = (pageNumber) => {
@@ -87,46 +98,55 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
 
     return (
-      <div className=" flex flex-col">
-        <div className=" capitalize">
+      <div className=" flex flex-col  border rounded-md w-full relative">
+        <div className=" capitalize hidden">
           Ordenado por: <strong>{currentOrder}</strong>
         </div>
-        <div className=" w-full grid  grid-cols-9 mt-20  border-b border-t">
-          <button onClick={() => handleSort("nombre")}>Nombre</button>
-          <button onClick={() => handleSort("apellido")}>Apellido</button>
-          <button onClick={() => handleSort("cedula")}>Cedula</button>
-          <div>Direccion</div>
-          <div>Telefono</div>
-          <button onClick={() => handleSort("centro_de_votacion")}>
+        {/*//* Titulos de la tabla */}
+        <div className=" w-full grid  grid-cols-6 mt-0  border-b bg-[#f8f8f8] px-4 uppercase py-5 text-[12px] font-semibold tracking-wider">
+          <div onClick={() => handleSort("nombre")}>Nombre</div>
+          <div onClick={() => handleSort("cedula")}>Cédula</div>
+          <div onClick={() => handleSort("centro_de_votacion")}>
             Centro de Votación
-          </button>
-          <button className=" text-center" onClick={() => handleSort("mesa")}>
+          </div>
+          <div className=" text-center" onClick={() => handleSort("mesa")}>
             Mesa
-          </button>
-
-          <button
+          </div>
+          <div
             className=" text-center"
             onClick={() => handleSort("estado_de_votacion")}
           >
-            Estado
-          </button>
-          <button
-            className=" text-center"
-            onClick={() => handleSort("activista")}
-          >
+            Voto
+          </div>
+          <div className=" text-center" onClick={() => handleSort("activista")}>
             Activista
-          </button>
+          </div>
         </div>
+        {/*//* Contenido de la tabla */}
         {currentData.map((item, index) => (
           <div
-            className=" w-full grid  grid-cols-9 border-b border-t tablaContenido "
+            className=" w-full grid grid-cols-6 border-b tablaContenido px-4 items-center text-[15px] "
             key={index}
           >
-            <div>{item.nombre}</div>
-            <div>{item.apellido}</div>
-            <div>{item.cedula}</div>
-            <div>{item.direccion}</div>
-            <div>{item.telefono}</div>
+            <div>
+              {item.nombre} {item.apellido}
+            </div>
+            <div className="flex justify-between">
+              <div>{item.cedula}</div>
+              <button
+                onClick={() => {
+                  setTempKey(item.key);
+
+                  setTimeout(() => {
+                    setInfoModal(true);
+                  }, 10);
+                }}
+                className="text-[#0061FE] mr-5 pr-5 border-r"
+              >
+                <Info />
+              </button>
+            </div>
+
             <div>{item.centro_de_votacion}</div>
             <div className="justify-center">{item.mesa}</div>
             <div
@@ -136,7 +156,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   : "bg-red-600 my-2 mx-4"
               }
             ></div>
-            <div className=" overflow-x-auto scroll1 ">{item.activista}</div>
+            <div className=" overflow-x-auto scroll1 justify-center ">
+              {item.activista}
+            </div>
           </div>
         ))}
         {/* Paginación */}
@@ -172,16 +194,59 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   };
 
   return (
-    <main>
-      {load ? (
-        <section className=" flex justify-center">
-          <VoterTable data={example_db} />
-        </section>
-      ) : null}
-
-      <div className=" absolute bottom-0 right-2 text-[#9e9e9e] text-sm tracking-wide">
+    <main className="  min-h-[100lvh]">
+      <section className="px-6 pageSize pt-10">
+        {load ? (
+          <section className=" flex justify-center bg-white">
+            <VoterTable data={example_db} />
+          </section>
+        ) : null}
+      </section>
+      <div className=" fixed bottom-0 right-2 text-[#9e9e9e] text-sm tracking-wide">
         ID: {userState}
       </div>
+
+      {infoModal ? (
+        <div className=" fixed w-full h-full bg-[#c7c7c799] glass z-50 top-0 flex justify-center items-center">
+          <div className="w-full h-full max-h-[500px] max-w-[500px] bg-lime-400">
+            {/*//* Contenido de la tabla */}
+            {moreInfo.map((item, index) => (
+              <div
+                className=" w-full grid  grid-rows-8 border-b tablaContenido px-4 items-center text-[15px] "
+                key={index}
+              >
+                <div className="flex gap-5 relative">
+                  <div>
+                    {item.nombre} {item.apellido}
+                  </div>
+                  <div
+                    onClick={() => {
+                      setInfoModal(false);
+                    }}
+                    className="w-10 h-5 bg-amber-400 absolute right-5"
+                  ></div>
+                </div>
+
+                <div>{item.cedula}</div>
+                <div>{item.telefono}</div>
+                <div>{item.direccion}</div>
+                <div>{item.centro_de_votacion}</div>
+                <div className="justify-center">{item.mesa}</div>
+                <div
+                  className={
+                    item.estado_de_votacion
+                      ? " bg-lime-500 my-2 mx-4"
+                      : "bg-red-600 my-2 mx-4"
+                  }
+                ></div>
+                <div className=" overflow-x-auto scroll1 justify-center ">
+                  {item.activista}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 };

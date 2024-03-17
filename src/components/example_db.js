@@ -1,6 +1,6 @@
 const example_db = [
   {
-    id: 1,
+    key: 1,
     nombre: "Juan",
     apellido: "Pérez",
     cedula: "8-987-1608",
@@ -12,7 +12,7 @@ const example_db = [
     estado_de_votacion: false,
   },
   {
-    id: 2,
+    key: 2,
     nombre: "María",
     apellido: "Gómez",
     cedula: "8-968-5",
@@ -24,7 +24,7 @@ const example_db = [
     estado_de_votacion: true,
   },
   {
-    id: 3,
+    key: 3,
     nombre: "Pedro",
     apellido: "Martínez",
     cedula: "E-856-157",
@@ -36,7 +36,7 @@ const example_db = [
     estado_de_votacion: false,
   },
   {
-    id: 4,
+    key: 4,
     nombre: "Ana",
     apellido: "López",
     cedula: "8-687-1501",
@@ -48,7 +48,7 @@ const example_db = [
     estado_de_votacion: false,
   },
   {
-    id: 5,
+    key: 5,
     nombre: "Carlos",
     apellido: "Sánchez",
     cedula: "8-964-1508",
@@ -60,7 +60,7 @@ const example_db = [
     estado_de_votacion: true,
   },
   {
-    id: 6,
+    key: 6,
     nombre: "Laura",
     apellido: "Ramírez",
     cedula: "8-954-7810",
@@ -72,7 +72,7 @@ const example_db = [
     estado_de_votacion: true,
   },
   {
-    id: 7,
+    key: 7,
     nombre: "Miguel",
     apellido: "González",
     cedula: "8-963-1879",
@@ -84,7 +84,7 @@ const example_db = [
     estado_de_votacion: false,
   },
   {
-    id: 8,
+    key: 8,
     nombre: "Sofía",
     apellido: "Díaz",
     cedula: "8-987-1480",
@@ -96,7 +96,7 @@ const example_db = [
     estado_de_votacion: true,
   },
   {
-    id: 9,
+    key: 9,
     nombre: "Diego",
     apellido: "Hernández",
     cedula: "8-985-1607",
@@ -108,7 +108,7 @@ const example_db = [
     estado_de_votacion: true,
   },
   {
-    id: 10,
+    key: 10,
     nombre: "Julia",
     apellido: "Alvarez",
     cedula: "8-457-158",

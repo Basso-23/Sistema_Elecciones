@@ -25,6 +25,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         if (router.pathname === "/") {
           router.push("/Dashboard");
         }
+        //* Asigna el email del usuario a la variable userState
         setUserState(user.email);
         console.log("user.email:", user.email);
       }

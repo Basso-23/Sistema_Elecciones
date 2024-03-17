@@ -26,6 +26,7 @@ const Login = ({ userState, setUserState }) => {
         if (router.pathname === "/") {
           router.push("/Dashboard");
         }
+        //* Asigna el email del usuario a la variable userState
         setUserState(user.email);
         console.log("user.email:", user.email);
       }
@@ -48,6 +49,7 @@ const Login = ({ userState, setUserState }) => {
 
   //FUNCTION: Maneja el submit del form LOGIN
   const handleLogin = async (e) => {
+    //* Muestra el loader
     setLoader(true);
     e.preventDefault();
     try {
@@ -58,24 +60,27 @@ const Login = ({ userState, setUserState }) => {
       );
       const user = userCredential.user;
 
-      //* Asigna la key del usuario a la variable userState
+      //* Asigna el email del usuario a la variable userState
       setUserState(user.email);
-      //* Cambia el estado del error si esta en true (para que no se muestre el texto de correo o contraseña incorrecta)
+      //* Quita el mensaje de error
       setError(false);
       //* Redirige a Dashboard
       router.push("/Dashboard");
     } catch (error) {
-      setError(true);
       setTimeout(() => {
+        //* Muestra el mensaje de error
+        setError(true);
+        //* Quita el loader
         setLoader(false);
       }, 500);
-
+      //* Limpiar imput de contraseña si hay error
+      formLogin.password = "";
       console.log("Error al iniciar sesión:", error);
     }
   };
 
   return (
-    <main className=" flex justify-center min-h-[100lvh] px-6">
+    <main className=" flex justify-center min-h-[100lvh] px-6 overflow-hidden">
       {/*//SECTION: Form container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
       <section className="mt-[120px] h-fit w-full justify-center flex">
         <form

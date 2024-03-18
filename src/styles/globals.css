@@ -61,7 +61,7 @@ button {
 .tablaContenido div {
   display: flex;
   align-items: center;
-  height: 50px;
+  height: 55px;
 }
 
 .lds-ellipsis {

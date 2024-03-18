@@ -104,42 +104,43 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           {/*//SECTION: Table container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
           <section className=" flex flex-col  border rounded-md w-full relative">
             {/*//* Titulos de la tabla */}
-            <div className=" w-full grid  grid-cols-6 mt-0  border-b bg-[#f8f8f8] px-4 uppercase py-5 text-[12px] font-semibold tracking-wider">
+            <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#f8f8f8] px-4 uppercase py-5 text-[12px] font-semibold tracking-wider">
               {/*//* Nombre + Apellido */}
               <div onClick={() => handleSort("nombre")}>Nombre</div>
               {/*//* Cédula */}
               <div onClick={() => handleSort("cedula")}>Cédula</div>
+              <div className=" grid grid-cols-2">
+                {/*//* Voto */}
+                <div
+                  className=" text-center"
+                  onClick={() => handleSort("estado_de_votacion")}
+                >
+                  Voto
+                </div>
+                {/*//* Mesa */}
+                <div
+                  className=" text-center"
+                  onClick={() => handleSort("mesa")}
+                >
+                  Mesa
+                </div>
+              </div>
               {/*//* Centro de Votación */}
               <div
-                className=" text-center"
+                className=" "
                 onClick={() => handleSort("centro_de_votacion")}
               >
                 Centro de Votación
               </div>
-              {/*//* Mesa */}
-              <div className=" text-center" onClick={() => handleSort("mesa")}>
-                Mesa
-              </div>
-              {/*//* Voto */}
-              <div
-                className=" text-center"
-                onClick={() => handleSort("estado_de_votacion")}
-              >
-                Voto
-              </div>
+
               {/*//* Activista */}
-              <div
-                className=" text-center"
-                onClick={() => handleSort("activista")}
-              >
-                Activista
-              </div>
+              <div onClick={() => handleSort("activista")}>Activista</div>
             </div>
 
             {/*//* Contenido de la tabla */}
             {currentData.map((item, index) => (
               <div
-                className=" w-full grid grid-cols-6 border-b tablaContenido px-4 items-center text-[14px] "
+                className=" w-full grid grid-cols-5 border-b tablaContenido px-4 items-center text-[14px] "
                 key={index}
               >
                 {/*//* Nombre + Apellido */}
@@ -147,9 +148,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   {item.nombre} {item.apellido}
                 </div>
                 {/*//* Cédula + Info */}
-                <div className="flex justify-between">
-                  <div>{item.cedula}</div>
-                  <div className="text-[#0061FE] mr-5 pr-5 border-r ">
+                <div className="grid grid-cols-2">
+                  <div className=" w-full">{item.cedula}</div>
+                  <div className="text-[#0061FE]  justify-center w-full">
                     <button
                       onClick={() => {
                         setTempKey(item.key);
@@ -159,26 +160,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         }, 10);
                       }}
                     >
-                      <Info />
+                      Más...
                     </button>
                   </div>
                 </div>
+                <div className=" grid grid-cols-2">
+                  {/*//* Voto */}
+                  <div className="justify-center font-medium w-full">
+                    {item.estado_de_votacion ? (
+                      <div className="text-lime-500 ">SI</div>
+                    ) : (
+                      <div className="text-red-600 ">NO</div>
+                    )}
+                  </div>
+                  {/*//* Mesa */}
+                  <div className="justify-center w-full">{item.mesa}</div>
+                </div>
                 {/*//* Centro de Votación */}
-                <div className="justify-center">{item.centro_de_votacion}</div>
-                {/*//* Mesa */}
-                <div className="justify-center">{item.mesa}</div>
-                {/*//* Voto */}
-                <div className="justify-center font-medium">
-                  {item.estado_de_votacion ? (
-                    <div className="text-lime-500 my-2 mx-4 ">SI</div>
-                  ) : (
-                    <div className="text-red-600 my-2 mx-4">NO</div>
-                  )}
-                </div>
+                <div className="">{item.centro_de_votacion}</div>
+
                 {/*//* Activista */}
-                <div className=" overflow-x-auto scroll1 justify-center">
-                  {item.activista}
-                </div>
+                <div className=" overflow-x-auto scroll1">{item.activista}</div>
               </div>
             ))}
             {/*//* Paginación */}
@@ -214,56 +216,104 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
             </div>
           </section>
           {/*//SECTION: Info modal container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-          <section>
-            {infoModal ? (
-              <div className=" fixed w-full h-full bg-[#c7c7c716] glass z-50 top-0 flex justify-center items-center">
-                <div className="w-full h-full max-h-[500px] max-w-[500px] bg-lime-400">
-                  {/*//* Contenido de la tabla */}
-                  {infoModal_db.map((item, index) => (
+          {infoModal ? (
+            <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center items-center">
+              <div className="w-full max-w-[500px] bg-white rounded-md flex">
+                {/*//* Contenido de la tabla */}
+                {infoModal_db.map((item, index) => (
+                  <div className="relative w-full text-[15px] overflow-hidden">
                     <div
-                      className=" w-full grid  grid-rows-8 border-b tablaContenido px-4 items-center text-[15px] "
+                      className=" w-full flex flex-col p-10 my-auto gap-5"
                       key={index}
                     >
-                      {/*//* Nombre + Apellido y close button */}
-                      <div className="flex gap-5 relative">
+                      {/*//* Votante + close button */}
+                      <div className="flex justify-between items-center w-full">
+                        <h1 className=" text-[25px] font-semibold">Votante</h1>
+                        <div className="text-[#0061FE] flex">
+                          <button
+                            className=" my-auto mr-1"
+                            onClick={() => {
+                              setInfoModal(false);
+                            }}
+                          >
+                            <Info />
+                          </button>
+                        </div>
+                      </div>
+                      {/*//* Nombre + Apellido */}
+                      <div>
+                        <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                          Nombre
+                        </div>
                         <div>
                           {item.nombre} {item.apellido}
                         </div>
-                        <div
-                          onClick={() => {
-                            setInfoModal(false);
-                          }}
-                          className="w-10 h-5 bg-amber-400 absolute right-5"
-                        ></div>
                       </div>
                       {/*//* Cedula */}
-                      <div>{item.cedula}</div>
+                      <div>
+                        <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                          Cedula
+                        </div>
+                        <div>{item.cedula}</div>
+                      </div>
+
                       {/*//* Telefono */}
-                      <div>{item.telefono}</div>
+                      <div>
+                        <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                          Telefono
+                        </div>
+                        <div>{item.telefono}</div>
+                      </div>
+
                       {/*//* Direccion */}
-                      <div>{item.direccion}</div>
+                      <div>
+                        <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                          Direccion
+                        </div>
+                        <div>{item.direccion}</div>
+                      </div>
+
                       {/*//* Centro de votacion */}
-                      <div>{item.centro_de_votacion}</div>
-                      {/*//* Mesa */}
-                      <div className="justify-center">{item.mesa}</div>
-                      {/*//* Voto */}
-                      <div
-                        className={
-                          item.estado_de_votacion
-                            ? " bg-lime-500 my-2 mx-4"
-                            : "bg-red-600 my-2 mx-4"
-                        }
-                      ></div>
-                      {/*//* Activista */}
-                      <div className=" overflow-x-auto scroll1 justify-center ">
-                        {item.activista}
+                      <div>
+                        <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                          Centro de votacion
+                        </div>
+                        <div>{item.centro_de_votacion}</div>
+                      </div>
+
+                      <div className=" grid grid-cols-2 ">
+                        {/*//* Mesa */}
+                        <div className=" w-full">
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Mesa
+                          </div>
+                          <div>{item.mesa}</div>
+                        </div>
+
+                        {/*//* Voto */}
+                        <div className=" w-full">
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Voto
+                          </div>
+                          <div className="justify-center font-medium w-full">
+                            {item.estado_de_votacion ? (
+                              <div className="text-lime-500">SI</div>
+                            ) : (
+                              <div className="text-red-600 ">NO</div>
+                            )}
+                          </div>
+                        </div>
                       </div>
                     </div>
-                  ))}
-                </div>
+                    {/*//* Activista */}
+                    <div className="bg-[#0061FE] font-light text-white  text-[13px] text-center py-2 rounded-br-md rounded-bl-md overflow-x-auto scroll1 justify-center w-full ">
+                      {item.activista}
+                    </div>
+                  </div>
+                ))}
               </div>
-            ) : null}
-          </section>
+            </div>
+          ) : null}
           {/*//SECTION: User ID fixed // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
           <section className=" fixed bottom-0 right-2 text-[#9e9e9e] text-sm tracking-wide">
             ID: {userState}

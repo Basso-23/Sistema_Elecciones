@@ -41,7 +41,7 @@ const Navbar = ({ userState, setUserState, adminID, activistaID }) => {
         {userState ? (
           <div className="flex gap-6 items-center">
             {/*//* Tipo de usuario */}
-            <div className="  text-[#0061FE] text-[14px] font-semibold">
+            <div className="  text-[#0061FE] text-[14px]">
               {adminID.includes(userState) ? <div>ADMIN</div> : null}
               {activistaID.includes(userState) ? <div>ACTIVISTA</div> : null}
             </div>

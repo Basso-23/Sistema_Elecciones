@@ -4,6 +4,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
 import { example_db } from "@/components/example_db";
 import Info from "@/icons/Info";
+import InputForm from "@/components/InputForm";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -14,6 +15,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const [infoModal_db, setInfoModal_db] = useState(); //* Alamacena la informacion motrada en el modal de informacion de los votantes
   const [currentPage, setCurrentPage] = useState(1); //* Se almacena la pagina actual en la paginacion
   const [currentOrder, setCurrentOrder] = useState("Por defecto"); //* Orden actual de la tabla
+  const [searchTermCedula, setSearchTermCedula] = useState("");
+  const [searchTermActivista, setSearchTermActivista] = useState("");
   const itemsToShow = 50; //* Cantidad de items a mostrar en la tabla
 
   //FUNCTION: Se ejecuta al cargar la pagina
@@ -97,10 +100,57 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const indexOfFirstData = indexOfLastData - itemsToShow;
   const currentData = filteredData.slice(indexOfFirstData, indexOfLastData);
 
+  //FUNCTION: Search bar CEDULA
+  const handleSearchCedula = (e) => {
+    const searchTermCedula = e.target.value;
+    setSearchTermCedula(searchTermCedula);
+    const filtered = example_db.filter((item) =>
+      item.cedula.toLowerCase().includes(searchTermCedula.toLowerCase())
+    );
+    setSortedData(filtered);
+    setCurrentPage(1); // Volver a la primera página después de buscar
+    setSearchTermActivista("");
+  };
+
+  //FUNCTION: Search bar ACTIVISTA
+  const handleSearchActivista = (e) => {
+    const searchTermActivista = e.target.value;
+    setSearchTermActivista(searchTermActivista);
+    const filtered = example_db.filter((item) =>
+      item.activista.toLowerCase().includes(searchTermActivista.toLowerCase())
+    );
+    setSortedData(filtered);
+    setCurrentPage(1); // Volver a la primera página después de buscar
+    setSearchTermCedula("");
+  };
   return (
     <main className="  min-h-[100lvh] px-6 pageSize pt-10">
       {load ? (
-        <div className=" flex justify-center bg-white">
+        <div className=" bg-white">
+          {/*//* Search input */}
+          <div className=" mb-5 flex gap-5">
+            <div className=" max-w-[300px] w-full">
+              <InputForm
+                name=""
+                value={searchTermCedula}
+                placeholder={"Buscar por cedula..."}
+                type={"text"}
+                onChange={handleSearchCedula}
+              />
+            </div>
+
+            {adminID.includes(userState) ? (
+              <div className=" max-w-[300px] w-full">
+                <InputForm
+                  name=""
+                  value={searchTermActivista}
+                  placeholder={"Buscar por activista..."}
+                  type={"text"}
+                  onChange={handleSearchActivista}
+                />
+              </div>
+            ) : null}
+          </div>
           {/*//SECTION: Table container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
           <section className=" flex flex-col  border rounded-md w-full relative">
             {/*//* Titulos de la tabla */}

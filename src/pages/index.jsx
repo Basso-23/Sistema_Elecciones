@@ -126,7 +126,7 @@ const Login = ({ userState, setUserState }) => {
           <button
             className={`py-[16px] text-sm font-medium tracking-wide text-white mt-5 w-full text-center transition-all ${
               loader
-                ? "bg-[#aeaeae] pointer-events-none"
+                ? "bg-[#cbcbcb] pointer-events-none"
                 : " bg-[#0061FE] hover:bg-[#2645e0]"
             }`}
             type="submit"

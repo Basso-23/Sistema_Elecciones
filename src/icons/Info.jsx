@@ -6,8 +6,8 @@ const Info = () => {
       stroke-width="0"
       version="1.1"
       viewBox="0 0 17 17"
-      height="25px"
-      width="25px"
+      height="23px"
+      width="23px"
       xmlns="http://www.w3.org/2000/svg"
     >
       <g></g>

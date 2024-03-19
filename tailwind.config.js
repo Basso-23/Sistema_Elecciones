@@ -12,7 +12,7 @@ module.exports = {
       sm: "540px",
       // => @media (min-width: 640px) { ... }
 
-      md: "768px",
+      md: "975px",
       // => @media (min-width: 768px) { ... }
 
       lg: "1025px",

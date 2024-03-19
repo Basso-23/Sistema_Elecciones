@@ -64,6 +64,11 @@ button {
   height: 55px;
 }
 
+.tablaContenidoMobile div {
+  align-items: center;
+  height: 55px;
+}
+
 .lds-ellipsis {
   display: inline-block;
   position: relative;
@@ -74,8 +79,8 @@ button {
 .lds-ellipsis div {
   position: absolute;
   top: 5px;
-  width: 10px;
-  height: 10px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: #fff;
   animation-timing-function: cubic-bezier(0, 1, 1, 0);

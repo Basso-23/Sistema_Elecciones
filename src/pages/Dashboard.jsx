@@ -5,6 +5,8 @@ import { auth } from "@/firebase/firebase";
 import { example_db } from "@/components/example_db";
 import Info from "@/icons/Info";
 import InputForm from "@/components/InputForm";
+import Filter from "@/icons/Filter";
+import Search from "@/icons/Search";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -129,28 +131,36 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       {load ? (
         <div className=" bg-white px-4 pageSize">
           {/*//SECTION: Searchs inputs // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-          <section className=" mb-5 md:flex gap-5">
-            <div className=" md:max-w-[300px] w-full">
-              <InputForm
-                name=""
-                value={searchTermCedula}
-                placeholder={"Buscar por cedula..."}
-                type={"text"}
-                onChange={handleSearchCedula}
-              />
+          <section>
+            {/*//* Buscar + Icono */}
+            <div className="uppercase font-semibold text-[13px] mb-2 text-[#0061FE] flex items-center">
+              <Search />
+              <h1 className=" text-[#0061FE] ml-1">Buscar</h1>
             </div>
-
-            {adminID.includes(userState) ? (
-              <div className=" md:max-w-[300px] w-full md:mt-0 mt-3">
+            {/*//* Input buscar por cédula...*/}
+            <div className=" mb-5 md:flex gap-5">
+              <div className=" md:max-w-[300px] w-full">
                 <InputForm
                   name=""
-                  value={searchTermActivista}
-                  placeholder={"Buscar por activista..."}
+                  value={searchTermCedula}
+                  placeholder={"buscar por cédula..."}
                   type={"text"}
-                  onChange={handleSearchActivista}
+                  onChange={handleSearchCedula}
                 />
               </div>
-            ) : null}
+              {/*//* Input buscar por activista...*/}
+              {adminID.includes(userState) ? (
+                <div className=" md:max-w-[300px] w-full md:mt-0 mt-3">
+                  <InputForm
+                    name=""
+                    value={searchTermActivista}
+                    placeholder={"buscar por activista..."}
+                    type={"text"}
+                    onChange={handleSearchActivista}
+                  />
+                </div>
+              ) : null}
+            </div>
           </section>
 
           <div className="flex flex-col w-full ">
@@ -232,13 +242,64 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               ))}
             </section>
 
-            <div className="md:hidden flex flex-col gap-10">
-              <div onClick={() => setMobileTable("cedula")}>Cedula</div>
-              <div onClick={() => setMobileTable("mesa")}>Mesa</div>
-              <div onClick={() => setMobileTable("centro")}>
-                Centro de votacion
+            <div className="md:hidden flex flex-col gap-2 text-[13px] mb-5">
+              {/*//* Filtro + Icono */}
+              <div className="uppercase font-semibold  text-[#0061FE] flex">
+                <Filter />
+                <h1 className=" text-[#0061FE] ">Filtro</h1>
               </div>
-              <div onClick={() => setMobileTable("activista")}>Activista</div>
+              {/*//* Filtro: cedula */}
+              <button
+                className={`border py-[13px] px-4  transition-all ${
+                  mobileTable === "cedula"
+                    ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
+                    : ""
+                }`}
+                onClick={() => {
+                  setMobileTable("cedula");
+                }}
+              >
+                Cédula
+              </button>
+              {/*//* Filtro: mesa */}
+              <button
+                className={`border py-[13px] px-4  transition-all ${
+                  mobileTable === "mesa"
+                    ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
+                    : ""
+                }`}
+                onClick={() => {
+                  setMobileTable("mesa");
+                }}
+              >
+                Mesa
+              </button>
+              {/*//* Filtro: centro de votacion */}
+              <button
+                className={`border py-[13px] px-4 transition-all ${
+                  mobileTable === "centro"
+                    ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
+                    : ""
+                }`}
+                onClick={() => {
+                  setMobileTable("centro");
+                }}
+              >
+                Centro de votación
+              </button>
+              {/*//* Filtro: activista */}
+              <button
+                className={`border py-[13px] px-4 transition-all ${
+                  mobileTable === "activista"
+                    ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
+                    : ""
+                }`}
+                onClick={() => {
+                  setMobileTable("activista");
+                }}
+              >
+                Activista
+              </button>
             </div>
             {/*//SECTION: Table container MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
             <section className="md:hidden flex flex-col border-l border-r border-t w-full relative">
@@ -248,7 +309,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 <div onClick={() => handleSort("nombre")}>Nombre</div>
                 {/*//* Cédula */}
                 <div
-                  className={mobileTable === "cedula" ? "flex" : "hidden"}
+                  className={mobileTable === "cedula" ? "flex " : "hidden"}
                   onClick={() => handleSort("cedula")}
                 >
                   Cédula

@@ -8,7 +8,7 @@ const InputForm = ({ name, value, placeholder, type, onChange }) => {
       value={value}
       placeholder={placeholder}
       onChange={onChange}
-      className="border  py-[13px] px-4 text-sm focus:border-[#0989FF] focus:outline-none w-full font-light"
+      className="border  py-[13px] px-4 text-sm focus:border-[#0989FF] focus:outline-none w-full "
       required
     />
   );

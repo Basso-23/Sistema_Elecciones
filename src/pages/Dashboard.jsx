@@ -15,8 +15,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const [infoModal_db, setInfoModal_db] = useState(); //* Alamacena la informacion motrada en el modal de informacion de los votantes
   const [currentPage, setCurrentPage] = useState(1); //* Se almacena la pagina actual en la paginacion
   const [currentOrder, setCurrentOrder] = useState("Por defecto"); //* Orden actual de la tabla
-  const [searchTermCedula, setSearchTermCedula] = useState("");
-  const [searchTermActivista, setSearchTermActivista] = useState("");
+  const [searchTermCedula, setSearchTermCedula] = useState(""); //* Input de buscar por cedula
+  const [searchTermActivista, setSearchTermActivista] = useState(""); //* Input de buscar por activista
+  const [mobileTable, setMobileTable] = useState("cedula"); //* Controla cual es la tabla que se vera en mobile
   const itemsToShow = 50; //* Cantidad de items a mostrar en la tabla
 
   //FUNCTION: Se ejecuta al cargar la pagina
@@ -108,7 +109,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       item.cedula.toLowerCase().includes(searchTermCedula.toLowerCase())
     );
     setSortedData(filtered);
-    setCurrentPage(1); // Volver a la primera página después de buscar
+    setCurrentPage(1); //* Volver a la primera página después de buscar
     setSearchTermActivista("");
   };
 
@@ -120,7 +121,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       item.activista.toLowerCase().includes(searchTermActivista.toLowerCase())
     );
     setSortedData(filtered);
-    setCurrentPage(1); // Volver a la primera página después de buscar
+    setCurrentPage(1); //* Volver a la primera página después de buscar
     setSearchTermCedula("");
   };
   return (
@@ -206,7 +207,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <div>
                     {item.nombre} {item.apellido}
                   </div>
-                  {/*//* Cédula + Info */}
+                  {/*//* Cédula */}
                   <div className=" w-full">{item.cedula}</div>
                   <div className=" grid grid-cols-2">
                     {/*//* Voto */}
@@ -230,25 +231,34 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </div>
               ))}
             </section>
+
+            <div className="md:hidden flex flex-col gap-10">
+              <div onClick={() => setMobileTable("cedula")}>Cedula</div>
+              <div onClick={() => setMobileTable("mesa")}>Mesa</div>
+              <div onClick={() => setMobileTable("centro")}>
+                Centro de votacion
+              </div>
+              <div onClick={() => setMobileTable("activista")}>Activista</div>
+            </div>
             {/*//SECTION: Table container MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
             <section className="md:hidden flex flex-col border-l border-r border-t w-full relative">
               {/*//* Titulos de la tabla */}
-              <div className=" w-full grid  grid-cols-3 mt-0  border-b bg-[#f8f8f8] px-2 uppercase py-5 text-[12px] font-semibold tracking-wider">
+              <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#f8f8f8] px-2 uppercase py-5 text-[12px] font-semibold tracking-wider">
                 {/*//* Nombre + Apellido */}
-                <div onClick={() => handleSort("nombre")}>Nombre2</div>
+                <div onClick={() => handleSort("nombre")}>Nombre</div>
                 {/*//* Cédula */}
-                <div onClick={() => handleSort("cedula")}>Cédula</div>
-
-                {/*//* Voto */}
                 <div
-                  className=" text-center"
-                  onClick={() => handleSort("estado_de_votacion")}
+                  className={mobileTable === "cedula" ? "flex" : "hidden"}
+                  onClick={() => handleSort("cedula")}
                 >
-                  Voto
+                  Cédula
                 </div>
+
                 {/*//* Mesa */}
                 <div
-                  className=" text-center hidden"
+                  className={
+                    mobileTable === "mesa" ? "flex justify-center" : "hidden"
+                  }
                   onClick={() => handleSort("mesa")}
                 >
                   Mesa
@@ -256,15 +266,25 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                 {/*//* Centro de Votación */}
                 <div
-                  className="hidden "
+                  className={mobileTable === "centro" ? " texto" : "hidden"}
                   onClick={() => handleSort("centro_de_votacion")}
                 >
                   Centro de Votación
                 </div>
 
                 {/*//* Activista */}
-                <div className="hidden" onClick={() => handleSort("activista")}>
+                <div
+                  className={mobileTable === "activista" ? "flex" : "hidden"}
+                  onClick={() => handleSort("activista")}
+                >
                   Activista
+                </div>
+                {/*//* Voto */}
+                <div
+                  className=" text-center"
+                  onClick={() => handleSort("estado_de_votacion")}
+                >
+                  Voto
                 </div>
               </div>
 
@@ -285,9 +305,43 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <div className=" w-full flex items-center">
                     {item.nombre} <br /> {item.apellido}
                   </div>
-                  {/*//* Cédula + Info */}
-                  <div className=" w-full flex items-center">{item.cedula}</div>
+                  {/*//* Cédula */}
+                  <div
+                    className={
+                      mobileTable === "cedula"
+                        ? "w-full flex items-center"
+                        : "hidden"
+                    }
+                  >
+                    {item.cedula}
+                  </div>
 
+                  {/*//* Mesa */}
+                  <div
+                    className={
+                      mobileTable === "mesa"
+                        ? "justify-center w-full flex"
+                        : "hidden"
+                    }
+                  >
+                    {item.mesa}
+                  </div>
+
+                  {/*//* Centro de Votación */}
+                  <div className={mobileTable === "centro" ? "flex" : "hidden"}>
+                    {item.centro_de_votacion}
+                  </div>
+
+                  {/*//* Activista */}
+                  <div
+                    className={
+                      mobileTable === "activista"
+                        ? "overflow-x-auto scroll1 flex"
+                        : "hidden"
+                    }
+                  >
+                    {item.activista}
+                  </div>
                   {/*//* Voto */}
                   <div className="justify-center font-medium w-full items-center flex">
                     {item.estado_de_votacion ? (
@@ -295,18 +349,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     ) : (
                       <span className="text-red-600 ">NO</span>
                     )}
-                  </div>
-                  {/*//* Mesa */}
-                  <div className="justify-center w-full hidden">
-                    {item.mesa}
-                  </div>
-
-                  {/*//* Centro de Votación */}
-                  <div className="hidden">{item.centro_de_votacion}</div>
-
-                  {/*//* Activista */}
-                  <div className=" overflow-x-auto scroll1 hidden">
-                    {item.activista}
                   </div>
                 </div>
               ))}

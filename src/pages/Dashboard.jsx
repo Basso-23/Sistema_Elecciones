@@ -7,6 +7,7 @@ import Info from "@/icons/Info";
 import InputForm from "@/components/InputForm";
 import Filter from "@/icons/Filter";
 import Search from "@/icons/Search";
+import Sort from "@/icons/Sort";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -241,8 +242,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </div>
               ))}
             </section>
-
-            <div className="md:hidden flex flex-col gap-2 text-[13px] mb-5">
+            {/*//SECTION: Filtros // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+            <section className="md:hidden flex flex-col gap-2 text-[13px] mb-5">
               {/*//* Filtro + Icono */}
               <div className="uppercase font-semibold  text-[#0061FE] flex">
                 <Filter />
@@ -250,7 +251,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               </div>
               {/*//* Filtro: cedula */}
               <button
-                className={`border py-[13px] px-4  transition-all ${
+                className={`border py-[13px] px-4 select-none ${
                   mobileTable === "cedula"
                     ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
                     : ""
@@ -263,7 +264,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               </button>
               {/*//* Filtro: mesa */}
               <button
-                className={`border py-[13px] px-4  transition-all ${
+                className={`border py-[13px] px-4 select-none  ${
                   mobileTable === "mesa"
                     ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
                     : ""
@@ -276,7 +277,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               </button>
               {/*//* Filtro: centro de votacion */}
               <button
-                className={`border py-[13px] px-4 transition-all ${
+                className={`border py-[13px] px-4 select-none ${
                   mobileTable === "centro"
                     ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
                     : ""
@@ -289,7 +290,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               </button>
               {/*//* Filtro: activista */}
               <button
-                className={`border py-[13px] px-4 transition-all ${
+                className={`border py-[13px] px-4 select-none ${
                   mobileTable === "activista"
                     ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
                     : ""
@@ -300,52 +301,123 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               >
                 Activista
               </button>
-            </div>
+            </section>
             {/*//SECTION: Table container MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
             <section className="md:hidden flex flex-col border-l border-r border-t w-full relative">
               {/*//* Titulos de la tabla */}
               <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#f8f8f8] px-2 uppercase py-5 text-[12px] font-semibold tracking-wider">
                 {/*//* Nombre + Apellido */}
-                <div onClick={() => handleSort("nombre")}>Nombre</div>
+                <div
+                  className="flex  justify-between"
+                  onClick={() => handleSort("nombre")}
+                >
+                  <div>Nombre</div>
+                  <div
+                    className={
+                      currentOrder === "nombre"
+                        ? "mr-4 text-[#0061FE]"
+                        : "mr-4 text-[#a5a5a5]"
+                    }
+                  >
+                    <Sort />
+                  </div>
+                </div>
                 {/*//* Cédula */}
                 <div
-                  className={mobileTable === "cedula" ? "flex " : "hidden"}
+                  className={
+                    mobileTable === "cedula"
+                      ? "flex  justify-between"
+                      : "hidden"
+                  }
                   onClick={() => handleSort("cedula")}
                 >
-                  Cédula
+                  <div>Cédula</div>
+                  <div
+                    className={
+                      currentOrder === "cedula"
+                        ? "mr-2 text-[#0061FE]"
+                        : "mr-2 text-[#a5a5a5]"
+                    }
+                  >
+                    <Sort />
+                  </div>
                 </div>
 
                 {/*//* Mesa */}
                 <div
                   className={
-                    mobileTable === "mesa" ? "flex justify-center" : "hidden"
+                    mobileTable === "mesa" ? "flex  justify-between" : "hidden"
                   }
                   onClick={() => handleSort("mesa")}
                 >
-                  Mesa
+                  <div>Mesa</div>
+                  <div
+                    className={
+                      currentOrder === "mesa"
+                        ? "mr-2 text-[#0061FE]"
+                        : "mr-2 text-[#a5a5a5]"
+                    }
+                  >
+                    <Sort />
+                  </div>
                 </div>
 
                 {/*//* Centro de Votación */}
                 <div
-                  className={mobileTable === "centro" ? " texto" : "hidden"}
+                  className={
+                    mobileTable === "centro"
+                      ? "flex  justify-between "
+                      : "hidden"
+                  }
                   onClick={() => handleSort("centro_de_votacion")}
                 >
-                  Centro de Votación
+                  <div className="texto">Centro de Votación</div>
+                  <div
+                    className={
+                      currentOrder === "centro_de_votacion"
+                        ? "mr-2 text-[#0061FE]"
+                        : "mr-2 text-[#a5a5a5]"
+                    }
+                  >
+                    <Sort />
+                  </div>
                 </div>
 
                 {/*//* Activista */}
                 <div
-                  className={mobileTable === "activista" ? "flex" : "hidden"}
+                  className={
+                    mobileTable === "activista"
+                      ? "flex  justify-between "
+                      : "hidden"
+                  }
                   onClick={() => handleSort("activista")}
                 >
-                  Activista
+                  <div>Activista</div>
+                  <div
+                    className={
+                      currentOrder === "activista"
+                        ? "mr-2 text-[#0061FE]"
+                        : "mr-2 text-[#a5a5a5]"
+                    }
+                  >
+                    <Sort />
+                  </div>
                 </div>
                 {/*//* Voto */}
                 <div
-                  className=" text-center"
+                  className="flex  justify-between"
                   onClick={() => handleSort("estado_de_votacion")}
                 >
-                  Voto
+                  <div className="ml-4">Voto</div>
+                  <div
+                    className={
+                      currentOrder === "estado_de_votacion"
+                        ? "mr-4 text-[#0061FE]"
+                        : "mr-4 text-[#a5a5a5]"
+                    }
+                  >
+                    <Sort />
+                  </div>
                 </div>
               </div>
 

@@ -236,7 +236,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 : "hidden"
             }
           >
-            <div> Registrar Votante</div>
+            <div> Registrar votante</div>
           </button>
           {/*//SECTION: Searchs inputs // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
           <section>
@@ -694,7 +694,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
           <div className="w-full max-w-[400px] bg-white rrr-md flex h-fit lg:-mt-10">
             {/*//* Contenido de la tabla */}
-
             <div className="relative w-full text-[15px] overflow-hidden">
               <form
                 onSubmit={handleSubmit}
@@ -838,7 +837,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       {/*//SECTION: INFO modal // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
       {infoModal ? (
         <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
-          <div className="w-full max-w-[400px] bg-white rrr-md flex h-fit lg:-mt-10">
+          <div className="w-full max-w-[400px] bg-white rrr-md flex h-fit lg:-mt-10 relative">
             {/*//* Contenido de la tabla */}
             {infoModal_db.map((item, index) => (
               <div className="relative w-full text-[15px] overflow-hidden">
@@ -848,7 +847,22 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 >
                   {/*//* Votante + close button */}
                   <div className="flex justify-between items-center w-full">
-                    <h1 className=" text-[25px] font-semibold">Votante</h1>
+                    <h1 className=" text-[25px] font-semibold flex items-center ">
+                      Votante
+                      <button
+                        onClick={() => {
+                          setDeleteModal(true);
+                        }}
+                        className={
+                          adminID.includes(userState)
+                            ? " text-sm font-medium tracking-wide w-full text-center transition-all text-[#d31504] border-l ml-3 pl-3"
+                            : "hidden"
+                        }
+                      >
+                        Borrar
+                      </button>
+                    </h1>
+
                     <div className="text-[#0061FE] flex">
                       <button
                         className=" my-auto"
@@ -931,6 +945,36 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </div>
               </div>
             ))}
+
+            {/*//* DELETE modal */}
+            {deleteModal ? (
+              <div className="  absolute w-full h-full text-center font-medium overflow-hidden">
+                <h1 className="py-4 bg-white">
+                  Esta seguro que desea eliminar este votante?
+                </h1>
+                <div className="w-full h-full grid grid-cols-2 border-t">
+                  <div
+                    onClick={() => {
+                      //Borra el dato seleccionado de la BD requiere: (nombre de la coleccion, key del campo a borrar, variable donde guardar los datos y nombre del campo por el que se ordenara)
+                      firebase_delete("votantes", tempKey, setData, "index");
+                      setDeleteModal(false);
+                      setInfoModal(false);
+                    }}
+                    className=" text-lime-500 border-r bg-white py-1 cursor-pointer flex items-center justify-center"
+                  >
+                    <div className="-mt-20">CONFIRMAR</div>
+                  </div>
+                  <div
+                    onClick={() => {
+                      setDeleteModal(false);
+                    }}
+                    className=" text-rose-600  bg-white py-1 cursor-pointer flex items-center justify-center"
+                  >
+                    <div className="-mt-20">CANCELAR</div>
+                  </div>
+                </div>
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}

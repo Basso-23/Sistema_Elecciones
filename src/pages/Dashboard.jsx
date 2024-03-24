@@ -18,22 +18,39 @@ import {
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
   const [load, setLoad] = useState(false); //* Se encarga del delay en la carga de la pagina
+
   const [tempKey, setTempKey] = useState(""); //* Alamacena la key temporal del item seleccionado
-  const [sortedData, setSortedData] = useState([]); //* Alamacena la base de datos que se van a manipular
-  const [infoModal, setInfoModal] = useState(false); //* Controla el estado del modal de informacion de los votantes
-  const [infoModal_db, setInfoModal_db] = useState(); //* Alamacena la informacion motrada en el modal de informacion de los votantes
+
+  const [infoModal, setInfoModal] = useState(false); //* Controla la ventana al hacer click en un votante
+  const [infoModal_db, setInfoModal_db] = useState(); //* Alamacena la informacion mostrada en el modal de informacion de los votantes
+
   const [currentPage, setCurrentPage] = useState(1); //* Se almacena la pagina actual en la paginacion
   const [currentOrder, setCurrentOrder] = useState("Por defecto"); //* Orden actual de la tabla
+
   const [searchTermCedula, setSearchTermCedula] = useState(""); //* Input de buscar por cedula
   const [searchTermActivista, setSearchTermActivista] = useState(""); //* Input de buscar por activista
-  const [mobileTable, setMobileTable] = useState("cedula"); //* Controla cual es la tabla que se vera en mobile
-  const itemsToShow = 50; //* Cantidad de items a mostrar en la tabla
 
-  const [data, setData] = useState([]); //* Alamacena la base de datos ENTERA sin manipular
-  const [deleteModal, setDeleteModal] = useState(false);
-  const [createModal, setCreateModal] = useState(false);
-  const [selected, setSelected] = useState("");
-  const [update, setUpdate] = useState(false);
+  const [mobileTable, setMobileTable] = useState("cedula"); //* Controla cual es la tabla que se vera en mobile
+
+  const [data, setData] = useState([]); //* Alamacena la base de datos entera NO se manupula
+  const [sortedData, setSortedData] = useState([]); //* Alamacena la base de datos que se van a manipular
+
+  const [deleteModal, setDeleteModal] = useState(false); //* Controla la ventana al hacer click en borrar
+  const [createModal, setCreateModal] = useState(false); //* Controla la ventana al hacer click en registrar votante
+  const [update, setUpdate] = useState(false); //* Controla los inputs al hacer click en editar
+
+  const [selected, setSelected] = useState(""); //* TempKey para editar campos
+
+  const mesas_bd = ["1", "2", "3", "4", "5"];
+  const escuelas_bd = [
+    "escuela 1",
+    "escuela 2",
+    "escuela 3",
+    "escuela 4",
+    "escuela 5",
+  ];
+
+  const itemsToShow = 50; //* Cantidad de items a mostrar en la tabla
 
   const [formInfo, setFormInfo] = useState({
     nombre: "",
@@ -137,45 +154,51 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     setUpdate(false);
     setInfoModal(false);
 
-    //* Definir la info a enviar
     if (selected === "nombre") {
+      //* Editar nombre
       const info = {
         nombre: editInfo.nombre,
         apellido: editInfo.apellido,
       };
-      //* Actualiza el dato seleccionado de la BD requiere: (nombre de la coleccion, key del campo a editar, info a guardar, variable donde guardar los datos y nombre del campo por el que se ordenara)
       firebase_edit("votantes", tempKey, info, setData, "index");
     } else if (selected === "cedula") {
+      //* Editar cedula
       const info = {
         cedula: editInfo.cedula,
       };
       firebase_edit("votantes", tempKey, info, setData, "index");
     } else if (selected === "direccion") {
+      //* Editar direccion
       const info = {
         direccion: editInfo.direccion,
       };
       firebase_edit("votantes", tempKey, info, setData, "index");
     } else if (selected === "telefono") {
+      //* Editar telefono
       const info = {
         telefono: editInfo.telefono,
       };
       firebase_edit("votantes", tempKey, info, setData, "index");
     } else if (selected === "centro_de_votacion") {
+      //* Editar centro de votacion
       const info = {
         centro_de_votacion: editInfo.centro_de_votacion,
       };
       firebase_edit("votantes", tempKey, info, setData, "index");
     } else if (selected === "mesa") {
+      //* Editar mesa
       const info = {
         mesa: editInfo.mesa,
       };
       firebase_edit("votantes", tempKey, info, setData, "index");
     } else if (selected === "activista") {
+      //* Editar activista
       const info = {
         activista: editInfo.activista,
       };
       firebase_edit("votantes", tempKey, info, setData, "index");
     } else if (selected === "estado_de_votacion") {
+      //* Editar estado de votacion
       const info = {
         estado_de_votacion: editInfo.estado_de_votacion,
       };
@@ -226,18 +249,13 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     return () => validateUser();
   }, [router, setUserState]);
 
-  //FUNCTION: Se ejecuta cada vez que la temKey cambia
+  //FUNCTION: Se ejecuta cada vez que la tempKey cambia
   useEffect(() => {
     console.log("KEY:", tempKey);
     //* Filtra la info de la base de datos segun la key seleccionado y lo almacena en la variable infoModal_db
     const newItems = data.filter((item) => item.key === tempKey);
     setInfoModal_db(newItems);
   }, [tempKey, data]);
-
-  //FUNCTION: Cambiar la página actual por los numeros
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
 
   //FUNCTION: Ir a la página siguiente
   const nextPage = () => {
@@ -302,7 +320,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     <main className="pt-8">
       {load ? (
         <div className=" bg-white px-4 pageSize">
-          {/*//* CREAR button */}
+          {/*//* Registrar votante button */}
           <button
             onClick={() => {
               setCreateModal(true);
@@ -315,7 +333,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           >
             <div> Registrar votante</div>
           </button>
-          {/*//SECTION: Searchs inputs // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+          {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
           <section>
             {/*//* Buscar + Icono */}
             <div className="uppercase font-semibold text-[13px] mb-2 text-[#0061FE] flex items-center">
@@ -349,7 +367,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           </section>
 
           <div className="flex flex-col w-full ">
-            {/*//SECTION: Table container DESKTOP // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+            {/*//SECTION: TABLE DESKTOP // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
             <section className="hidden md:flex flex-col border-l border-r border-t w-full relative">
               {/*//* Titulos de la tabla */}
               <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#f8f8f8] px-4 uppercase py-5 text-[12px] font-semibold tracking-wider">
@@ -495,7 +513,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </div>
               ))}
             </section>
-            {/*//SECTION: Filtros // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+            {/*//SECTION: FILTROS MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
             <section className="md:hidden flex flex-col gap-2 text-[13px] mb-5">
               {/*//* Filtro + Icono */}
               <div className="uppercase font-semibold  text-[#0061FE] flex">
@@ -555,7 +573,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 Activista
               </button>
             </section>
-            {/*//SECTION: Table container MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+            {/*//SECTION: TABLE MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
             <section className="md:hidden flex flex-col border-l border-r border-t w-full relative select-none">
               {/*//* Titulos de la tabla */}
               <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#f8f8f8] px-2 uppercase py-5 text-[12px] font-semibold tracking-wider">
@@ -759,14 +777,14 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
             </div>
           </div>
 
-          {/*//SECTION: User ID  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+          {/*//SECTION: USER ID  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
           <section className="mt-20 mb-4  text-[12px] text-center text-[#0061FE]">
             user: {userState}
           </section>
         </div>
       ) : null}
 
-      {/*//SECTION: CREATE modal // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+      {/*//SECTION: CREAR MODAL // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
       {createModal ? (
         <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
           <div className="w-full max-w-[400px] bg-white rrr-md flex h-fit lg:-mt-10">
@@ -859,21 +877,40 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <div className=" text-[12px] text-[#9e9e9e] mb-1">
                     Centro de votacion
                   </div>
-                  <InputForm
+
+                  <select
                     name="centro_de_votacion"
                     value={formInfo.centro_de_votacion}
                     onChange={handleChange}
-                  />
+                    required
+                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                  >
+                    <option value="">Ninguno</option>
+                    {escuelas_bd.map((item, index) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 {/*//* Mesa */}
                 <div>
                   <div className=" text-[12px] text-[#9e9e9e] mb-1">Mesa</div>
-                  <InputForm
+                  <select
                     name="mesa"
                     value={formInfo.mesa}
                     onChange={handleChange}
-                  />
+                    required
+                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                  >
+                    <option value="">Ninguno</option>
+                    {mesas_bd.map((item, index) => (
+                      <option key={index} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
                 </div>
 
                 {/*//* Activista */}
@@ -888,8 +925,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     required
                     className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
                   >
-                    <option value="">Seleccione un activista...</option>
-                    {/* Mapping over email array to generate options */}
+                    <option value="">Ninguno</option>
                     {activistaID.map((email, index) => (
                       <option key={index} value={email}>
                         {email}
@@ -898,7 +934,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </select>
                 </div>
 
-                {/*//* CREAR button */}
+                {/*//* Guardar button */}
                 <button
                   type="submit"
                   className="py-[16px] text-sm mt-2 font-medium tracking-wide text-white w-full text-center transition-all bg-[#0061FE]"
@@ -911,7 +947,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         </div>
       ) : null}
 
-      {/*//SECTION: INFO modal // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+      {/*//SECTION: VOTANTE INFO MODAL // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
       {infoModal ? (
         <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
           <div className="w-full max-w-[400px] bg-white rrr-md flex h-fit lg:-mt-10 relative">
@@ -993,7 +1029,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             Cerrar
                           </button>
                           <button
-                            className="text-end w-fit ml-auto"
+                            className="text-end w-fit ml-auto text-[#0061FE]"
                             type="submit"
                           >
                             Guardar
@@ -1009,16 +1045,15 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               {item.nombre} {item.apellido}
                             </div>
                             <button
-                              className={
-                                adminID.includes(userState)
-                                  ? " flex text-[#0061FE]"
-                                  : "hidden"
-                              }
                               onClick={() => {
                                 setSelected("nombre");
-
                                 setUpdate(true);
                               }}
+                              className={
+                                selected != "nombre" && update
+                                  ? "text-[#c2c2c2] pointer-events-none"
+                                  : "text-[#0061FE]"
+                              }
                             >
                               Editar
                             </button>
@@ -1052,7 +1087,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               Cerrar
                             </button>
                             <button
-                              className="text-end w-fit ml-auto"
+                              className="text-end w-fit ml-auto text-[#0061FE]"
                               type="submit"
                             >
                               Guardar
@@ -1067,16 +1102,15 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <div className=" flex justify-between">
                             <div>{item.cedula}</div>
                             <button
-                              className={
-                                adminID.includes(userState)
-                                  ? " flex text-[#0061FE]"
-                                  : "hidden"
-                              }
                               onClick={() => {
                                 setSelected("cedula");
-
                                 setUpdate(true);
                               }}
+                              className={
+                                selected != "cedula" && update
+                                  ? "text-[#c2c2c2] pointer-events-none"
+                                  : "text-[#0061FE]"
+                              }
                             >
                               Editar
                             </button>
@@ -1088,7 +1122,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     <div>
                       {update && selected === "telefono" ? (
                         <div className=" grid grid-cols-1 gap-2">
-                          {/*//*Cedula */}
                           <div>
                             <div className=" text-[12px] text-[#9e9e9e] mb-1">
                               Telefono
@@ -1110,7 +1143,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               Cerrar
                             </button>
                             <button
-                              className="text-end w-fit ml-auto"
+                              className="text-end w-fit ml-auto text-[#0061FE]"
                               type="submit"
                             >
                               Guardar
@@ -1125,15 +1158,15 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <div className=" flex justify-between">
                             <div>{item.telefono}</div>
                             <button
-                              className={
-                                adminID.includes(userState)
-                                  ? " flex text-[#0061FE]"
-                                  : "hidden"
-                              }
                               onClick={() => {
                                 setSelected("telefono");
                                 setUpdate(true);
                               }}
+                              className={
+                                selected != "telefono" && update
+                                  ? "text-[#c2c2c2] pointer-events-none"
+                                  : "text-[#0061FE]"
+                              }
                             >
                               Editar
                             </button>
@@ -1167,7 +1200,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               Cerrar
                             </button>
                             <button
-                              className="text-end w-fit ml-auto"
+                              className="text-end w-fit ml-auto text-[#0061FE]"
                               type="submit"
                             >
                               Guardar
@@ -1181,19 +1214,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className=" flex justify-between">
                             <div>{item.direccion}</div>
-                            <button
+                            <div
                               className={
                                 adminID.includes(userState)
-                                  ? " flex text-[#0061FE]"
+                                  ? " flex "
                                   : "hidden"
                               }
-                              onClick={() => {
-                                setSelected("direccion");
-                                setUpdate(true);
-                              }}
                             >
-                              Editar
-                            </button>
+                              <button
+                                onClick={() => {
+                                  setSelected("direccion");
+                                  setUpdate(true);
+                                }}
+                                className={
+                                  selected != "direccion" && update
+                                    ? "text-[#c2c2c2] pointer-events-none"
+                                    : "text-[#0061FE]"
+                                }
+                              >
+                                Editar
+                              </button>
+                            </div>
                           </div>
                         </>
                       )}
@@ -1207,12 +1248,21 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <div className=" text-[12px] text-[#9e9e9e] mb-1">
                               Centro de votacion
                             </div>
-                            <InputForm
+
+                            <select
                               name="centro_de_votacion"
                               value={editInfo.centro_de_votacion}
-                              placeholder={item.centro_de_votacion}
                               onChange={handleChangeEdit}
-                            />
+                              required
+                              className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                            >
+                              <option value="">Ninguno</option>
+                              {escuelas_bd.map((item, index) => (
+                                <option key={index} value={item}>
+                                  {item}
+                                </option>
+                              ))}
+                            </select>
                           </div>
                           <div className="grid grid-cols-2">
                             <button
@@ -1224,7 +1274,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               Cerrar
                             </button>
                             <button
-                              className="text-end w-fit ml-auto"
+                              className="text-end w-fit ml-auto text-[#0061FE]"
                               type="submit"
                             >
                               Guardar
@@ -1239,15 +1289,15 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <div className=" flex justify-between">
                             <div>{item.centro_de_votacion}</div>
                             <button
-                              className={
-                                adminID.includes(userState)
-                                  ? " flex text-[#0061FE]"
-                                  : "hidden"
-                              }
                               onClick={() => {
                                 setSelected("centro_de_votacion");
                                 setUpdate(true);
                               }}
+                              className={
+                                selected != "centro_de_votacion" && update
+                                  ? "text-[#c2c2c2] pointer-events-none"
+                                  : "text-[#0061FE]"
+                              }
                             >
                               Editar
                             </button>
@@ -1256,132 +1306,139 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       )}
                     </div>
 
-                    <div className=" grid grid-cols-2 ">
-                      {/*//* Mesa */}
-                      <div className=" w-full">
-                        {update && selected === "mesa" ? (
-                          <div className=" grid grid-cols-1 gap-2">
-                            <div>
-                              <div className=" text-[12px] text-[#9e9e9e] mb-1">
-                                Mesa
-                              </div>
-                              <InputForm
-                                name="mesa"
-                                value={editInfo.mesa}
-                                placeholder={item.mesa}
-                                onChange={handleChangeEdit}
-                              />
-                            </div>
-                            <div className="grid grid-cols-2">
-                              <button
-                                className="w-fit"
-                                onClick={() => {
-                                  setUpdate(false);
-                                }}
-                              >
-                                Cerrar
-                              </button>
-                              <button
-                                className="text-end w-fit ml-auto"
-                                type="submit"
-                              >
-                                Guardar
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          <>
+                    {/*//* Mesa */}
+                    <div className=" w-full">
+                      {update && selected === "mesa" ? (
+                        <div className=" grid grid-cols-1 gap-2">
+                          <div>
                             <div className=" text-[12px] text-[#9e9e9e] mb-1">
                               Mesa
                             </div>
-                            <div className=" flex justify-between mr-2">
-                              <div>{item.mesa}</div>
-                              <button
-                                className={
-                                  adminID.includes(userState)
-                                    ? " flex text-[#0061FE]"
-                                    : "hidden"
-                                }
-                                onClick={() => {
-                                  setSelected("mesa");
-                                  setUpdate(true);
-                                }}
-                              >
-                                Editar
-                              </button>
-                            </div>
-                          </>
-                        )}
-                      </div>
 
-                      {/*//* Voto */}
-                      <div className=" w-full">
-                        {update && selected === "estado_de_votacion" ? (
-                          <div className=" grid grid-cols-1 gap-2">
-                            <div>
-                              <div className=" text-[12px] text-[#9e9e9e] mb-1">
-                                Voto
-                              </div>
-
-                              <select
-                                name="estado_de_votacion"
-                                value={editInfo.estado_de_votacion}
-                                onChange={handleChangeEdit}
-                                required
-                                className="border  py-[13px] px-1 cursor-pointer  text-sm focus:border-[#0989FF] focus:outline-none w-full "
-                              >
-                                <option value="">Eliga una opcion</option>
-                                <option value="si">SI</option>
-                                <option value="no">NO</option>
-                              </select>
-                            </div>
-                            <div className="grid grid-cols-2">
-                              <button
-                                className="w-fit"
-                                onClick={() => {
-                                  setUpdate(false);
-                                }}
-                              >
-                                Cerrar
-                              </button>
-                              <button
-                                className="text-end w-fit ml-auto"
-                                type="submit"
-                              >
-                                Guardar
-                              </button>
-                            </div>
+                            <select
+                              name="mesa"
+                              value={editInfo.mesa}
+                              onChange={handleChangeEdit}
+                              required
+                              className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                            >
+                              <option value="">Ninguno</option>
+                              {mesas_bd.map((item, index) => (
+                                <option key={index} value={item}>
+                                  {item}
+                                </option>
+                              ))}
+                            </select>
                           </div>
-                        ) : (
-                          <>
+                          <div className="grid grid-cols-2">
+                            <button
+                              className="w-fit"
+                              onClick={() => {
+                                setUpdate(false);
+                              }}
+                            >
+                              Cerrar
+                            </button>
+                            <button
+                              className="text-end w-fit ml-auto text-[#0061FE]"
+                              type="submit"
+                            >
+                              Guardar
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Mesa
+                          </div>
+                          <div className=" flex justify-between">
+                            <div>{item.mesa}</div>
+                            <button
+                              onClick={() => {
+                                setSelected("mesa");
+                                setUpdate(true);
+                              }}
+                              className={
+                                selected != "mesa" && update
+                                  ? "text-[#c2c2c2] pointer-events-none"
+                                  : "text-[#0061FE]"
+                              }
+                            >
+                              Editar
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+
+                    {/*//* Voto */}
+                    <div className=" w-full">
+                      {update && selected === "estado_de_votacion" ? (
+                        <div className=" grid grid-cols-1 gap-2">
+                          <div>
                             <div className=" text-[12px] text-[#9e9e9e] mb-1">
                               Voto
                             </div>
-                            <div className=" flex justify-between">
-                              <div className="justify-center font-medium w-full">
-                                {item.estado_de_votacion === "si" ? (
-                                  <div className="text-lime-500">SI</div>
-                                ) : (
-                                  <div className="text-red-600 ">NO</div>
-                                )}
-                              </div>
-                              <button
-                                className={
-                                  adminID.includes(userState)
-                                    ? " flex text-[#0061FE]"
-                                    : "hidden"
-                                }
-                                onClick={() => {
-                                  setSelected("estado_de_votacion");
-                                  setUpdate(true);
-                                }}
-                              >
-                                Editar
-                              </button>
+
+                            <select
+                              name="estado_de_votacion"
+                              value={editInfo.estado_de_votacion}
+                              onChange={handleChangeEdit}
+                              required
+                              className="border  py-[13px] px-1 cursor-pointer  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                            >
+                              <option value="">Eliga una opcion</option>
+                              <option value="si">SI</option>
+                              <option value="no">NO</option>
+                            </select>
+                          </div>
+                          <div className="grid grid-cols-2">
+                            <button
+                              className="w-fit"
+                              onClick={() => {
+                                setUpdate(false);
+                              }}
+                            >
+                              Cerrar
+                            </button>
+                            <button
+                              className="text-end w-fit ml-auto text-[#0061FE]"
+                              type="submit"
+                            >
+                              Guardar
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Voto
+                          </div>
+                          <div className=" flex justify-between">
+                            <div className="justify-center font-medium w-full">
+                              {item.estado_de_votacion === "si" ? (
+                                <div className="text-lime-500">SI</div>
+                              ) : (
+                                <div className="text-red-600 ">NO</div>
+                              )}
                             </div>
-                          </>
-                        )}
-                      </div>
+                            <button
+                              onClick={() => {
+                                setSelected("estado_de_votacion");
+                                setUpdate(true);
+                              }}
+                              className={
+                                selected != "estado_de_votacion" && update
+                                  ? "text-[#c2c2c2] pointer-events-none"
+                                  : "text-[#0061FE]"
+                              }
+                            >
+                              Editar
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </form>
                 </div>
@@ -1393,33 +1450,33 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               </div>
             ))}
 
-            {/*//* DELETE modal */}
+            {/*//SECTION: DELETE MODAL // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
             {deleteModal ? (
-              <div className="  absolute w-full h-full text-center font-medium overflow-hidden">
-                <h1 className="py-4 bg-white flex justify-center">
-                  <div className="max-w-[250px]">
+              <div className="  absolute w-full h-full text-center text-sm bg-white">
+                {/*//* Titulo */}
+                <h1 className="py-4 bg-white flex justify-center mt-44">
+                  <div className=" text-md">
                     Esta seguro que desea eliminar este votante?
                   </div>
                 </h1>
-                <div className="w-full h-full grid grid-cols-2 border-t">
+                <div className="w-full grid grid-cols-2 border mt-5">
                   <div
                     onClick={() => {
-                      //Borra el dato seleccionado de la BD requiere: (nombre de la coleccion, key del campo a borrar, variable donde guardar los datos y nombre del campo por el que se ordenara)
+                      setDeleteModal(false);
+                    }}
+                    className=" text-rose-600  bg-white py-4 cursor-pointer flex items-center justify-center"
+                  >
+                    <div className="">Cancelar</div>
+                  </div>
+                  <div
+                    onClick={() => {
                       firebase_delete("votantes", tempKey, setData, "index");
                       setDeleteModal(false);
                       setInfoModal(false);
                     }}
-                    className=" text-lime-500 border-r bg-white py-1 cursor-pointer flex items-center justify-center"
+                    className=" text-[#0061FE] border-l bg-white cursor-pointer flex items-center justify-center py-4"
                   >
-                    <div className="-mt-20">CONFIRMAR</div>
-                  </div>
-                  <div
-                    onClick={() => {
-                      setDeleteModal(false);
-                    }}
-                    className=" text-rose-600  bg-white py-1 cursor-pointer flex items-center justify-center"
-                  >
-                    <div className="-mt-20">CANCELAR</div>
+                    <div className="">Confirmar</div>
                   </div>
                 </div>
               </div>

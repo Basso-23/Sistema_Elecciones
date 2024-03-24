@@ -31,7 +31,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [data, setData] = useState([]); //* Alamacena la base de datos ENTERA sin manipular
   const [deleteModal, setDeleteModal] = useState(false);
-  const [updateModal, setUpdateModal] = useState(false);
+  const [createModal, setCreateModal] = useState(false);
 
   const [formInfo, setFormInfo] = useState({
     nombre: "",
@@ -63,6 +63,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     firebase_read("votantes", setData, "index");
   }, []);
 
+  //FUNCTION: Asigna los datos a la variable manipulable
   useEffect(() => {
     setSortedData(data);
   }, [data]);
@@ -112,6 +113,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     formInfo.mesa = "";
     formInfo.activista = "";
     formInfo.estado_de_votacion = "";
+
+    setCreateModal(false);
   };
 
   //FUNCTION: Se ejecuta al cargar la pagina
@@ -219,9 +222,22 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     setSearchTermCedula("");
   };
   return (
-    <main className="  min-h-[100lvh] pt-10">
+    <main className="pt-8">
       {load ? (
         <div className=" bg-white px-4 pageSize">
+          {/*//* CREAR button */}
+          <button
+            onClick={() => {
+              setCreateModal(true);
+            }}
+            className={
+              adminID.includes(userState)
+                ? "py-[16px] text-sm font-medium tracking-wide text-white w-full text-center transition-all bg-[#0061FE] mb-5"
+                : "hidden"
+            }
+          >
+            <div> Registrar Votante</div>
+          </button>
           {/*//SECTION: Searchs inputs // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
           <section>
             {/*//* Buscar + Icono */}
@@ -413,7 +429,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               <button
                 className={`border py-[13px] px-4 select-none ${
                   mobileTable === "cedula"
-                    ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
+                    ? "text-[#0061FE]  pointer-events-none"
                     : ""
                 }`}
                 onClick={() => {
@@ -426,7 +442,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               <button
                 className={`border py-[13px] px-4 select-none  ${
                   mobileTable === "mesa"
-                    ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
+                    ? "text-[#0061FE] pointer-events-none"
                     : ""
                 }`}
                 onClick={() => {
@@ -439,7 +455,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               <button
                 className={`border py-[13px] px-4 select-none ${
                   mobileTable === "centro"
-                    ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
+                    ? "text-[#0061FE] pointer-events-none"
                     : ""
                 }`}
                 onClick={() => {
@@ -452,7 +468,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               <button
                 className={`border py-[13px] px-4 select-none ${
                   mobileTable === "activista"
-                    ? "bg-[#0061FE] text-white font-semibold pointer-events-none border-transparent"
+                    ? "text-[#0061FE]  pointer-events-none"
                     : ""
                 }`}
                 onClick={() => {
@@ -652,7 +668,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               <button onClick={prevPage} disabled={currentPage === 1}>
                 Anterior
               </button>
-              {/*//* Nuemros de las paginas */}
+              {/*//* Numeros de las paginas */}
               <div className=" font-bold "> {currentPage}</div>
               {/*//* Pagina siguiente */}
               <button
@@ -670,80 +686,156 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           <section className="mt-20 mb-4  text-[12px] text-center text-[#0061FE]">
             user: {userState}
           </section>
-
-          {/*//SECTION: Form container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-          <section>
-            <form className="flex gap-5 items-center" onSubmit={handleSubmit}>
-              <InputForm
-                name="nombre"
-                value={formInfo.nombre}
-                placeholder={"Nombre"}
-                onChange={handleChange}
-              />
-              <InputForm
-                name="apellido"
-                value={formInfo.apellido}
-                placeholder={"Apellido"}
-                onChange={handleChange}
-              />
-              <InputForm
-                name="cedula"
-                value={formInfo.cedula}
-                placeholder={"cedula"}
-                onChange={handleChange}
-              />
-              <InputForm
-                name="direccion"
-                value={formInfo.direccion}
-                placeholder={"direccion"}
-                onChange={handleChange}
-              />
-              <InputForm
-                name="telefono"
-                value={formInfo.telefono}
-                placeholder={"telefono"}
-                onChange={handleChange}
-              />
-              <InputForm
-                name="mesa"
-                value={formInfo.mesa}
-                placeholder={"mesa"}
-                onChange={handleChange}
-              />
-              <InputForm
-                name="centro_de_votacion"
-                value={formInfo.centro_de_votacion}
-                placeholder={"centro_de_votacion"}
-                onChange={handleChange}
-              />
-
-              <select
-                name="activista"
-                value={formInfo.activista}
-                onChange={handleChange}
-                required
-              >
-                <option value="">Select an email</option>
-                {/* Mapping over email array to generate options */}
-                {activistaID.map((email, index) => (
-                  <option key={index} value={email}>
-                    {email}
-                  </option>
-                ))}
-              </select>
-
-              <button
-                className=" px-10 py-1 bg-lime-500 text-white uppercase tracking-wide active:scale-95 transition-all"
-                type="submit"
-              >
-                Crear Usuario
-              </button>
-            </form>
-          </section>
         </div>
       ) : null}
 
-      {/*//SECTION: Info modal container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+      {/*//SECTION: CREATE modal // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+      {createModal ? (
+        <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
+          <div className="w-full max-w-[400px] bg-white rrr-md flex h-fit lg:-mt-10">
+            {/*//* Contenido de la tabla */}
+
+            <div className="relative w-full text-[15px] overflow-hidden">
+              <form
+                onSubmit={handleSubmit}
+                className=" w-full flex flex-col p-8 my-auto gap-3"
+              >
+                {/*//* Votante + close button */}
+                <div className="flex justify-between items-center w-full mb-2">
+                  <h1 className=" text-[25px] font-semibold">
+                    Registrar votante
+                  </h1>
+                  <div className="text-[#0061FE] flex">
+                    <button
+                      className=" my-auto"
+                      onClick={() => {
+                        setCreateModal(false);
+                      }}
+                    >
+                      <Info />
+                    </button>
+                  </div>
+                </div>
+
+                <div className=" grid grid-cols-2 gap-2">
+                  {/*//* Nombre */}
+                  <div>
+                    <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                      Nombre
+                    </div>
+                    <InputForm
+                      name="nombre"
+                      value={formInfo.nombre}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  {/*//*Apellido */}
+                  <div>
+                    <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                      Apellido
+                    </div>
+                    <InputForm
+                      name="apellido"
+                      value={formInfo.apellido}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                <div className=" grid grid-cols-2 gap-2">
+                  {/*//* Cedula */}
+                  <div>
+                    <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                      Cedula
+                    </div>
+                    <InputForm
+                      name="cedula"
+                      value={formInfo.cedula}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  {/*//* Telefono */}
+                  <div>
+                    <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                      Telefono
+                    </div>
+                    <InputForm
+                      name="telefono"
+                      value={formInfo.telefono}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </div>
+                {/*//* Direccion */}
+                <div>
+                  <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                    Direccion
+                  </div>
+                  <InputForm
+                    name="direccion"
+                    value={formInfo.direccion}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                {/*//* Centro de votacion */}
+                <div>
+                  <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                    Centro de votacion
+                  </div>
+                  <InputForm
+                    name="centro_de_votacion"
+                    value={formInfo.centro_de_votacion}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                {/*//* Mesa */}
+                <div>
+                  <div className=" text-[12px] text-[#9e9e9e] mb-1">Mesa</div>
+                  <InputForm
+                    name="mesa"
+                    value={formInfo.mesa}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                {/*//* Activista */}
+                <div className=" w-full">
+                  <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                    Activista
+                  </div>
+                  <select
+                    name="activista"
+                    value={formInfo.activista}
+                    onChange={handleChange}
+                    required
+                    className="border  py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                  >
+                    <option value="">Seleccione un activista ...</option>
+                    {/* Mapping over email array to generate options */}
+                    {activistaID.map((email, index) => (
+                      <option key={index} value={email}>
+                        {email}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/*//* CREAR button */}
+                <button
+                  type="submit"
+                  className="py-[16px] text-sm mt-2 font-medium tracking-wide text-white w-full text-center transition-all bg-[#0061FE]"
+                >
+                  <div> Guardar</div>
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {/*//SECTION: INFO modal // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
       {infoModal ? (
         <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
           <div className="w-full max-w-[400px] bg-white rrr-md flex h-fit lg:-mt-10">
@@ -834,7 +926,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
                 </div>
                 {/*//* Activista */}
-                <div className="bg-[#0061FE] font-light text-white  text-[13px] text-center py-2 rrr-br-md rrr-bl-md overflow-x-auto scroll1 justify-center w-full ">
+                <div className="text-[#0061FE] border-t  font-light  text-[13px] text-center py-2 rrr-br-md rrr-bl-md overflow-x-auto scroll1 justify-center w-full ">
                   {item.activista}
                 </div>
               </div>

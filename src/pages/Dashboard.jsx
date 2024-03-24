@@ -2,18 +2,24 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
-import { example_db } from "@/components/example_db";
 import Info from "@/icons/Info";
 import InputForm from "@/components/InputForm";
 import Filter from "@/icons/Filter";
 import Search from "@/icons/Search";
 import Sort from "@/icons/Sort";
+import { keyMaker } from "@/components/keyMaker";
+import {
+  firebase_delete,
+  firebase_edit,
+  firebase_read,
+  firebase_write,
+} from "@/firebase/firebase";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
   const [load, setLoad] = useState(false); //* Se encarga del delay en la carga de la pagina
   const [tempKey, setTempKey] = useState(""); //* Alamacena la key temporal del item seleccionado
-  const [sortedData, setSortedData] = useState(example_db); //* Alamacena la base de datos
+  const [sortedData, setSortedData] = useState([]); //* Alamacena la base de datos que se van a manipular
   const [infoModal, setInfoModal] = useState(false); //* Controla el estado del modal de informacion de los votantes
   const [infoModal_db, setInfoModal_db] = useState(); //* Alamacena la informacion motrada en el modal de informacion de los votantes
   const [currentPage, setCurrentPage] = useState(1); //* Se almacena la pagina actual en la paginacion
@@ -22,6 +28,91 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const [searchTermActivista, setSearchTermActivista] = useState(""); //* Input de buscar por activista
   const [mobileTable, setMobileTable] = useState("cedula"); //* Controla cual es la tabla que se vera en mobile
   const itemsToShow = 50; //* Cantidad de items a mostrar en la tabla
+
+  const [data, setData] = useState([]); //* Alamacena la base de datos ENTERA sin manipular
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [updateModal, setUpdateModal] = useState(false);
+
+  const [formInfo, setFormInfo] = useState({
+    nombre: "",
+    apellido: "",
+    cedula: "",
+    direccion: "",
+    telefono: "",
+    centro_de_votacion: "",
+    mesa: "",
+    activista: "",
+    estado_de_votacion: false,
+  });
+
+  const [editInfo, setEditInfo] = useState({
+    nombre: "",
+    apellido: "",
+    cedula: "",
+    direccion: "",
+    telefono: "",
+    centro_de_votacion: "",
+    mesa: "",
+    activista: "",
+    estado_de_votacion: false,
+  });
+
+  //FUNCTION: Lee la base de datos al cargar la pagina
+  useEffect(() => {
+    //* Lee y asigna los datos de la BD requiere: (nombre de la coleccion, variable donde guardar los datos y nombre del campo por el que se ordenara)
+    firebase_read("votantes", setData, "index");
+  }, []);
+
+  useEffect(() => {
+    setSortedData(data);
+  }, [data]);
+
+  //FUNCTION: Maneja el onChange los input de CREAR
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormInfo((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  //FUNCTION: Maneja el submit del form CREAR
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    //* Generar la key
+    const randomKey = keyMaker(12);
+
+    //* Asigna la fecha y hora actual
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.toLocaleString();
+
+    //* Definir la info a enviar
+    const info = {
+      key: randomKey,
+      index: fechaFormateada,
+      nombre: formInfo.nombre,
+      apellido: formInfo.apellido,
+      cedula: formInfo.cedula,
+      direccion: formInfo.direccion,
+      telefono: formInfo.telefono,
+      centro_de_votacion: formInfo.centro_de_votacion,
+      mesa: formInfo.mesa,
+      activista: formInfo.activista,
+      estado_de_votacion: formInfo.estado_de_votacion,
+    };
+
+    //* Almacena los datos a la BD requiere: (nombre de la coleccion, info a guardar, variable donde guardar los datos y nombre del campo por el que se ordenara)
+    firebase_write("votantes", info, setData, "index");
+
+    //* Limpiar los campos después de enviar los datos
+    formInfo.nombre = "";
+    formInfo.apellido = "";
+    formInfo.cedula = "";
+    formInfo.direccion = "";
+    formInfo.telefono = "";
+    formInfo.centro_de_votacion = "";
+    formInfo.mesa = "";
+    formInfo.activista = "";
+    formInfo.estado_de_votacion = "";
+  };
 
   //FUNCTION: Se ejecuta al cargar la pagina
   useEffect(() => {
@@ -59,7 +150,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   useEffect(() => {
     console.log("KEY:", tempKey);
     //* Filtra la info de la base de datos segun la key seleccionado y lo almacena en la variable infoModal_db
-    const newItems = example_db.filter((item) => item.key === tempKey);
+    const newItems = data.filter((item) => item.key === tempKey);
     setInfoModal_db(newItems);
   }, [tempKey]);
 
@@ -80,7 +171,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   //FUNCTION: Ordenar los datos según el campo seleccionado
   const handleSort = (field) => {
-    const sorted = [...example_db].sort((a, b) => {
+    const sorted = [...data].sort((a, b) => {
       if (a[field] < b[field]) return -1;
       if (a[field] > b[field]) return 1;
       return 0;
@@ -108,7 +199,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const handleSearchCedula = (e) => {
     const searchTermCedula = e.target.value;
     setSearchTermCedula(searchTermCedula);
-    const filtered = example_db.filter((item) =>
+    const filtered = data.filter((item) =>
       item.cedula.toLowerCase().includes(searchTermCedula.toLowerCase())
     );
     setSortedData(filtered);
@@ -120,7 +211,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const handleSearchActivista = (e) => {
     const searchTermActivista = e.target.value;
     setSearchTermActivista(searchTermActivista);
-    const filtered = example_db.filter((item) =>
+    const filtered = data.filter((item) =>
       item.activista.toLowerCase().includes(searchTermActivista.toLowerCase())
     );
     setSortedData(filtered);
@@ -578,6 +669,76 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           {/*//SECTION: User ID  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
           <section className="mt-20 mb-4  text-[12px] text-center text-[#0061FE]">
             user: {userState}
+          </section>
+
+          {/*//SECTION: Form container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+          <section>
+            <form className="flex gap-5 items-center" onSubmit={handleSubmit}>
+              <InputForm
+                name="nombre"
+                value={formInfo.nombre}
+                placeholder={"Nombre"}
+                onChange={handleChange}
+              />
+              <InputForm
+                name="apellido"
+                value={formInfo.apellido}
+                placeholder={"Apellido"}
+                onChange={handleChange}
+              />
+              <InputForm
+                name="cedula"
+                value={formInfo.cedula}
+                placeholder={"cedula"}
+                onChange={handleChange}
+              />
+              <InputForm
+                name="direccion"
+                value={formInfo.direccion}
+                placeholder={"direccion"}
+                onChange={handleChange}
+              />
+              <InputForm
+                name="telefono"
+                value={formInfo.telefono}
+                placeholder={"telefono"}
+                onChange={handleChange}
+              />
+              <InputForm
+                name="mesa"
+                value={formInfo.mesa}
+                placeholder={"mesa"}
+                onChange={handleChange}
+              />
+              <InputForm
+                name="centro_de_votacion"
+                value={formInfo.centro_de_votacion}
+                placeholder={"centro_de_votacion"}
+                onChange={handleChange}
+              />
+
+              <select
+                name="activista"
+                value={formInfo.activista}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select an email</option>
+                {/* Mapping over email array to generate options */}
+                {activistaID.map((email, index) => (
+                  <option key={index} value={email}>
+                    {email}
+                  </option>
+                ))}
+              </select>
+
+              <button
+                className=" px-10 py-1 bg-lime-500 text-white uppercase tracking-wide active:scale-95 transition-all"
+                type="submit"
+              >
+                Crear Usuario
+              </button>
+            </form>
           </section>
         </div>
       ) : null}

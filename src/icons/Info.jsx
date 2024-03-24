@@ -3,7 +3,7 @@ const Info = () => {
     <svg
       stroke="currentColor"
       fill="currentColor"
-      stroke-width="0"
+      strokeWidth="0"
       version="1.1"
       viewBox="0 0 17 17"
       height="23px"

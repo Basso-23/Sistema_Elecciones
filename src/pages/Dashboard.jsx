@@ -32,6 +32,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const [data, setData] = useState([]); //* Alamacena la base de datos ENTERA sin manipular
   const [deleteModal, setDeleteModal] = useState(false);
   const [createModal, setCreateModal] = useState(false);
+  const [selected, setSelected] = useState("");
+  const [update, setUpdate] = useState(false);
 
   const [formInfo, setFormInfo] = useState({
     nombre: "",
@@ -54,8 +56,12 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     centro_de_votacion: "",
     mesa: "",
     activista: "",
-    estado_de_votacion: false,
+    estado_de_votacion: "",
   });
+
+  useEffect(() => {
+    console.log(selected);
+  }, [selected]);
 
   //FUNCTION: Lee la base de datos al cargar la pagina
   useEffect(() => {
@@ -115,6 +121,77 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     formInfo.estado_de_votacion = "";
 
     setCreateModal(false);
+  };
+
+  //FUNCTION: Maneja el onChange los input de EDIT
+  const handleChangeEdit = (event) => {
+    const { name, value } = event.target;
+    setEditInfo((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  //FUNCTION: Maneja el submit del form EDIT
+  const handleSubmitEdit = async (event) => {
+    event.preventDefault();
+
+    setTempKey("");
+    setUpdate(false);
+    setInfoModal(false);
+
+    //* Definir la info a enviar
+    if (selected === "nombre") {
+      const info = {
+        nombre: editInfo.nombre,
+        apellido: editInfo.apellido,
+      };
+      //* Actualiza el dato seleccionado de la BD requiere: (nombre de la coleccion, key del campo a editar, info a guardar, variable donde guardar los datos y nombre del campo por el que se ordenara)
+      firebase_edit("votantes", tempKey, info, setData, "index");
+    } else if (selected === "cedula") {
+      const info = {
+        cedula: editInfo.cedula,
+      };
+      firebase_edit("votantes", tempKey, info, setData, "index");
+    } else if (selected === "direccion") {
+      const info = {
+        direccion: editInfo.direccion,
+      };
+      firebase_edit("votantes", tempKey, info, setData, "index");
+    } else if (selected === "telefono") {
+      const info = {
+        telefono: editInfo.telefono,
+      };
+      firebase_edit("votantes", tempKey, info, setData, "index");
+    } else if (selected === "centro_de_votacion") {
+      const info = {
+        centro_de_votacion: editInfo.centro_de_votacion,
+      };
+      firebase_edit("votantes", tempKey, info, setData, "index");
+    } else if (selected === "mesa") {
+      const info = {
+        mesa: editInfo.mesa,
+      };
+      firebase_edit("votantes", tempKey, info, setData, "index");
+    } else if (selected === "activista") {
+      const info = {
+        activista: editInfo.activista,
+      };
+      firebase_edit("votantes", tempKey, info, setData, "index");
+    } else if (selected === "estado_de_votacion") {
+      const info = {
+        estado_de_votacion: editInfo.estado_de_votacion,
+      };
+      firebase_edit("votantes", tempKey, info, setData, "index");
+    }
+
+    //* Limpiar los campos después de enviar los datos
+    editInfo.nombre = "";
+    editInfo.apellido = "";
+    editInfo.cedula = "";
+    editInfo.direccion = "";
+    editInfo.telefono = "";
+    editInfo.centro_de_votacion = "";
+    editInfo.mesa = "";
+    editInfo.activista = "";
+    editInfo.estado_de_votacion = "";
   };
 
   //FUNCTION: Se ejecuta al cargar la pagina
@@ -399,7 +476,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <div className=" grid grid-cols-2">
                     {/*//* Voto */}
                     <div className="justify-center font-medium w-full">
-                      {item.estado_de_votacion ? (
+                      {item.estado_de_votacion === "si" ? (
                         <div className="text-lime-500 ">SI</div>
                       ) : (
                         <div className="text-red-600 ">NO</div>
@@ -653,7 +730,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
                   {/*//* Voto */}
                   <div className="justify-center font-medium w-full items-center flex">
-                    {item.estado_de_votacion ? (
+                    {item.estado_de_votacion === "si" ? (
                       <span className="text-lime-500 ">SI</span>
                     ) : (
                       <span className="text-red-600 ">NO</span>
@@ -809,9 +886,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     value={formInfo.activista}
                     onChange={handleChange}
                     required
-                    className="border  py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
                   >
-                    <option value="">Seleccione un activista ...</option>
+                    <option value="">Seleccione un activista...</option>
                     {/* Mapping over email array to generate options */}
                     {activistaID.map((email, index) => (
                       <option key={index} value={email}>
@@ -874,71 +951,423 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       </button>
                     </div>
                   </div>
-                  {/*//* Nombre + Apellido */}
+                  <form onSubmit={handleSubmitEdit}></form>
                   <div>
-                    <div className=" text-[12px] text-[#9e9e9e] mb-1">
-                      Nombre
-                    </div>
-                    <div>
-                      {item.nombre} {item.apellido}
-                    </div>
-                  </div>
-                  {/*//* Cedula */}
-                  <div>
-                    <div className=" text-[12px] text-[#9e9e9e] mb-1">
-                      Cedula
-                    </div>
-                    <div>{item.cedula}</div>
-                  </div>
+                    {/*//* Nombre + Apellido */}
+                    {update && selected === "nombre" ? (
+                      <div className=" grid grid-cols-2 gap-2">
+                        {/*//* Nombre */}
+                        <div>
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Nombre
+                          </div>
+                          <InputForm
+                            name="nombre"
+                            value={editInfo.nombre}
+                            placeholder={item.nombre}
+                            onChange={handleChangeEdit}
+                          />
+                        </div>
+                        {/*//*Apellido */}
+                        <div>
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Apellido
+                          </div>
+                          <InputForm
+                            name="apellido"
+                            value={editInfo.apellido}
+                            placeholder={item.apellido}
+                            onChange={handleChangeEdit}
+                          />
+                        </div>
 
+                        <button
+                          className="w-fit"
+                          onClick={() => {
+                            setUpdate(false);
+                          }}
+                        >
+                          Cerrar
+                        </button>
+                        <button
+                          className="text-end w-fit ml-auto"
+                          type="submit"
+                        >
+                          Guardar
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                          Nombre
+                        </div>
+                        <div className=" flex justify-between">
+                          <div>
+                            {item.nombre} {item.apellido}
+                          </div>
+                          <button
+                            className={
+                              adminID.includes(userState) ? " flex" : "hidden"
+                            }
+                            onClick={() => {
+                              setSelected("nombre");
+
+                              setUpdate(true);
+                            }}
+                          >
+                            Editar
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                  <div>
+                    {/*//* Cedula */}
+                    {update && selected === "cedula" ? (
+                      <div className=" grid grid-cols-1 gap-2">
+                        {/*//*Cedula */}
+                        <div>
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Cedula
+                          </div>
+                          <InputForm
+                            name="cedula"
+                            value={editInfo.cedula}
+                            placeholder={item.cedula}
+                            onChange={handleChangeEdit}
+                          />
+                        </div>
+                        <div className="grid grid-cols-2">
+                          <button
+                            className="w-fit"
+                            onClick={() => {
+                              setUpdate(false);
+                            }}
+                          >
+                            Cerrar
+                          </button>
+                          <button
+                            className="text-end w-fit ml-auto"
+                            type="submit"
+                          >
+                            Guardar
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                          Cedula
+                        </div>
+                        <div className=" flex justify-between">
+                          <div>{item.cedula}</div>
+                          <button
+                            className={
+                              adminID.includes(userState) ? " flex" : "hidden"
+                            }
+                            onClick={() => {
+                              setSelected("cedula");
+
+                              setUpdate(true);
+                            }}
+                          >
+                            Editar
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
                   {/*//* Telefono */}
                   <div>
-                    <div className=" text-[12px] text-[#9e9e9e] mb-1">
-                      Telefono
-                    </div>
-                    <div>{item.telefono}</div>
+                    {update && selected === "telefono" ? (
+                      <div className=" grid grid-cols-1 gap-2">
+                        {/*//*Cedula */}
+                        <div>
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Telefono
+                          </div>
+                          <InputForm
+                            name="telefono"
+                            value={editInfo.telefono}
+                            placeholder={item.telefono}
+                            onChange={handleChangeEdit}
+                          />
+                        </div>
+                        <div className="grid grid-cols-2">
+                          <button
+                            className="w-fit"
+                            onClick={() => {
+                              setUpdate(false);
+                            }}
+                          >
+                            Cerrar
+                          </button>
+                          <button
+                            className="text-end w-fit ml-auto"
+                            type="submit"
+                          >
+                            Guardar
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                          Telefono
+                        </div>
+                        <div className=" flex justify-between">
+                          <div>{item.telefono}</div>
+                          <button
+                            className={
+                              adminID.includes(userState) ? " flex" : "hidden"
+                            }
+                            onClick={() => {
+                              setSelected("telefono");
+                              setUpdate(true);
+                            }}
+                          >
+                            Editar
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   {/*//* Direccion */}
                   <div>
-                    <div className=" text-[12px] text-[#9e9e9e] mb-1">
-                      Direccion
-                    </div>
-                    <div>{item.direccion}</div>
+                    {update && selected === "direccion" ? (
+                      <div className=" grid grid-cols-1 gap-2">
+                        <div>
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Direccion
+                          </div>
+                          <InputForm
+                            name="direccion"
+                            value={editInfo.direccion}
+                            placeholder={item.direccion}
+                            onChange={handleChangeEdit}
+                          />
+                        </div>
+                        <div className="grid grid-cols-2">
+                          <button
+                            className="w-fit"
+                            onClick={() => {
+                              setUpdate(false);
+                            }}
+                          >
+                            Cerrar
+                          </button>
+                          <button
+                            className="text-end w-fit ml-auto"
+                            type="submit"
+                          >
+                            Guardar
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                          Direccion
+                        </div>
+                        <div className=" flex justify-between">
+                          <div>{item.direccion}</div>
+                          <button
+                            className={
+                              adminID.includes(userState) ? " flex" : "hidden"
+                            }
+                            onClick={() => {
+                              setSelected("direccion");
+                              setUpdate(true);
+                            }}
+                          >
+                            Editar
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   {/*//* Centro de votacion */}
                   <div>
-                    <div className=" text-[12px] text-[#9e9e9e] mb-1">
-                      Centro de votacion
-                    </div>
-                    <div>{item.centro_de_votacion}</div>
+                    {update && selected === "centro_de_votacion" ? (
+                      <div className=" grid grid-cols-1 gap-2">
+                        <div>
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Centro de votacion
+                          </div>
+                          <InputForm
+                            name="centro_de_votacion"
+                            value={editInfo.centro_de_votacion}
+                            placeholder={item.centro_de_votacion}
+                            onChange={handleChangeEdit}
+                          />
+                        </div>
+                        <div className="grid grid-cols-2">
+                          <button
+                            className="w-fit"
+                            onClick={() => {
+                              setUpdate(false);
+                            }}
+                          >
+                            Cerrar
+                          </button>
+                          <button
+                            className="text-end w-fit ml-auto"
+                            type="submit"
+                          >
+                            Guardar
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <>
+                        <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                          Centro de votacion
+                        </div>
+                        <div className=" flex justify-between">
+                          <div>{item.centro_de_votacion}</div>
+                          <button
+                            className={
+                              adminID.includes(userState) ? " flex" : "hidden"
+                            }
+                            onClick={() => {
+                              setSelected("centro_de_votacion");
+                              setUpdate(true);
+                            }}
+                          >
+                            Editar
+                          </button>
+                        </div>
+                      </>
+                    )}
                   </div>
 
                   <div className=" grid grid-cols-2 ">
                     {/*//* Mesa */}
                     <div className=" w-full">
-                      <div className=" text-[12px] text-[#9e9e9e] mb-1">
-                        Mesa
-                      </div>
-                      <div>{item.mesa}</div>
+                      {update && selected === "mesa" ? (
+                        <div className=" grid grid-cols-1 gap-2">
+                          <div>
+                            <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                              Mesa
+                            </div>
+                            <InputForm
+                              name="mesa"
+                              value={editInfo.mesa}
+                              placeholder={item.mesa}
+                              onChange={handleChangeEdit}
+                            />
+                          </div>
+                          <div className="grid grid-cols-2">
+                            <button
+                              className="w-fit"
+                              onClick={() => {
+                                setUpdate(false);
+                              }}
+                            >
+                              Cerrar
+                            </button>
+                            <button
+                              className="text-end w-fit ml-auto"
+                              type="submit"
+                            >
+                              Guardar
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Mesa
+                          </div>
+                          <div className=" flex justify-between mr-2">
+                            <div>{item.mesa}</div>
+                            <button
+                              className={
+                                adminID.includes(userState) ? " flex" : "hidden"
+                              }
+                              onClick={() => {
+                                setSelected("mesa");
+                                setUpdate(true);
+                              }}
+                            >
+                              Editar
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
 
                     {/*//* Voto */}
                     <div className=" w-full">
-                      <div className=" text-[12px] text-[#9e9e9e] mb-1">
-                        Voto
-                      </div>
-                      <div className="justify-center font-medium w-full">
-                        {item.estado_de_votacion ? (
-                          <div className="text-lime-500">SI</div>
-                        ) : (
-                          <div className="text-red-600 ">NO</div>
-                        )}
-                      </div>
+                      {update && selected === "estado_de_votacion" ? (
+                        <div className=" grid grid-cols-1 gap-2">
+                          <div>
+                            <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                              Voto
+                            </div>
+
+                            <select
+                              name="estado_de_votacion"
+                              value={editInfo.estado_de_votacion}
+                              onChange={handleChangeEdit}
+                              required
+                              className="border  py-[13px] px-1 cursor-pointer  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                            >
+                              <option value="">Eliga una opcion</option>
+                              <option value="si">SI</option>
+                              <option value="no">NO</option>
+                            </select>
+                          </div>
+                          <div className="grid grid-cols-2">
+                            <button
+                              className="w-fit"
+                              onClick={() => {
+                                setUpdate(false);
+                              }}
+                            >
+                              Cerrar
+                            </button>
+                            <button
+                              className="text-end w-fit ml-auto"
+                              type="submit"
+                            >
+                              Guardar
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <>
+                          <div className=" text-[12px] text-[#9e9e9e] mb-1">
+                            Voto
+                          </div>
+                          <div className=" flex justify-between">
+                            <div className="justify-center font-medium w-full">
+                              {item.estado_de_votacion === "si" ? (
+                                <div className="text-lime-500">SI</div>
+                              ) : (
+                                <div className="text-red-600 ">NO</div>
+                              )}
+                            </div>
+                            <button
+                              className={
+                                adminID.includes(userState) ? " flex" : "hidden"
+                              }
+                              onClick={() => {
+                                setSelected("estado_de_votacion");
+                                setUpdate(true);
+                              }}
+                            >
+                              Editar
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
+
                 {/*//* Activista */}
                 <div className="text-[#0061FE] border-t  font-light  text-[13px] text-center py-2 rrr-br-md rrr-bl-md overflow-x-auto scroll1 justify-center w-full ">
                   {item.activista}
@@ -949,8 +1378,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
             {/*//* DELETE modal */}
             {deleteModal ? (
               <div className="  absolute w-full h-full text-center font-medium overflow-hidden">
-                <h1 className="py-4 bg-white">
-                  Esta seguro que desea eliminar este votante?
+                <h1 className="py-4 bg-white flex justify-center">
+                  <div className="max-w-[250px]">
+                    Esta seguro que desea eliminar este votante?
+                  </div>
                 </h1>
                 <div className="w-full h-full grid grid-cols-2 border-t">
                   <div

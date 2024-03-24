@@ -1080,19 +1080,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <div>
                               {item.nombre} {item.apellido}
                             </div>
-                            <button
-                              onClick={() => {
-                                setSelected("nombre");
-                                setUpdate(true);
-                              }}
+                            <div
                               className={
-                                selected != "nombre" && update
-                                  ? "text-[#c2c2c2] pointer-events-none"
-                                  : "text-[#0061FE]"
+                                adminID.includes(userState)
+                                  ? " flex "
+                                  : "hidden"
                               }
                             >
-                              Editar
-                            </button>
+                              <button
+                                onClick={() => {
+                                  setSelected("nombre");
+                                  setUpdate(true);
+                                }}
+                                className={
+                                  selected != "nombre" && update
+                                    ? "text-[#c2c2c2] pointer-events-none"
+                                    : "text-[#0061FE]"
+                                }
+                              >
+                                Editar
+                              </button>
+                            </div>
                           </div>
                         </>
                       )}
@@ -1146,19 +1154,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className=" flex justify-between">
                             <div>{item.cedula}</div>
-                            <button
-                              onClick={() => {
-                                setSelected("cedula");
-                                setUpdate(true);
-                              }}
+                            <div
                               className={
-                                selected != "cedula" && update
-                                  ? "text-[#c2c2c2] pointer-events-none"
-                                  : "text-[#0061FE]"
+                                adminID.includes(userState)
+                                  ? " flex "
+                                  : "hidden"
                               }
                             >
-                              Editar
-                            </button>
+                              <button
+                                onClick={() => {
+                                  setSelected("cedula");
+                                  setUpdate(true);
+                                }}
+                                className={
+                                  selected != "cedula" && update
+                                    ? "text-[#c2c2c2] pointer-events-none"
+                                    : "text-[#0061FE]"
+                                }
+                              >
+                                Editar
+                              </button>
+                            </div>
                           </div>
                         </>
                       )}
@@ -1202,19 +1218,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className=" flex justify-between">
                             <div>{item.telefono}</div>
-                            <button
-                              onClick={() => {
-                                setSelected("telefono");
-                                setUpdate(true);
-                              }}
+                            <div
                               className={
-                                selected != "telefono" && update
-                                  ? "text-[#c2c2c2] pointer-events-none"
-                                  : "text-[#0061FE]"
+                                adminID.includes(userState)
+                                  ? " flex "
+                                  : "hidden"
                               }
                             >
-                              Editar
-                            </button>
+                              <button
+                                onClick={() => {
+                                  setSelected("telefono");
+                                  setUpdate(true);
+                                }}
+                                className={
+                                  selected != "telefono" && update
+                                    ? "text-[#c2c2c2] pointer-events-none"
+                                    : "text-[#0061FE]"
+                                }
+                              >
+                                Editar
+                              </button>
+                            </div>
                           </div>
                         </>
                       )}
@@ -1333,19 +1357,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className=" flex justify-between">
                             <div>{item.centro_de_votacion}</div>
-                            <button
-                              onClick={() => {
-                                setSelected("centro_de_votacion");
-                                setUpdate(true);
-                              }}
+                            <div
                               className={
-                                selected != "centro_de_votacion" && update
-                                  ? "text-[#c2c2c2] pointer-events-none"
-                                  : "text-[#0061FE]"
+                                adminID.includes(userState)
+                                  ? " flex "
+                                  : "hidden"
                               }
                             >
-                              Editar
-                            </button>
+                              <button
+                                onClick={() => {
+                                  setSelected("centro_de_votacion");
+                                  setUpdate(true);
+                                }}
+                                className={
+                                  selected != "centro_de_votacion" && update
+                                    ? "text-[#c2c2c2] pointer-events-none"
+                                    : "text-[#0061FE]"
+                                }
+                              >
+                                Editar
+                              </button>
+                            </div>
                           </div>
                         </>
                       )}
@@ -1399,19 +1431,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className=" flex justify-between">
                             <div>{item.mesa}</div>
-                            <button
-                              onClick={() => {
-                                setSelected("mesa");
-                                setUpdate(true);
-                              }}
+                            <div
                               className={
-                                selected != "mesa" && update
-                                  ? "text-[#c2c2c2] pointer-events-none"
-                                  : "text-[#0061FE]"
+                                adminID.includes(userState)
+                                  ? " flex "
+                                  : "hidden"
                               }
                             >
-                              Editar
-                            </button>
+                              <button
+                                onClick={() => {
+                                  setSelected("mesa");
+                                  setUpdate(true);
+                                }}
+                                className={
+                                  selected != "mesa" && update
+                                    ? "text-[#c2c2c2] pointer-events-none"
+                                    : "text-[#0061FE]"
+                                }
+                              >
+                                Editar
+                              </button>
+                            </div>
                           </div>
                         </>
                       )}
@@ -1468,19 +1508,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                                 <div className="text-red-600 ">NO</div>
                               )}
                             </div>
-                            <button
-                              onClick={() => {
-                                setSelected("estado_de_votacion");
-                                setUpdate(true);
-                              }}
+                            <div
                               className={
-                                selected != "estado_de_votacion" && update
-                                  ? "text-[#c2c2c2] pointer-events-none"
-                                  : "text-[#0061FE]"
+                                adminID.includes(userState)
+                                  ? " flex "
+                                  : "hidden"
                               }
                             >
-                              Editar
-                            </button>
+                              <button
+                                onClick={() => {
+                                  setSelected("estado_de_votacion");
+                                  setUpdate(true);
+                                }}
+                                className={
+                                  selected != "estado_de_votacion" && update
+                                    ? "text-[#c2c2c2] pointer-events-none"
+                                    : "text-[#0061FE]"
+                                }
+                              >
+                                Editar
+                              </button>
+                            </div>
                           </div>
                         </>
                       )}

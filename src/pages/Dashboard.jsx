@@ -1452,19 +1452,25 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
             {/*//SECTION: DELETE MODAL // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
             {deleteModal ? (
-              <div className="  absolute w-full h-full text-center text-sm bg-white">
+              <div className="  absolute w-full h-full text-center text-sm bg-white flex flex-col items-center px-6">
+                <div className=" alert aspect-square h-20 mt-32"></div>
                 {/*//* Titulo */}
-                <h1 className="py-4 bg-white flex justify-center mt-44">
-                  <div className=" text-md">
-                    Esta seguro que desea eliminar este votante?
-                  </div>
-                </h1>
-                <div className="w-full grid grid-cols-2 border mt-5">
+                <div>
+                  <h1 className=" text-2xl font-medium mt-2">
+                    Borrar votante?
+                  </h1>
+                  <h2 className=" text-[#858585] mt-2">
+                    ¿Estás seguro de que deseas eliminar este artículo? Esta
+                    acción no se puede deshacer.
+                  </h2>
+                </div>
+                {/*//* Botones */}
+                <div className="w-full grid grid-cols-2 gap-3 mt-10">
                   <div
                     onClick={() => {
                       setDeleteModal(false);
                     }}
-                    className=" text-rose-600  bg-white py-4 cursor-pointer flex items-center justify-center"
+                    className=" text-[#6B6E7F] bg-[#F0F0F0] font-medium py-4 cursor-pointer flex items-center justify-center"
                   >
                     <div className="">Cancelar</div>
                   </div>
@@ -1474,9 +1480,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       setDeleteModal(false);
                       setInfoModal(false);
                     }}
-                    className=" text-[#0061FE] border-l bg-white cursor-pointer flex items-center justify-center py-4"
+                    className=" text-white bg-[#F24646] font-medium cursor-pointer flex items-center justify-center py-4"
                   >
-                    <div className="">Confirmar</div>
+                    <div className="">Borrar</div>
                   </div>
                 </div>
               </div>

@@ -147,3 +147,10 @@ button {
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+.alert {
+  background-image: url(../assets/alert.webp);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}

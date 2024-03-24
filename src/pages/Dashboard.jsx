@@ -41,6 +41,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [selected, setSelected] = useState(""); //* TempKey para editar campos
 
+  const [votanteExiste, setVotanteExiste] = useState(false);
+  const [votanteExisteEdit, setVotanteExisteEdit] = useState(false);
+
   const mesas_bd = ["1", "2", "3", "4", "5"];
   const escuelas_bd = [
     "escuela 1",
@@ -75,6 +78,30 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     activista: "",
     estado_de_votacion: "",
   });
+
+  useEffect(() => {
+    console.log(formInfo.cedula);
+    const resultadoBusqueda = data.find(
+      (item) => item.cedula === formInfo.cedula
+    );
+    setVotanteExiste(false);
+    if (resultadoBusqueda) {
+      console.log("YA EXISTE");
+      setVotanteExiste(true);
+    }
+  }, [formInfo.cedula]);
+
+  useEffect(() => {
+    console.log(editInfo.cedula);
+    const resultadoBusqueda = data.find(
+      (item) => item.cedula === editInfo.cedula
+    );
+    setVotanteExisteEdit(false);
+    if (resultadoBusqueda) {
+      console.log("YA EXISTE");
+      setVotanteExisteEdit(true);
+    }
+  }, [editInfo.cedula]);
 
   useEffect(() => {
     console.log(selected);
@@ -846,6 +873,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       value={formInfo.cedula}
                       onChange={handleChange}
                     />
+                    {votanteExiste ? (
+                      <div className=" text-[11px] text-[#9e0032] mt-1 texto">
+                        Este votante ya esta registrado.
+                      </div>
+                    ) : null}
                   </div>
 
                   {/*//* Telefono */}
@@ -937,7 +969,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 {/*//* Guardar button */}
                 <button
                   type="submit"
-                  className="py-[16px] text-sm mt-2 font-medium tracking-wide text-white w-full text-center transition-all bg-[#0061FE]"
+                  className={`py-[16px] text-sm mt-2 font-medium tracking-wide text-white w-full text-center transition-all  ${
+                    votanteExiste
+                      ? "bg-[#F0F0F0] pointer-events-none"
+                      : " bg-[#0061FE]"
+                  }`}
                 >
                   <div> Guardar</div>
                 </button>
@@ -1076,6 +1112,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               placeholder={item.cedula}
                               onChange={handleChangeEdit}
                             />
+                            {votanteExisteEdit ? (
+                              <div className=" text-[11px] text-[#9e0032] mt-1 texto">
+                                Este votante ya esta registrado.
+                              </div>
+                            ) : null}
                           </div>
                           <div className="grid grid-cols-2">
                             <button
@@ -1087,7 +1128,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               Cerrar
                             </button>
                             <button
-                              className="text-end w-fit ml-auto text-[#0061FE]"
+                              className={`text-end w-fit ml-auto  ${
+                                votanteExisteEdit
+                                  ? " text-[#c2c2c2] pointer-events-none"
+                                  : " text-[#0061FE]"
+                              }`}
                               type="submit"
                             >
                               Guardar

@@ -224,7 +224,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     });
 
     return () => validateUser();
-  }, []);
+  }, [router, setUserState]);
 
   //FUNCTION: Se ejecuta cada vez que la temKey cambia
   useEffect(() => {
@@ -232,7 +232,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     //* Filtra la info de la base de datos segun la key seleccionado y lo almacena en la variable infoModal_db
     const newItems = data.filter((item) => item.key === tempKey);
     setInfoModal_db(newItems);
-  }, [tempKey]);
+  }, [tempKey, data]);
 
   //FUNCTION: Cambiar la página actual por los numeros
   const handlePageChange = (pageNumber) => {
@@ -917,11 +917,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           <div className="w-full max-w-[400px] bg-white rrr-md flex h-fit lg:-mt-10 relative">
             {/*//* Contenido de la tabla */}
             {infoModal_db.map((item, index) => (
-              <div className="relative w-full text-[15px] overflow-hidden">
-                <div
-                  className=" w-full flex flex-col p-8 my-auto gap-5"
-                  key={index}
-                >
+              <div
+                key={index}
+                className="relative w-full text-[15px] overflow-hidden"
+              >
+                <div className=" w-full flex flex-col p-8 my-auto gap-5">
                   {/*//* Votante + close button */}
                   <div className="flex justify-between items-center w-full">
                     <h1 className=" text-[25px] font-semibold flex items-center ">
@@ -1010,7 +1010,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             </div>
                             <button
                               className={
-                                adminID.includes(userState) ? " flex" : "hidden"
+                                adminID.includes(userState)
+                                  ? " flex text-[#0061FE]"
+                                  : "hidden"
                               }
                               onClick={() => {
                                 setSelected("nombre");
@@ -1066,7 +1068,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <div>{item.cedula}</div>
                             <button
                               className={
-                                adminID.includes(userState) ? " flex" : "hidden"
+                                adminID.includes(userState)
+                                  ? " flex text-[#0061FE]"
+                                  : "hidden"
                               }
                               onClick={() => {
                                 setSelected("cedula");
@@ -1122,7 +1126,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <div>{item.telefono}</div>
                             <button
                               className={
-                                adminID.includes(userState) ? " flex" : "hidden"
+                                adminID.includes(userState)
+                                  ? " flex text-[#0061FE]"
+                                  : "hidden"
                               }
                               onClick={() => {
                                 setSelected("telefono");
@@ -1177,7 +1183,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <div>{item.direccion}</div>
                             <button
                               className={
-                                adminID.includes(userState) ? " flex" : "hidden"
+                                adminID.includes(userState)
+                                  ? " flex text-[#0061FE]"
+                                  : "hidden"
                               }
                               onClick={() => {
                                 setSelected("direccion");
@@ -1232,7 +1240,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <div>{item.centro_de_votacion}</div>
                             <button
                               className={
-                                adminID.includes(userState) ? " flex" : "hidden"
+                                adminID.includes(userState)
+                                  ? " flex text-[#0061FE]"
+                                  : "hidden"
                               }
                               onClick={() => {
                                 setSelected("centro_de_votacion");
@@ -1289,7 +1299,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               <button
                                 className={
                                   adminID.includes(userState)
-                                    ? " flex"
+                                    ? " flex text-[#0061FE]"
                                     : "hidden"
                                 }
                                 onClick={() => {
@@ -1358,7 +1368,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               <button
                                 className={
                                   adminID.includes(userState)
-                                    ? " flex"
+                                    ? " flex text-[#0061FE]"
                                     : "hidden"
                                 }
                                 onClick={() => {
@@ -1377,7 +1387,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </div>
 
                 {/*//* Activista */}
-                <div className="text-[#0061FE] border-t  font-light  text-[13px] text-center py-2 rrr-br-md rrr-bl-md overflow-x-auto scroll1 justify-center w-full ">
+                <div className="text-[#707070] border-t  font-light  text-[13px] text-center py-2 rrr-br-md rrr-bl-md overflow-x-auto scroll1 justify-center w-full ">
                   {item.activista}
                 </div>
               </div>

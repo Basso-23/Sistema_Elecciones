@@ -39,7 +39,7 @@ const Login = ({ userState, setUserState }) => {
     });
 
     return () => validateUser();
-  }, []);
+  }, [router, setUserState]);
 
   //FUNCTION: Maneja el onChange los input de LOGIN
   const handleChange = (event) => {

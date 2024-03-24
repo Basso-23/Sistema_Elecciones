@@ -89,7 +89,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       console.log("YA EXISTE");
       setVotanteExiste(true);
     }
-  }, [formInfo.cedula]);
+  }, [formInfo.cedula, data]);
 
   useEffect(() => {
     console.log(editInfo.cedula);
@@ -101,7 +101,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       console.log("YA EXISTE");
       setVotanteExisteEdit(true);
     }
-  }, [editInfo.cedula]);
+  }, [editInfo.cedula, data]);
 
   useEffect(() => {
     console.log(selected);
@@ -814,7 +814,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       {/*//SECTION: CREAR MODAL // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
       {createModal ? (
         <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
-          <div className="w-full max-w-[400px] bg-white rrr-md flex h-fit lg:-mt-10">
+          <div className="w-full max-w-[400px] bg-white mb-10 flex h-fit lg:-mt-10">
             {/*//* Contenido de la tabla */}
             <div className="relative w-full text-[15px] overflow-hidden">
               <form

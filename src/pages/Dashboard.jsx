@@ -44,6 +44,12 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const [votanteExiste, setVotanteExiste] = useState(false);
   const [votanteExisteEdit, setVotanteExisteEdit] = useState(false);
 
+  const [pageToggle, setPageToggle] = useState(true);
+
+  const [cantidadVotantesSi, setCantidadVotantesSi] = useState(0);
+  const [conteoActivistas, setConteoActivistas] = useState([]);
+  const [conteoEscuelas, setConteoEscuelas] = useState([]);
+
   const mesas_bd = ["1", "2", "3", "4", "5"];
   const escuelas_bd = [
     "escuela 1",
@@ -276,12 +282,51 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     return () => validateUser();
   }, [router, setUserState]);
 
-  //FUNCTION: Se ejecuta cada vez que la tempKey cambia
+  //FUNCTION: Se ejecuta cada vez que data o tempKey cambian
   useEffect(() => {
     console.log("KEY:", tempKey);
     //* Filtra la info de la base de datos segun la key seleccionado y lo almacena en la variable infoModal_db
     const newItems = data.filter((item) => item.key === tempKey);
     setInfoModal_db(newItems);
+
+    //* Suma la cantidad de votos si
+    const votantesNoFiltered = data.filter(
+      (votante) => votante.estado_de_votacion === "si"
+    );
+    setCantidadVotantesSi(votantesNoFiltered.length);
+
+    //* Suma la cantidad de votantes de cada activista
+    const conteo = data.reduce((acc, votante) => {
+      const index = acc.findIndex(
+        (item) => item.activista === votante.activista
+      );
+      if (index !== -1) {
+        acc[index].cantidad++;
+      } else {
+        acc.push({ activista: votante.activista, cantidad: 1 });
+      }
+      return acc;
+    }, []);
+
+    setConteoActivistas(conteo);
+
+    //* Suma la cantidad de votantes de cada escuela
+    const conteoE = data.reduce((acc, votante) => {
+      const index = acc.findIndex(
+        (item) => item.centro_de_votacion === votante.centro_de_votacion
+      );
+      if (index !== -1) {
+        acc[index].cantidad++;
+      } else {
+        acc.push({
+          centro_de_votacion: votante.centro_de_votacion,
+          cantidad: 1,
+        });
+      }
+      return acc;
+    }, []);
+
+    setConteoEscuelas(conteoE);
   }, [tempKey, data]);
 
   //FUNCTION: Ir a la página siguiente
@@ -343,472 +388,531 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     setCurrentPage(1); //* Volver a la primera página después de buscar
     setSearchTermCedula("");
   };
+
   return (
     <main className="pt-8">
       {load ? (
-        <div className=" bg-white px-4 pageSize">
-          {/*//* Registrar votante button */}
-          <button
-            onClick={() => {
-              setCreateModal(true);
-            }}
-            className={
-              adminID.includes(userState)
-                ? "py-[16px] text-sm font-medium tracking-wide text-white w-full text-center transition-all bg-[#0061FE] mb-5"
-                : "hidden"
-            }
-          >
-            <div> Registrar votante</div>
-          </button>
-          {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-          <section>
-            {/*//* Buscar + Icono */}
-            <div className="uppercase font-semibold text-[13px] mb-2 text-[#0061FE] flex items-center">
-              <Search />
-              <h1 className=" text-[#0061FE] ml-1">Buscar</h1>
-            </div>
-            {/*//* Input buscar por cédula...*/}
-            <div className=" mb-5 md:flex gap-5">
-              <div className=" md:max-w-[300px] w-full">
-                <InputForm
-                  name=""
-                  value={searchTermCedula}
-                  placeholder={"buscar por cédula..."}
-                  type={"text"}
-                  onChange={handleSearchCedula}
-                />
-              </div>
-              {/*//* Input buscar por activista...*/}
-              {adminID.includes(userState) ? (
-                <div className=" md:max-w-[300px] w-full md:mt-0 mt-3">
-                  <InputForm
-                    name=""
-                    value={searchTermActivista}
-                    placeholder={"buscar por activista..."}
-                    type={"text"}
-                    onChange={handleSearchActivista}
-                  />
-                </div>
-              ) : null}
-            </div>
-          </section>
+        <>
+          {pageToggle ? (
+            <>
+              <div className=" bg-white px-4 pageSize">
+                {/*//* Registrar votante button */}
+                <button
+                  onClick={() => {
+                    setCreateModal(true);
+                  }}
+                  className={
+                    adminID.includes(userState)
+                      ? "py-[16px] text-sm font-medium tracking-wide text-white w-full text-center transition-all bg-[#0061FE] mb-5"
+                      : "hidden"
+                  }
+                >
+                  <div> Registrar votante</div>
+                </button>
+                {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                <section>
+                  {/*//* Buscar + Icono */}
+                  <div className="uppercase font-semibold text-[13px] mb-2 text-[#0061FE] flex items-center">
+                    <Search />
+                    <h1 className=" text-[#0061FE] ml-1">Buscar</h1>
+                  </div>
+                  {/*//* Input buscar por cédula...*/}
+                  <div className=" mb-5 md:flex gap-5">
+                    <div className=" md:max-w-[300px] w-full">
+                      <InputForm
+                        name=""
+                        value={searchTermCedula}
+                        placeholder={"buscar por cédula..."}
+                        type={"text"}
+                        onChange={handleSearchCedula}
+                      />
+                    </div>
+                    {/*//* Input buscar por activista...*/}
+                    {adminID.includes(userState) ? (
+                      <div className=" md:max-w-[300px] w-full md:mt-0 mt-3">
+                        <InputForm
+                          name=""
+                          value={searchTermActivista}
+                          placeholder={"buscar por activista..."}
+                          type={"text"}
+                          onChange={handleSearchActivista}
+                        />
+                      </div>
+                    ) : null}
+                  </div>
+                </section>
 
-          <div className="flex flex-col w-full ">
-            {/*//SECTION: TABLE DESKTOP // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-            <section className="hidden md:flex flex-col border-l border-r border-t w-full relative">
-              {/*//* Titulos de la tabla */}
-              <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#f8f8f8] px-4 uppercase py-5 text-[12px] font-semibold tracking-wider">
-                {/*//* Nombre + Apellido */}
-                <div
-                  className="flex justify-between cursor-pointer"
-                  onClick={() => handleSort("nombre")}
-                >
-                  <div className="select-none">Nombre</div>
-                  <div
-                    className={
-                      currentOrder === "nombre"
-                        ? "mr-4 text-[#0061FE]"
-                        : "mr-4 text-[#a5a5a5]"
-                    }
-                  >
-                    <Sort />
-                  </div>
-                </div>
-                {/*//* Cédula */}
-                <div
-                  className="flex justify-between cursor-pointer"
-                  onClick={() => handleSort("cedula")}
-                >
-                  <div className="select-none">Cédula</div>
-                  <div
-                    className={
-                      currentOrder === "cedula"
-                        ? "mr-4 text-[#0061FE]"
-                        : "mr-4 text-[#a5a5a5]"
-                    }
-                  >
-                    <Sort />
-                  </div>
-                </div>
-                <div className=" grid grid-cols-2">
-                  {/*//* Voto */}
-                  <div
-                    className=" flex justify-between cursor-pointer"
-                    onClick={() => handleSort("estado_de_votacion")}
-                  >
-                    <div className="select-none">Voto</div>
-                    <div
-                      className={
-                        currentOrder === "estado_de_votacion"
-                          ? "mr-4 text-[#0061FE]"
-                          : "mr-4 text-[#a5a5a5]"
+                <div className="flex flex-col w-full ">
+                  {/*//SECTION: TABLE DESKTOP // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                  <section className="hidden md:flex flex-col border-l border-r border-t w-full relative">
+                    {/*//* Titulos de la tabla */}
+                    <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#f8f8f8] px-4 uppercase py-5 text-[12px] font-semibold tracking-wider">
+                      {/*//* Nombre + Apellido */}
+                      <div
+                        className="flex justify-between cursor-pointer"
+                        onClick={() => handleSort("nombre")}
+                      >
+                        <div className="select-none">Nombre</div>
+                        <div
+                          className={
+                            currentOrder === "nombre"
+                              ? "mr-4 text-[#0061FE]"
+                              : "mr-4 text-[#a5a5a5]"
+                          }
+                        >
+                          <Sort />
+                        </div>
+                      </div>
+                      {/*//* Cédula */}
+                      <div
+                        className="flex justify-between cursor-pointer"
+                        onClick={() => handleSort("cedula")}
+                      >
+                        <div className="select-none">Cédula</div>
+                        <div
+                          className={
+                            currentOrder === "cedula"
+                              ? "mr-4 text-[#0061FE]"
+                              : "mr-4 text-[#a5a5a5]"
+                          }
+                        >
+                          <Sort />
+                        </div>
+                      </div>
+                      <div className=" grid grid-cols-2">
+                        {/*//* Voto */}
+                        <div
+                          className=" flex justify-between cursor-pointer"
+                          onClick={() => handleSort("estado_de_votacion")}
+                        >
+                          <div className="select-none">Voto</div>
+                          <div
+                            className={
+                              currentOrder === "estado_de_votacion"
+                                ? "mr-4 text-[#0061FE]"
+                                : "mr-4 text-[#a5a5a5]"
+                            }
+                          >
+                            <Sort />
+                          </div>
+                        </div>
+                        {/*//* Mesa */}
+                        <div
+                          className=" flex justify-between cursor-pointer"
+                          onClick={() => handleSort("mesa")}
+                        >
+                          <div className="select-none">Mesa</div>
+                          <div
+                            className={
+                              currentOrder === "mesa"
+                                ? "mr-4 text-[#0061FE]"
+                                : "mr-4 text-[#a5a5a5]"
+                            }
+                          >
+                            <Sort />
+                          </div>
+                        </div>
+                      </div>
+                      {/*//* Centro de Votación */}
+                      <div
+                        className="flex justify-between cursor-pointer"
+                        onClick={() => handleSort("centro_de_votacion")}
+                      >
+                        <div className="select-none">Centro de Votación</div>
+                        <div
+                          className={
+                            currentOrder === "centro_de_votacion"
+                              ? "mr-4 text-[#0061FE]"
+                              : "mr-4 text-[#a5a5a5]"
+                          }
+                        >
+                          <Sort />
+                        </div>
+                      </div>
+
+                      {/*//* Activista */}
+                      <div
+                        className="flex justify-between cursor-pointer"
+                        onClick={() => handleSort("activista")}
+                      >
+                        <div className="select-none">Activista</div>
+                        <div
+                          className={
+                            currentOrder === "activista"
+                              ? "mr-4 text-[#0061FE]"
+                              : "mr-4 text-[#a5a5a5]"
+                          }
+                        >
+                          <Sort />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/*//* Contenido de la tabla */}
+                    {currentData.map((item, index) => (
+                      <div
+                        onClick={() => {
+                          setTempKey(item.key);
+
+                          setTimeout(() => {
+                            setInfoModal(true);
+                          }, 10);
+                        }}
+                        className=" w-full grid grid-cols-5 border-b tablaContenido px-4 items-center text-[14px] cursor-pointer hover:text-[#0061FE] transition-all"
+                        key={index}
+                      >
+                        {/*//* Nombre + Apellido */}
+                        <div>
+                          {item.nombre} {item.apellido}
+                        </div>
+                        {/*//* Cédula */}
+                        <div className=" w-full">{item.cedula}</div>
+                        <div className=" grid grid-cols-2">
+                          {/*//* Voto */}
+                          <div className="justify-center font-medium w-full">
+                            {item.estado_de_votacion === "si" ? (
+                              <div className="text-lime-500 ">SI</div>
+                            ) : (
+                              <div className="text-red-600 ">NO</div>
+                            )}
+                          </div>
+                          {/*//* Mesa */}
+                          <div className="justify-center w-full">
+                            {item.mesa}
+                          </div>
+                        </div>
+                        {/*//* Centro de Votación */}
+                        <div className="">{item.centro_de_votacion}</div>
+
+                        {/*//* Activista */}
+                        <div className=" overflow-x-auto scroll1">
+                          {item.activista}
+                        </div>
+                      </div>
+                    ))}
+                  </section>
+                  {/*//SECTION: FILTROS MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                  <section className="md:hidden flex flex-col gap-2 text-[13px] mb-5">
+                    {/*//* Filtro + Icono */}
+                    <div className="uppercase font-semibold  text-[#0061FE] flex">
+                      <Filter />
+                      <h1 className=" text-[#0061FE] ">Filtro</h1>
+                    </div>
+                    {/*//* Filtro: cedula */}
+                    <button
+                      className={`border py-[13px] px-4 select-none ${
+                        mobileTable === "cedula"
+                          ? "text-[#0061FE]  pointer-events-none"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        setMobileTable("cedula");
+                      }}
+                    >
+                      Cédula
+                    </button>
+                    {/*//* Filtro: mesa */}
+                    <button
+                      className={`border py-[13px] px-4 select-none  ${
+                        mobileTable === "mesa"
+                          ? "text-[#0061FE] pointer-events-none"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        setMobileTable("mesa");
+                      }}
+                    >
+                      Mesa
+                    </button>
+                    {/*//* Filtro: centro de votacion */}
+                    <button
+                      className={`border py-[13px] px-4 select-none ${
+                        mobileTable === "centro"
+                          ? "text-[#0061FE] pointer-events-none"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        setMobileTable("centro");
+                      }}
+                    >
+                      Centro de votación
+                    </button>
+                    {/*//* Filtro: activista */}
+                    <button
+                      className={`border py-[13px] px-4 select-none ${
+                        mobileTable === "activista"
+                          ? "text-[#0061FE]  pointer-events-none"
+                          : ""
+                      }`}
+                      onClick={() => {
+                        setMobileTable("activista");
+                      }}
+                    >
+                      Activista
+                    </button>
+                  </section>
+                  {/*//SECTION: TABLE MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                  <section className="md:hidden flex flex-col border-l border-r border-t w-full relative select-none">
+                    {/*//* Titulos de la tabla */}
+                    <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#f8f8f8] px-2 uppercase py-5 text-[12px] font-semibold tracking-wider">
+                      {/*//* Nombre + Apellido */}
+                      <button
+                        className="flex  justify-between"
+                        onClick={() => handleSort("nombre")}
+                      >
+                        <div>Nombre</div>
+                        <div
+                          className={
+                            currentOrder === "nombre"
+                              ? "mr-4 text-[#0061FE]"
+                              : "mr-4 text-[#a5a5a5]"
+                          }
+                        >
+                          <Sort />
+                        </div>
+                      </button>
+                      {/*//* Cédula */}
+                      <button
+                        className={
+                          mobileTable === "cedula"
+                            ? "flex  justify-between"
+                            : "hidden"
+                        }
+                        onClick={() => handleSort("cedula")}
+                      >
+                        <div>Cédula</div>
+                        <div
+                          className={
+                            currentOrder === "cedula"
+                              ? "mr-2 text-[#0061FE]"
+                              : "mr-2 text-[#a5a5a5]"
+                          }
+                        >
+                          <Sort />
+                        </div>
+                      </button>
+
+                      {/*//* Mesa */}
+                      <button
+                        className={
+                          mobileTable === "mesa"
+                            ? "flex  justify-between"
+                            : "hidden"
+                        }
+                        onClick={() => handleSort("mesa")}
+                      >
+                        <div>Mesa</div>
+                        <div
+                          className={
+                            currentOrder === "mesa"
+                              ? "mr-2 text-[#0061FE]"
+                              : "mr-2 text-[#a5a5a5]"
+                          }
+                        >
+                          <Sort />
+                        </div>
+                      </button>
+
+                      {/*//* Centro de Votación */}
+                      <button
+                        className={
+                          mobileTable === "centro"
+                            ? "flex  justify-between "
+                            : "hidden"
+                        }
+                        onClick={() => handleSort("centro_de_votacion")}
+                      >
+                        <div className="texto">Centro de Votación</div>
+                        <div
+                          className={
+                            currentOrder === "centro_de_votacion"
+                              ? "mr-2 text-[#0061FE]"
+                              : "mr-2 text-[#a5a5a5]"
+                          }
+                        >
+                          <Sort />
+                        </div>
+                      </button>
+
+                      {/*//* Activista */}
+                      <button
+                        className={
+                          mobileTable === "activista"
+                            ? "flex  justify-between "
+                            : "hidden"
+                        }
+                        onClick={() => handleSort("activista")}
+                      >
+                        <div>Activista</div>
+                        <div
+                          className={
+                            currentOrder === "activista"
+                              ? "mr-2 text-[#0061FE]"
+                              : "mr-2 text-[#a5a5a5]"
+                          }
+                        >
+                          <Sort />
+                        </div>
+                      </button>
+                      {/*//* Voto */}
+                      <button
+                        className="flex  justify-between"
+                        onClick={() => handleSort("estado_de_votacion")}
+                      >
+                        <div className="ml-4">Voto</div>
+                        <div
+                          className={
+                            currentOrder === "estado_de_votacion"
+                              ? "mr-4 text-[#0061FE]"
+                              : "mr-4 text-[#a5a5a5]"
+                          }
+                        >
+                          <Sort />
+                        </div>
+                      </button>
+                    </div>
+
+                    {/*//* Contenido de la tabla */}
+                    {currentData.map((item, index) => (
+                      <div
+                        onClick={() => {
+                          setTempKey(item.key);
+
+                          setTimeout(() => {
+                            setInfoModal(true);
+                          }, 10);
+                        }}
+                        className=" w-full grid grid-cols-3 border-b tablaContenidoMobile px-2 items-center text-[14px] select-none cursor-pointer hover:text-[#0061FE] transition-all"
+                        key={index}
+                      >
+                        {/*//* Nombre + Apellido */}
+                        <div className=" w-full flex items-center">
+                          {item.nombre} <br /> {item.apellido}
+                        </div>
+                        {/*//* Cédula */}
+                        <div
+                          className={
+                            mobileTable === "cedula"
+                              ? "w-full flex items-center"
+                              : "hidden"
+                          }
+                        >
+                          {item.cedula}
+                        </div>
+
+                        {/*//* Mesa */}
+                        <div
+                          className={
+                            mobileTable === "mesa"
+                              ? "justify-center w-full flex"
+                              : "hidden"
+                          }
+                        >
+                          {item.mesa}
+                        </div>
+
+                        {/*//* Centro de Votación */}
+                        <div
+                          className={
+                            mobileTable === "centro" ? "flex" : "hidden"
+                          }
+                        >
+                          {item.centro_de_votacion}
+                        </div>
+
+                        {/*//* Activista */}
+                        <div
+                          className={
+                            mobileTable === "activista"
+                              ? "overflow-x-auto scroll1 flex"
+                              : "hidden"
+                          }
+                        >
+                          {item.activista}
+                        </div>
+                        {/*//* Voto */}
+                        <div className="justify-center font-medium w-full items-center flex">
+                          {item.estado_de_votacion === "si" ? (
+                            <span className="text-lime-500 ">SI</span>
+                          ) : (
+                            <span className="text-red-600 ">NO</span>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </section>
+                  {/*//* Paginación */}
+                  <div className="mx-auto mt-10 flex gap-10">
+                    {/*//* Pagina anterior */}
+                    <button onClick={prevPage} disabled={currentPage === 1}>
+                      Anterior
+                    </button>
+                    {/*//* Numeros de las paginas */}
+                    <div className=" font-bold "> {currentPage}</div>
+                    {/*//* Pagina siguiente */}
+                    <button
+                      onClick={nextPage}
+                      disabled={
+                        currentPage ===
+                        Math.ceil(filteredData.length / itemsToShow)
                       }
                     >
-                      <Sort />
-                    </div>
-                  </div>
-                  {/*//* Mesa */}
-                  <div
-                    className=" flex justify-between cursor-pointer"
-                    onClick={() => handleSort("mesa")}
-                  >
-                    <div className="select-none">Mesa</div>
-                    <div
-                      className={
-                        currentOrder === "mesa"
-                          ? "mr-4 text-[#0061FE]"
-                          : "mr-4 text-[#a5a5a5]"
-                      }
-                    >
-                      <Sort />
-                    </div>
-                  </div>
-                </div>
-                {/*//* Centro de Votación */}
-                <div
-                  className="flex justify-between cursor-pointer"
-                  onClick={() => handleSort("centro_de_votacion")}
-                >
-                  <div className="select-none">Centro de Votación</div>
-                  <div
-                    className={
-                      currentOrder === "centro_de_votacion"
-                        ? "mr-4 text-[#0061FE]"
-                        : "mr-4 text-[#a5a5a5]"
-                    }
-                  >
-                    <Sort />
+                      Siguiente
+                    </button>
                   </div>
                 </div>
 
-                {/*//* Activista */}
-                <div
-                  className="flex justify-between cursor-pointer"
-                  onClick={() => handleSort("activista")}
-                >
-                  <div className="select-none">Activista</div>
-                  <div
-                    className={
-                      currentOrder === "activista"
-                        ? "mr-4 text-[#0061FE]"
-                        : "mr-4 text-[#a5a5a5]"
-                    }
-                  >
-                    <Sort />
-                  </div>
-                </div>
+                {/*//SECTION: USER ID  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                <section className="mt-20 mb-4  text-[12px] text-center text-[#0061FE]">
+                  user: {userState}
+                </section>
               </div>
+              {/*//* Page toggle button */}
+              <div
+                onClick={() => {
+                  setPageToggle(!pageToggle);
+                }}
+                className=" w-14 aspect-square rounded-full bg-amber-300 fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95"
+              ></div>
+            </>
+          ) : (
+            <>
+              {/*//SECTION: PAGINA DE GRAFICAS  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
 
-              {/*//* Contenido de la tabla */}
-              {currentData.map((item, index) => (
-                <div
-                  onClick={() => {
-                    setTempKey(item.key);
-
-                    setTimeout(() => {
-                      setInfoModal(true);
-                    }, 10);
-                  }}
-                  className=" w-full grid grid-cols-5 border-b tablaContenido px-4 items-center text-[14px] cursor-pointer hover:text-[#0061FE] transition-all"
-                  key={index}
-                >
-                  {/*//* Nombre + Apellido */}
-                  <div>
-                    {item.nombre} {item.apellido}
-                  </div>
-                  {/*//* Cédula */}
-                  <div className=" w-full">{item.cedula}</div>
-                  <div className=" grid grid-cols-2">
-                    {/*//* Voto */}
-                    <div className="justify-center font-medium w-full">
-                      {item.estado_de_votacion === "si" ? (
-                        <div className="text-lime-500 ">SI</div>
-                      ) : (
-                        <div className="text-red-600 ">NO</div>
-                      )}
-                    </div>
-                    {/*//* Mesa */}
-                    <div className="justify-center w-full">{item.mesa}</div>
-                  </div>
-                  {/*//* Centro de Votación */}
-                  <div className="">{item.centro_de_votacion}</div>
-
-                  {/*//* Activista */}
-                  <div className=" overflow-x-auto scroll1">
-                    {item.activista}
-                  </div>
-                </div>
-              ))}
-            </section>
-            {/*//SECTION: FILTROS MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-            <section className="md:hidden flex flex-col gap-2 text-[13px] mb-5">
-              {/*//* Filtro + Icono */}
-              <div className="uppercase font-semibold  text-[#0061FE] flex">
-                <Filter />
-                <h1 className=" text-[#0061FE] ">Filtro</h1>
+              <div>
+                VOTOS TOTALES:{" "}
+                <span>
+                  {cantidadVotantesSi} / {data.length}
+                </span>
               </div>
-              {/*//* Filtro: cedula */}
-              <button
-                className={`border py-[13px] px-4 select-none ${
-                  mobileTable === "cedula"
-                    ? "text-[#0061FE]  pointer-events-none"
-                    : ""
-                }`}
+              <h2>Conteo de Activistas:</h2>
+              <ul>
+                {conteoActivistas.map(({ activista, cantidad }) => (
+                  <li key={activista}>
+                    {activista}: {cantidad}
+                  </li>
+                ))}
+              </ul>
+
+              <h2>Conteo de Escuelas:</h2>
+              <ul>
+                {conteoEscuelas.map(({ centro_de_votacion, cantidad }) => (
+                  <li key={centro_de_votacion}>
+                    {centro_de_votacion}: {cantidad}
+                  </li>
+                ))}
+              </ul>
+
+              {/*//* Page toggle button */}
+              <div
                 onClick={() => {
-                  setMobileTable("cedula");
+                  setPageToggle(!pageToggle);
                 }}
-              >
-                Cédula
-              </button>
-              {/*//* Filtro: mesa */}
-              <button
-                className={`border py-[13px] px-4 select-none  ${
-                  mobileTable === "mesa"
-                    ? "text-[#0061FE] pointer-events-none"
-                    : ""
-                }`}
-                onClick={() => {
-                  setMobileTable("mesa");
-                }}
-              >
-                Mesa
-              </button>
-              {/*//* Filtro: centro de votacion */}
-              <button
-                className={`border py-[13px] px-4 select-none ${
-                  mobileTable === "centro"
-                    ? "text-[#0061FE] pointer-events-none"
-                    : ""
-                }`}
-                onClick={() => {
-                  setMobileTable("centro");
-                }}
-              >
-                Centro de votación
-              </button>
-              {/*//* Filtro: activista */}
-              <button
-                className={`border py-[13px] px-4 select-none ${
-                  mobileTable === "activista"
-                    ? "text-[#0061FE]  pointer-events-none"
-                    : ""
-                }`}
-                onClick={() => {
-                  setMobileTable("activista");
-                }}
-              >
-                Activista
-              </button>
-            </section>
-            {/*//SECTION: TABLE MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-            <section className="md:hidden flex flex-col border-l border-r border-t w-full relative select-none">
-              {/*//* Titulos de la tabla */}
-              <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#f8f8f8] px-2 uppercase py-5 text-[12px] font-semibold tracking-wider">
-                {/*//* Nombre + Apellido */}
-                <button
-                  className="flex  justify-between"
-                  onClick={() => handleSort("nombre")}
-                >
-                  <div>Nombre</div>
-                  <div
-                    className={
-                      currentOrder === "nombre"
-                        ? "mr-4 text-[#0061FE]"
-                        : "mr-4 text-[#a5a5a5]"
-                    }
-                  >
-                    <Sort />
-                  </div>
-                </button>
-                {/*//* Cédula */}
-                <button
-                  className={
-                    mobileTable === "cedula"
-                      ? "flex  justify-between"
-                      : "hidden"
-                  }
-                  onClick={() => handleSort("cedula")}
-                >
-                  <div>Cédula</div>
-                  <div
-                    className={
-                      currentOrder === "cedula"
-                        ? "mr-2 text-[#0061FE]"
-                        : "mr-2 text-[#a5a5a5]"
-                    }
-                  >
-                    <Sort />
-                  </div>
-                </button>
-
-                {/*//* Mesa */}
-                <button
-                  className={
-                    mobileTable === "mesa" ? "flex  justify-between" : "hidden"
-                  }
-                  onClick={() => handleSort("mesa")}
-                >
-                  <div>Mesa</div>
-                  <div
-                    className={
-                      currentOrder === "mesa"
-                        ? "mr-2 text-[#0061FE]"
-                        : "mr-2 text-[#a5a5a5]"
-                    }
-                  >
-                    <Sort />
-                  </div>
-                </button>
-
-                {/*//* Centro de Votación */}
-                <button
-                  className={
-                    mobileTable === "centro"
-                      ? "flex  justify-between "
-                      : "hidden"
-                  }
-                  onClick={() => handleSort("centro_de_votacion")}
-                >
-                  <div className="texto">Centro de Votación</div>
-                  <div
-                    className={
-                      currentOrder === "centro_de_votacion"
-                        ? "mr-2 text-[#0061FE]"
-                        : "mr-2 text-[#a5a5a5]"
-                    }
-                  >
-                    <Sort />
-                  </div>
-                </button>
-
-                {/*//* Activista */}
-                <button
-                  className={
-                    mobileTable === "activista"
-                      ? "flex  justify-between "
-                      : "hidden"
-                  }
-                  onClick={() => handleSort("activista")}
-                >
-                  <div>Activista</div>
-                  <div
-                    className={
-                      currentOrder === "activista"
-                        ? "mr-2 text-[#0061FE]"
-                        : "mr-2 text-[#a5a5a5]"
-                    }
-                  >
-                    <Sort />
-                  </div>
-                </button>
-                {/*//* Voto */}
-                <button
-                  className="flex  justify-between"
-                  onClick={() => handleSort("estado_de_votacion")}
-                >
-                  <div className="ml-4">Voto</div>
-                  <div
-                    className={
-                      currentOrder === "estado_de_votacion"
-                        ? "mr-4 text-[#0061FE]"
-                        : "mr-4 text-[#a5a5a5]"
-                    }
-                  >
-                    <Sort />
-                  </div>
-                </button>
-              </div>
-
-              {/*//* Contenido de la tabla */}
-              {currentData.map((item, index) => (
-                <div
-                  onClick={() => {
-                    setTempKey(item.key);
-
-                    setTimeout(() => {
-                      setInfoModal(true);
-                    }, 10);
-                  }}
-                  className=" w-full grid grid-cols-3 border-b tablaContenidoMobile px-2 items-center text-[14px] select-none cursor-pointer hover:text-[#0061FE] transition-all"
-                  key={index}
-                >
-                  {/*//* Nombre + Apellido */}
-                  <div className=" w-full flex items-center">
-                    {item.nombre} <br /> {item.apellido}
-                  </div>
-                  {/*//* Cédula */}
-                  <div
-                    className={
-                      mobileTable === "cedula"
-                        ? "w-full flex items-center"
-                        : "hidden"
-                    }
-                  >
-                    {item.cedula}
-                  </div>
-
-                  {/*//* Mesa */}
-                  <div
-                    className={
-                      mobileTable === "mesa"
-                        ? "justify-center w-full flex"
-                        : "hidden"
-                    }
-                  >
-                    {item.mesa}
-                  </div>
-
-                  {/*//* Centro de Votación */}
-                  <div className={mobileTable === "centro" ? "flex" : "hidden"}>
-                    {item.centro_de_votacion}
-                  </div>
-
-                  {/*//* Activista */}
-                  <div
-                    className={
-                      mobileTable === "activista"
-                        ? "overflow-x-auto scroll1 flex"
-                        : "hidden"
-                    }
-                  >
-                    {item.activista}
-                  </div>
-                  {/*//* Voto */}
-                  <div className="justify-center font-medium w-full items-center flex">
-                    {item.estado_de_votacion === "si" ? (
-                      <span className="text-lime-500 ">SI</span>
-                    ) : (
-                      <span className="text-red-600 ">NO</span>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </section>
-            {/*//* Paginación */}
-            <div className="mx-auto mt-10 flex gap-10">
-              {/*//* Pagina anterior */}
-              <button onClick={prevPage} disabled={currentPage === 1}>
-                Anterior
-              </button>
-              {/*//* Numeros de las paginas */}
-              <div className=" font-bold "> {currentPage}</div>
-              {/*//* Pagina siguiente */}
-              <button
-                onClick={nextPage}
-                disabled={
-                  currentPage === Math.ceil(filteredData.length / itemsToShow)
-                }
-              >
-                Siguiente
-              </button>
-            </div>
-          </div>
-
-          {/*//SECTION: USER ID  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-          <section className="mt-20 mb-4  text-[12px] text-center text-[#0061FE]">
-            user: {userState}
-          </section>
-        </div>
+                className=" w-14 aspect-square rounded-full bg-amber-300 fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95"
+              ></div>
+            </>
+          )}
+        </>
       ) : null}
 
       {/*//SECTION: CREAR MODAL // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}

@@ -9,7 +9,7 @@ const example_db = [
     centro_de_votacion: "Escuela Primaria ABC",
     mesa: 1,
     activista: "2@activista.com",
-    estado_de_votacion: false,
+    estado_de_votacion: "NO",
   },
   {
     key: 2,
@@ -21,7 +21,7 @@ const example_db = [
     centro_de_votacion: "Centro Comunitario",
     mesa: 3,
     activista: "2@activista.com",
-    estado_de_votacion: true,
+    estado_de_votacion: "SI",
   },
   {
     key: 3,
@@ -33,7 +33,7 @@ const example_db = [
     centro_de_votacion: "Biblioteca Pública",
     mesa: 2,
     activista: "1@activista.com",
-    estado_de_votacion: false,
+    estado_de_votacion: "NO",
   },
   {
     key: 4,
@@ -45,7 +45,7 @@ const example_db = [
     centro_de_votacion: "Centro Comunitario",
     mesa: 5,
     activista: "2@activista.com",
-    estado_de_votacion: false,
+    estado_de_votacion: "NO",
   },
   {
     key: 5,
@@ -57,7 +57,7 @@ const example_db = [
     centro_de_votacion: "Biblioteca Pública",
     mesa: 5,
     activista: "1@activista.com",
-    estado_de_votacion: true,
+    estado_de_votacion: "SI",
   },
   {
     key: 6,
@@ -69,7 +69,7 @@ const example_db = [
     centro_de_votacion: "Centro Cívico",
     mesa: 2,
     activista: "1@activista.com",
-    estado_de_votacion: true,
+    estado_de_votacion: "SI",
   },
   {
     key: 7,
@@ -81,7 +81,7 @@ const example_db = [
     centro_de_votacion: "Universidad Nacional",
     mesa: 2,
     activista: "3@activista.com",
-    estado_de_votacion: false,
+    estado_de_votacion: "NO",
   },
   {
     key: 8,
@@ -93,7 +93,7 @@ const example_db = [
     centro_de_votacion: "Centro de Convenciones",
     mesa: 8,
     activista: "3@activista.com",
-    estado_de_votacion: true,
+    estado_de_votacion: "SI",
   },
   {
     key: 9,
@@ -105,7 +105,7 @@ const example_db = [
     centro_de_votacion: "Parque Recreativo",
     mesa: 4,
     activista: "2@activista.com",
-    estado_de_votacion: true,
+    estado_de_votacion: "SI",
   },
   {
     key: 10,
@@ -117,7 +117,7 @@ const example_db = [
     centro_de_votacion: "Parque Recreativo",
     mesa: 8,
     activista: "3@activista.com",
-    estado_de_votacion: false,
+    estado_de_votacion: "NO",
   },
 ];
 export { example_db };

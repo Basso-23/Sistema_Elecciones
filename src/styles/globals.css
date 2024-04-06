@@ -154,3 +154,10 @@ button {
   background-repeat: no-repeat;
   background-position: center;
 }
+
+.banner {
+  background-image: url(../assets/banner.webp);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: left;
+}

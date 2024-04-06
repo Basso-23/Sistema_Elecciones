@@ -14,6 +14,7 @@ import {
   firebase_read,
   firebase_write,
 } from "@/firebase/firebase";
+import Check from "@/icons/Check";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -485,7 +486,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   }}
                   className={
                     adminID.includes(userState)
-                      ? "py-[16px] text-sm font-medium tracking-wide text-white w-full text-center transition-all bg-[#0061FE] mb-5"
+                      ? "md:py-[16px] py-[13px] border md:text-sm text-[13px] font-medium text-white w-full text-center transition-all bg-[#0061FE] hover:bg-[#2645e0] mb-5 rounded-sm"
                       : "hidden"
                   }
                 >
@@ -504,7 +505,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       <InputForm
                         name=""
                         value={searchTermCedula}
-                        placeholder={"buscar por cédula..."}
+                        placeholder={"buscar por cédula"}
                         type={"text"}
                         onChange={handleSearchCedula}
                       />
@@ -515,7 +516,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         <InputForm
                           name=""
                           value={searchTermActivista}
-                          placeholder={"buscar por activista..."}
+                          placeholder={"buscar por activista"}
                           type={"text"}
                           onChange={handleSearchActivista}
                         />
@@ -526,7 +527,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                 <div className="flex flex-col w-full ">
                   {/*//SECTION: TABLE DESKTOP // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-                  <section className="hidden md:flex flex-col border-l border-r border-t w-full relative">
+                  <section className="hidden md:flex flex-col border-l border-r border-t w-full relative rounded-sm overflow-hidden">
                     {/*//* Titulos de la tabla */}
                     <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#f8f8f8] px-4 uppercase py-5 text-[12px] font-semibold tracking-wider">
                       {/*//* Nombre + Apellido */}
@@ -653,7 +654,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           {/*//* Voto */}
                           <div className="justify-center font-medium w-full">
                             {item.estado_de_votacion === "si" ? (
-                              <div className="text-lime-500 ">SI</div>
+                              <div className="text-[#7fe502]  ">SI</div>
                             ) : (
                               <div className="text-red-600 ">NO</div>
                             )}
@@ -676,65 +677,102 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   {/*//SECTION: FILTROS MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
                   <section className="md:hidden flex flex-col gap-2 text-[13px] mb-5">
                     {/*//* Filtro + Icono */}
-                    <div className="uppercase font-semibold  text-[#0061FE] flex">
+                    <div className="uppercase font-semibold  text-[#0061FE] flex ">
                       <Filter />
                       <h1 className=" text-[#0061FE] ">Filtro</h1>
                     </div>
+
                     {/*//* Filtro: cedula */}
                     <button
-                      className={`border py-[13px] px-4 select-none ${
+                      className={`border py-[13px] px-4 select-none rounded-sm relative ${
                         mobileTable === "cedula"
-                          ? "text-[#0061FE]  pointer-events-none"
-                          : ""
+                          ? " pointer-events-none"
+                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium  "
                       }`}
                       onClick={() => {
                         setMobileTable("cedula");
                       }}
                     >
                       Cédula
+                      <span
+                        className={
+                          mobileTable === "cedula"
+                            ? "absolute right-5 top-[14px] text-[#0061FE]"
+                            : "hidden"
+                        }
+                      >
+                        <Check />
+                      </span>
                     </button>
                     {/*//* Filtro: mesa */}
                     <button
-                      className={`border py-[13px] px-4 select-none  ${
+                      className={`border py-[13px] px-4 select-none rounded-sm relative  ${
                         mobileTable === "mesa"
-                          ? "text-[#0061FE] pointer-events-none"
-                          : ""
+                          ? " pointer-events-none"
+                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium  "
                       }`}
                       onClick={() => {
                         setMobileTable("mesa");
                       }}
                     >
                       Mesa
+                      <span
+                        className={
+                          mobileTable === "mesa"
+                            ? "absolute right-5 top-[14px] text-[#0061FE]"
+                            : "hidden"
+                        }
+                      >
+                        <Check />
+                      </span>
                     </button>
                     {/*//* Filtro: centro de votacion */}
                     <button
-                      className={`border py-[13px] px-4 select-none ${
+                      className={`border py-[13px] px-4 select-none rounded-sm relative ${
                         mobileTable === "centro"
-                          ? "text-[#0061FE] pointer-events-none"
-                          : ""
+                          ? " pointer-events-none"
+                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium  "
                       }`}
                       onClick={() => {
                         setMobileTable("centro");
                       }}
                     >
                       Centro de votación
+                      <span
+                        className={
+                          mobileTable === "centro"
+                            ? "absolute right-5 top-[14px] text-[#0061FE]"
+                            : "hidden"
+                        }
+                      >
+                        <Check />
+                      </span>
                     </button>
                     {/*//* Filtro: activista */}
                     <button
-                      className={`border py-[13px] px-4 select-none ${
+                      className={`border py-[13px] px-4 select-none rounded-sm relative ${
                         mobileTable === "activista"
-                          ? "text-[#0061FE]  pointer-events-none"
-                          : ""
+                          ? " pointer-events-none"
+                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium  "
                       }`}
                       onClick={() => {
                         setMobileTable("activista");
                       }}
                     >
                       Activista
+                      <span
+                        className={
+                          mobileTable === "activista"
+                            ? "absolute right-5 top-[14px] text-[#0061FE]"
+                            : "hidden"
+                        }
+                      >
+                        <Check />
+                      </span>
                     </button>
                   </section>
                   {/*//SECTION: TABLE MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-                  <section className="md:hidden flex flex-col border-l border-r border-t w-full relative select-none">
+                  <section className="md:hidden flex flex-col border-l border-r border-t w-full relative select-none rounded-sm overflow-hidden">
                     {/*//* Titulos de la tabla */}
                     <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#f8f8f8] px-2 uppercase py-5 text-[12px] font-semibold tracking-wider">
                       {/*//* Nombre + Apellido */}
@@ -915,7 +953,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         {/*//* Voto */}
                         <div className="justify-center font-medium w-full items-center flex">
                           {item.estado_de_votacion === "si" ? (
-                            <span className="text-lime-500 ">SI</span>
+                            <span className="text-[#7fe502]   ">SI</span>
                           ) : (
                             <span className="text-red-600 ">NO</span>
                           )}
@@ -927,7 +965,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <div className="mx-auto mt-10 flex gap-10">
                     {/*//* Pagina anterior */}
                     <button onClick={prevPage} disabled={currentPage === 1}>
-                      Anterior
+                      anterior
                     </button>
                     {/*//* Numeros de las paginas */}
                     <div className=" font-bold "> {currentPage}</div>
@@ -939,7 +977,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         Math.ceil(filteredData.length / itemsToShow)
                       }
                     >
-                      Siguiente
+                      siguiente
                     </button>
                   </div>
                 </div>
@@ -954,7 +992,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 onClick={() => {
                   setPageToggle(!pageToggle);
                 }}
-                className=" w-14 aspect-square rounded-full bg-amber-300 fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95"
+                className={
+                  adminID.includes(userState)
+                    ? " w-14 aspect-square rounded-full bg-amber-300 fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95"
+                    : "hidden"
+                }
               ></div>
             </>
           ) : (
@@ -1175,7 +1217,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       {/*//SECTION: VOTANTE INFO MODAL // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
       {infoModal ? (
         <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
-          <div className="w-full max-w-[400px] bg-white rrr-md flex h-fit lg:-mt-10 relative">
+          <div className="w-full max-w-[400px] bg-white rounded-sm overflow-hidden flex h-fit lg:-mt-10 relative">
             {/*//* Contenido de la tabla */}
             {infoModal_db.map((item, index) => (
               <div
@@ -1192,9 +1234,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           setDeleteModal(true);
                         }}
                         className={
-                          adminID.includes(userState)
-                            ? " text-sm font-medium tracking-wide w-full text-center transition-all text-[#d31504] border-l ml-3 pl-3"
-                            : "hidden"
+                          adminID.includes(userState) && !update
+                            ? " text-[15px] font-medium tracking-wide w-full text-[#d31504] text-center border-l ml-3 pl-3"
+                            : "text-[15px] font-medium tracking-wide w-full text-[#c2c2c2] text-center border-l ml-3 pl-3 pointer-events-none"
                         }
                       >
                         Borrar
@@ -1246,7 +1288,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
 
                           <button
-                            className="w-fit"
+                            className="w-fit text-[#d31504]"
                             onClick={() => {
                               setUpdate(false);
                             }}
@@ -1317,7 +1359,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit"
+                              className="w-fit text-[#d31504]"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1385,7 +1427,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit"
+                              className="w-fit text-[#d31504]"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1450,7 +1492,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit"
+                              className="w-fit text-[#d31504]"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1524,7 +1566,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit"
+                              className="w-fit text-[#d31504]"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1598,7 +1640,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit"
+                              className="w-fit text-[#d31504]"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1669,7 +1711,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit"
+                              className="w-fit text-[#d31504]"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1692,7 +1734,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <div className=" flex justify-between">
                             <div className="justify-center font-medium w-full">
                               {item.estado_de_votacion === "si" ? (
-                                <div className="text-lime-500">SI</div>
+                                <div className="text-[#7fe502]  ">SI</div>
                               ) : (
                                 <div className="text-red-600 ">NO</div>
                               )}
@@ -1747,24 +1789,24 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </h2>
                 </div>
                 {/*//* Botones */}
-                <div className="w-full grid grid-cols-2 gap-3 mt-10">
-                  <div
-                    onClick={() => {
-                      setDeleteModal(false);
-                    }}
-                    className=" text-[#6B6E7F] bg-[#F0F0F0] font-medium py-4 cursor-pointer flex items-center justify-center"
-                  >
-                    <div className="">Cancelar</div>
-                  </div>
+                <div className="w-full grid grid-cols-1 gap-3 mt-10">
                   <div
                     onClick={() => {
                       firebase_delete("votantes", tempKey, setData, "index");
                       setDeleteModal(false);
                       setInfoModal(false);
                     }}
-                    className=" text-white bg-[#F24646] font-medium cursor-pointer flex items-center justify-center py-4"
+                    className=" text-white bg-[#F24646] font-medium cursor-pointer flex items-center justify-center py-4 rounded-sm"
                   >
                     <div className="">Borrar</div>
+                  </div>
+                  <div
+                    onClick={() => {
+                      setDeleteModal(false);
+                    }}
+                    className=" text-[#6B6E7F] bg-[#F0F0F0] font-medium py-4 cursor-pointer flex items-center justify-center rounded-sm"
+                  >
+                    <div className="">Cancelar</div>
                   </div>
                 </div>
               </div>

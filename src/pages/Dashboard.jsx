@@ -49,6 +49,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const [cantidadVotantesSi, setCantidadVotantesSi] = useState(0);
   const [conteoActivistas, setConteoActivistas] = useState([]);
   const [conteoEscuelas, setConteoEscuelas] = useState([]);
+  const [votosActivistas, setVotosActivistas] = useState([]);
+  const [conteoVotosSi, setConteoVotosSi] = useState([]);
+  const [conteoCombinado, setConteoCombinado] = useState([]);
+  const [conteoCombinadoA, setConteoCombinadoA] = useState([]);
 
   const mesas_bd = ["1", "2", "3", "4", "5"];
   const escuelas_bd = [
@@ -307,8 +311,30 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       }
       return acc;
     }, []);
-
     setConteoActivistas(conteo);
+
+    //* Suma la cantidad de votos "si" de cada activista
+    // Obtener todos los activistas únicos
+    const activistasUnicos = [
+      ...new Set(data.map((votante) => votante.activista)),
+    ];
+
+    // Calcular la cantidad de votos "SÍ" por activista
+    const conteoA = activistasUnicos.map((activista) => {
+      const cantidad = data.filter(
+        (votante) =>
+          votante.activista === activista && votante.estado_de_votacion === "si"
+      ).length;
+      return { activista, cantidad };
+    });
+
+    // Si un activista no tiene ningún voto "SÍ", añadirlo con cantidad 0
+    data.forEach((votante) => {
+      if (!conteo.some((item) => item.activista === votante.activista)) {
+        conteo.push({ activista: votante.activista, cantidad: 0 });
+      }
+    });
+    setVotosActivistas(conteoA);
 
     //* Suma la cantidad de votantes de cada escuela
     const conteoE = data.reduce((acc, votante) => {
@@ -325,9 +351,77 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       }
       return acc;
     }, []);
-
     setConteoEscuelas(conteoE);
+
+    //* Suma la cantidad de votos "si" de cada escuela
+    const votosSiPorCentro = data.reduce((acc, votante) => {
+      if (votante.estado_de_votacion === "si") {
+        const index = acc.findIndex(
+          (item) => item.centro_de_votacion === votante.centro_de_votacion
+        );
+        if (index !== -1) {
+          acc[index].cantidad++;
+        } else {
+          acc.push({
+            centro_de_votacion: votante.centro_de_votacion,
+            cantidad: 1,
+          });
+        }
+      }
+      return acc;
+    }, []);
+
+    const todosCentros = data.map((votante) => votante.centro_de_votacion);
+    const centrosSinVotos = [
+      ...new Set(
+        todosCentros.filter(
+          (centro) =>
+            !votosSiPorCentro.find((item) => item.centro_de_votacion === centro)
+        )
+      ),
+    ];
+
+    const conteoFinal = [
+      ...votosSiPorCentro,
+      ...centrosSinVotos.map((centro) => ({
+        centro_de_votacion: centro,
+        cantidad: 0,
+      })),
+    ];
+    setConteoVotosSi(conteoFinal);
   }, [tempKey, data]);
+
+  useEffect(() => {
+    // Combina los conteos de votos "SÍ" y totales por centro de votación
+    const conteoFinal = conteoVotosSi.map((votoSi) => {
+      const votoTotal = conteoEscuelas.find(
+        (escuela) => escuela.centro_de_votacion === votoSi.centro_de_votacion
+      );
+      return {
+        centro_de_votacion: votoSi.centro_de_votacion,
+        cantidadS: votoSi.cantidad,
+        cantidadT: votoTotal ? votoTotal.cantidad : 0,
+      };
+    });
+
+    setConteoCombinado(conteoFinal);
+  }, [conteoVotosSi, conteoEscuelas]);
+
+  useEffect(() => {
+    // Combina los conteos de votos "SÍ" y totales por centro de votación
+    const conteoFinal = votosActivistas.map((votoSi) => {
+      const votoTotal = conteoActivistas.find(
+        (item) => item.activista === votoSi.activista
+      );
+      return {
+        activista: votoSi.activista,
+        cantidadS: votoSi.cantidad,
+        cantidadT: votoTotal ? votoTotal.cantidad : 0,
+      };
+    });
+
+    setConteoCombinadoA(conteoFinal);
+  }, [votosActivistas, conteoActivistas]);
 
   //FUNCTION: Ir a la página siguiente
   const nextPage = () => {
@@ -878,29 +972,32 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           ) : (
             <>
               {/*//SECTION: PAGINA DE GRAFICAS  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-
+              {/*//* Votos totales */}
               <div>
                 VOTOS TOTALES:{" "}
                 <span>
-                  {cantidadVotantesSi} / {data.length}
+                  {cantidadVotantesSi}/{data.length}
                 </span>
               </div>
-              <h2>Conteo de Activistas:</h2>
+
+              {/*//* Votos de activistas */}
               <ul>
-                {conteoActivistas.map(({ activista, cantidad }) => (
+                {conteoCombinadoA.map(({ activista, cantidadS, cantidadT }) => (
                   <li key={activista}>
-                    {activista}: {cantidad}
+                    {activista}: {cantidadS}/{cantidadT}
                   </li>
                 ))}
               </ul>
 
-              <h2>Conteo de Escuelas:</h2>
+              {/*//* Votos de las escuelas */}
               <ul>
-                {conteoEscuelas.map(({ centro_de_votacion, cantidad }) => (
-                  <li key={centro_de_votacion}>
-                    {centro_de_votacion}: {cantidad}
-                  </li>
-                ))}
+                {conteoCombinado.map(
+                  ({ centro_de_votacion, cantidadS, cantidadT }) => (
+                    <li key={centro_de_votacion}>
+                      {centro_de_votacion}: {cantidadS}/{cantidadT}
+                    </li>
+                  )
+                )}
               </ul>
 
               {/*//* Page toggle button */}

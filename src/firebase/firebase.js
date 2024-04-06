@@ -16,12 +16,12 @@ import {
 } from "firebase/firestore";
 //Declarar las variables en .env.local y tambien en next.config
 const firebaseConfig = {
-  apiKey: "AIzaSyBB9JWCBWF3O_rnX9yscJimTuvFwgncwDI",
-  authDomain: "votaciones-b2c21.firebaseapp.com",
-  projectId: "votaciones-b2c21",
-  storageBucket: "votaciones-b2c21.appspot.com",
-  messagingSenderId: "1075551583895",
-  appId: "1:1075551583895:web:fea858984a28310f39f3d2",
+  apiKey: process.env.APIKEY,
+  authDomain: process.env.AUTHDOMAIN,
+  projectId: process.env.PROJECTID,
+  storageBucket: process.env.STORAGEBUCKET,
+  messagingSenderId: process.env.MESSAGINGSENDERID,
+  appId: process.env.APPID,
 };
 
 export const firebase = initializeApp(firebaseConfig);

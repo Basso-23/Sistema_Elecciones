@@ -13,11 +13,6 @@ const Login = ({ userState, setUserState }) => {
     password: "",
   });
 
-  //FUNCTION: Se ejecuta al cargar la pagina
-  useEffect(() => {
-    console.log("USUARIO:", userState);
-  }, [userState]);
-
   //FUNCTION: Valida si el usuario esta logueado
   useEffect(() => {
     const validateUser = onAuthStateChanged(auth, (user) => {
@@ -28,7 +23,6 @@ const Login = ({ userState, setUserState }) => {
         }
         //* Asigna el email del usuario a la variable userState
         setUserState(user.email);
-        console.log("user.email:", user.email);
       }
       //* NO esta logueado, redirige a Login
       if (!user) {

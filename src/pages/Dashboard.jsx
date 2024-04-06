@@ -19,7 +19,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
   const [load, setLoad] = useState(false); //* Se encarga del delay en la carga de la pagina
 
-  const [tempKey, setTempKey] = useState(""); //* Alamacena la key temporal del item seleccionado
+  const [tempKey, setTempKey] = useState(""); //* TempKey del votante seleccionado
 
   const [infoModal, setInfoModal] = useState(false); //* Controla la ventana al hacer click en un votante
   const [infoModal_db, setInfoModal_db] = useState(); //* Alamacena la informacion mostrada en el modal de informacion de los votantes
@@ -41,20 +41,24 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [selected, setSelected] = useState(""); //* TempKey para editar campos
 
-  const [votanteExiste, setVotanteExiste] = useState(false);
-  const [votanteExisteEdit, setVotanteExisteEdit] = useState(false);
+  const [votanteExiste, setVotanteExiste] = useState(false); //* Al registrar un nuevo votante contrale si existe ya en la base de datos
+  const [votanteExisteEdit, setVotanteExisteEdit] = useState(false); //* Al editar un votante contrale si existe ya en la base de datos
 
-  const [pageToggle, setPageToggle] = useState(true);
+  const [pageToggle, setPageToggle] = useState(true); //* Boton para ir a la pagina de graficas
 
-  const [cantidadVotantesSi, setCantidadVotantesSi] = useState(0);
-  const [conteoActivistas, setConteoActivistas] = useState([]);
-  const [conteoEscuelas, setConteoEscuelas] = useState([]);
-  const [votosActivistas, setVotosActivistas] = useState([]);
-  const [conteoVotosSi, setConteoVotosSi] = useState([]);
-  const [conteoCombinado, setConteoCombinado] = useState([]);
-  const [conteoCombinadoA, setConteoCombinadoA] = useState([]);
+  const [conteoVotantesSi, setConteoVotantesSi] = useState(0); //* Total de votos si de toda la base de datos
 
-  const mesas_bd = ["1", "2", "3", "4", "5"];
+  const [conteoActivistas, setConteoActivistas] = useState([]); //* Total de votantes asignados a cada activista
+  const [votosActivistas, setVotosActivistas] = useState([]); //* Total de votos si de votantes asignados a cada activista
+
+  const [conteoEscuelas, setConteoEscuelas] = useState([]); //* Total de votantes asignados a cada escuela
+  const [votosEscuelas, setVotosEscuelas] = useState([]); //* Total de votos si de votantes asignados a cada escuela
+
+  const [conteoCombinadoA, setConteoCombinadoA] = useState([]); //* Almacena (votos si de los votantes y total de votantes) asignados de cada activista
+  const [conteoCombinadoE, setConteoCombinadoE] = useState([]); //* Almacena (votos si de los votantes y total de votantes) asignados de cada escuela
+
+  const mesas_bd = ["1", "2", "3", "4", "5"]; //* Mesas de la etiqueta select
+  //* Escuelas de la etiqueta select
   const escuelas_bd = [
     "escuela 1",
     "escuela 2",
@@ -89,33 +93,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     estado_de_votacion: "",
   });
 
+  //FUNCTION: Verifica si la cedula del votante ya esta registrada en la base de datos al crear un nuevo votante
   useEffect(() => {
-    console.log(formInfo.cedula);
     const resultadoBusqueda = data.find(
       (item) => item.cedula === formInfo.cedula
     );
     setVotanteExiste(false);
     if (resultadoBusqueda) {
-      console.log("YA EXISTE");
       setVotanteExiste(true);
     }
   }, [formInfo.cedula, data]);
 
+  //FUNCTION: Verifica si la cedula del votante ya esta registrada en la base de datos al editar un votante
   useEffect(() => {
-    console.log(editInfo.cedula);
     const resultadoBusqueda = data.find(
       (item) => item.cedula === editInfo.cedula
     );
     setVotanteExisteEdit(false);
     if (resultadoBusqueda) {
-      console.log("YA EXISTE");
       setVotanteExisteEdit(true);
     }
   }, [editInfo.cedula, data]);
-
-  useEffect(() => {
-    console.log(selected);
-  }, [selected]);
 
   //FUNCTION: Lee la base de datos al cargar la pagina
   useEffect(() => {
@@ -256,7 +254,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   //FUNCTION: Se ejecuta al cargar la pagina
   useEffect(() => {
-    console.log("USUARIO:", userState);
     //* Tiempo de espera para cargar la pagina
     setTimeout(() => {
       setLoad(true);
@@ -273,7 +270,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         }
         //* Asigna el email del usuario a la variable userState
         setUserState(user.email);
-        console.log("user.email:", user.email);
       }
       //* NO esta logueado, redirige a Login
       if (!user) {
@@ -286,20 +282,19 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     return () => validateUser();
   }, [router, setUserState]);
 
-  //FUNCTION: Se ejecuta cada vez que data o tempKey cambian
+  //FUNCTION: Se ejecuta cada vez que la base de datos o TempKey cambian
   useEffect(() => {
-    console.log("KEY:", tempKey);
     //* Filtra la info de la base de datos segun la key seleccionado y lo almacena en la variable infoModal_db
     const newItems = data.filter((item) => item.key === tempKey);
     setInfoModal_db(newItems);
 
-    //* Suma la cantidad de votos si
+    //* Suma los votos si de todos los votantes de la base de datos
     const votantesNoFiltered = data.filter(
       (votante) => votante.estado_de_votacion === "si"
     );
-    setCantidadVotantesSi(votantesNoFiltered.length);
+    setConteoVotantesSi(votantesNoFiltered.length);
 
-    //* Suma la cantidad de votantes de cada activista
+    //* Suma el total votantes asignados a cada activista
     const conteo = data.reduce((acc, votante) => {
       const index = acc.findIndex(
         (item) => item.activista === votante.activista
@@ -313,13 +308,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     }, []);
     setConteoActivistas(conteo);
 
-    //* Suma la cantidad de votos "si" de cada activista
-    // Obtener todos los activistas únicos
+    //* Suma los votos "si" de cada activista
     const activistasUnicos = [
       ...new Set(data.map((votante) => votante.activista)),
     ];
-
-    // Calcular la cantidad de votos "SÍ" por activista
     const conteoA = activistasUnicos.map((activista) => {
       const cantidad = data.filter(
         (votante) =>
@@ -327,8 +319,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       ).length;
       return { activista, cantidad };
     });
-
-    // Si un activista no tiene ningún voto "SÍ", añadirlo con cantidad 0
     data.forEach((votante) => {
       if (!conteo.some((item) => item.activista === votante.activista)) {
         conteo.push({ activista: votante.activista, cantidad: 0 });
@@ -336,7 +326,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     });
     setVotosActivistas(conteoA);
 
-    //* Suma la cantidad de votantes de cada escuela
+    //* Suma el total votantes asignados a cada escuela
     const conteoE = data.reduce((acc, votante) => {
       const index = acc.findIndex(
         (item) => item.centro_de_votacion === votante.centro_de_votacion
@@ -353,7 +343,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     }, []);
     setConteoEscuelas(conteoE);
 
-    //* Suma la cantidad de votos "si" de cada escuela
+    //* Suma los votos "si" de cada escuela
     const votosSiPorCentro = data.reduce((acc, votante) => {
       if (votante.estado_de_votacion === "si") {
         const index = acc.findIndex(
@@ -370,7 +360,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       }
       return acc;
     }, []);
-
     const todosCentros = data.map((votante) => votante.centro_de_votacion);
     const centrosSinVotos = [
       ...new Set(
@@ -380,7 +369,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         )
       ),
     ];
-
     const conteoFinal = [
       ...votosSiPorCentro,
       ...centrosSinVotos.map((centro) => ({
@@ -388,27 +376,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         cantidad: 0,
       })),
     ];
-    setConteoVotosSi(conteoFinal);
+    setVotosEscuelas(conteoFinal);
   }, [tempKey, data]);
 
+  //FUNCTION: combina los conteos de votos "SÍ" y totales de los activistas
   useEffect(() => {
-    // Combina los conteos de votos "SÍ" y totales por centro de votación
-    const conteoFinal = conteoVotosSi.map((votoSi) => {
-      const votoTotal = conteoEscuelas.find(
-        (escuela) => escuela.centro_de_votacion === votoSi.centro_de_votacion
-      );
-      return {
-        centro_de_votacion: votoSi.centro_de_votacion,
-        cantidadS: votoSi.cantidad,
-        cantidadT: votoTotal ? votoTotal.cantidad : 0,
-      };
-    });
-
-    setConteoCombinado(conteoFinal);
-  }, [conteoVotosSi, conteoEscuelas]);
-
-  useEffect(() => {
-    // Combina los conteos de votos "SÍ" y totales por centro de votación
     const conteoFinal = votosActivistas.map((votoSi) => {
       const votoTotal = conteoActivistas.find(
         (item) => item.activista === votoSi.activista
@@ -422,6 +394,22 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
     setConteoCombinadoA(conteoFinal);
   }, [votosActivistas, conteoActivistas]);
+
+  //FUNCTION: combina los conteos de votos "SÍ" y totales de las escuelas
+  useEffect(() => {
+    const conteoFinal = votosEscuelas.map((votoSi) => {
+      const votoTotal = conteoEscuelas.find(
+        (escuela) => escuela.centro_de_votacion === votoSi.centro_de_votacion
+      );
+      return {
+        centro_de_votacion: votoSi.centro_de_votacion,
+        cantidadS: votoSi.cantidad,
+        cantidadT: votoTotal ? votoTotal.cantidad : 0,
+      };
+    });
+
+    setConteoCombinadoE(conteoFinal);
+  }, [votosEscuelas, conteoEscuelas]);
 
   //FUNCTION: Ir a la página siguiente
   const nextPage = () => {
@@ -976,7 +964,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               <div>
                 VOTOS TOTALES:{" "}
                 <span>
-                  {cantidadVotantesSi}/{data.length}
+                  {conteoVotantesSi}/{data.length}
                 </span>
               </div>
 
@@ -991,7 +979,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
               {/*//* Votos de las escuelas */}
               <ul>
-                {conteoCombinado.map(
+                {conteoCombinadoE.map(
                   ({ centro_de_votacion, cantidadS, cantidadT }) => (
                     <li key={centro_de_votacion}>
                       {centro_de_votacion}: {cantidadS}/{cantidadT}

@@ -22,6 +22,8 @@ import Clip from "@/icons/Clip";
 import Build from "@/icons/Build";
 import Vote from "@/icons/Vote";
 import Si from "@/icons/Si";
+import Chart from "@/icons/Chart";
+import List from "@/icons/List";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -480,7 +482,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   };
 
   return (
-    <main className="py-8">
+    <main className="pt-8 pb-20">
       {load ? (
         <>
           {pageToggle ? (
@@ -493,12 +495,14 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     <span className="mr-2 mt-[2px] text-[#FFC061]">
                       <Caution />
                     </span>
-                    Nota: Su cuenta tiene permisos como
-                    {adminID.includes(userState) ? (
-                      <span className="ml-[3px]">administrador</span>
-                    ) : (
-                      <span className="ml-[3px]">dirigente</span>
-                    )}
+                    <div>
+                      Nota: Su cuenta tiene permisos como{" "}
+                      {adminID.includes(userState) ? (
+                        <span>administrador</span>
+                      ) : (
+                        <span>dirigente</span>
+                      )}
+                    </div>
                   </div>
                   {/*//* Cuenta y boton de registrar votante */}
                   <div className="w-full bg-white p-4">
@@ -523,7 +527,19 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
                 </div>
 
-                <div className=" lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 grid w-full mb-10 gap-6">
+                <div
+                  className={
+                    adminID.includes(userState)
+                      ? " lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 grid w-full mb-10 gap-6"
+                      : "hidden"
+                  }
+                >
+                  <Card
+                    t1={"Votos"}
+                    t2={"Total votos conseguidos"}
+                    num={conteoVotantesSi}
+                    icon={<Si />}
+                  />
                   <Card
                     t1={"Votantes"}
                     t2={"Total de votantes"}
@@ -541,12 +557,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     t2={"Centro de votación disponibles"}
                     num={escuelas_bd.length}
                     icon={<Build />}
-                  />
-                  <Card
-                    t1={"Votos"}
-                    t2={"Total votos conseguidos"}
-                    num={conteoVotantesSi}
-                    icon={<Si />}
                   />
                 </div>
 
@@ -574,7 +584,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         <InputForm
                           name=""
                           value={searchTermActivista}
-                          placeholder={"buscar por activista"}
+                          placeholder={"buscar por dirigente"}
                           type={"text"}
                           onChange={handleSearchActivista}
                         />
@@ -676,7 +686,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         className="flex justify-between cursor-pointer"
                         onClick={() => handleSort("activista")}
                       >
-                        <div className="select-none">Activista</div>
+                        <div className="select-none">Dirigente</div>
                         <div
                           className={
                             currentOrder === "activista"
@@ -817,7 +827,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         setMobileTable("activista");
                       }}
                     >
-                      Activista
+                      Dirigente
                       <span
                         className={
                           mobileTable === "activista"
@@ -921,7 +931,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         }
                         onClick={() => handleSort("activista")}
                       >
-                        <div>Activista</div>
+                        <div>Dirigente</div>
                         <div
                           className={
                             currentOrder === "activista"
@@ -1047,10 +1057,12 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 }}
                 className={
                   adminID.includes(userState)
-                    ? " w-14 aspect-square rounded-full bg-amber-300 fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95"
+                    ? "  w-14 aspect-square rounded-full bg-[#0061FE] fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
                     : "hidden"
                 }
-              ></div>
+              >
+                <Chart />
+              </div>
             </>
           ) : (
             <>
@@ -1088,8 +1100,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 onClick={() => {
                   setPageToggle(!pageToggle);
                 }}
-                className=" w-14 aspect-square rounded-full bg-amber-300 fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95"
-              ></div>
+                className=" w-14 aspect-square rounded-full bg-[#0061FE] fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
+              >
+                <List />
+              </div>
             </>
           )}
         </>
@@ -1232,7 +1246,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 {/*//* Activista */}
                 <div className=" w-full">
                   <div className=" text-[12px] text-[#9e9e9e] mb-1">
-                    Activista
+                    Dirigente
                   </div>
                   <select
                     name="activista"
@@ -1289,7 +1303,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         className={
                           adminID.includes(userState) && !update
                             ? " text-[15px] font-medium tracking-wide w-full text-[#d31504] text-center border-l ml-3 pl-3"
-                            : "text-[15px] font-medium tracking-wide w-full text-[#c2c2c2] text-center border-l ml-3 pl-3 pointer-events-none"
+                            : "hidden"
                         }
                       >
                         Borrar

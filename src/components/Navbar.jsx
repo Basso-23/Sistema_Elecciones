@@ -43,7 +43,7 @@ const Navbar = ({ userState, setUserState, adminID, activistaID }) => {
             {/*//* Tipo de usuario */}
             <div className="  text-[#0061FE] text-[13px] font-semibold">
               {adminID.includes(userState) ? <div>ADMIN</div> : null}
-              {activistaID.includes(userState) ? <div>ACTIVISTA</div> : null}
+              {activistaID.includes(userState) ? <div>DIRIGENTE</div> : null}
             </div>
             {/*//* Cerrar Sesión */}
             <button

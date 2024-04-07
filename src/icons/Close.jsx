@@ -1,4 +1,4 @@
-const Info = () => {
+const Close = () => {
   return (
     <svg
       stroke="currentColor"
@@ -16,4 +16,4 @@ const Info = () => {
   );
 };
 
-export default Info;
+export default Close;

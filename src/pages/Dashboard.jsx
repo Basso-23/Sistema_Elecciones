@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
-import Info from "@/icons/Info";
+import Close from "@/icons/Close";
 import InputForm from "@/components/InputForm";
 import Filter from "@/icons/Filter";
 import Search from "@/icons/Search";
@@ -15,6 +15,7 @@ import {
   firebase_write,
 } from "@/firebase/firebase";
 import Check from "@/icons/Check";
+import Caution from "@/icons/Caution";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -473,25 +474,49 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   };
 
   return (
-    <main className="pt-8">
+    <main className="py-8">
       {load ? (
         <>
           {pageToggle ? (
             <>
               <div className=" bg-white px-4 pageSize">
-                {/*//* Registrar votante button */}
-                <button
-                  onClick={() => {
-                    setCreateModal(true);
-                  }}
-                  className={
-                    adminID.includes(userState)
-                      ? "md:py-[16px] py-[13px] border md:text-sm text-[13px] font-medium text-white w-full text-center transition-all bg-[#0061FE] hover:bg-[#2645e0] mb-5 rounded-sm"
-                      : "hidden"
-                  }
-                >
-                  <div> Registrar votante</div>
-                </button>
+                {/*//* Banner */}
+                <div className=" w-full rounded-sm overflow-hidden shadow text-sm mb-10 font-medium">
+                  {/*//* Nota */}
+                  <div className="w-full bg-[#FFF6E7] text-[#D9A382] text-[13px] py-3 px-4 flex">
+                    <span className="mr-2 mt-[2px] text-[#FFC061]">
+                      <Caution />
+                    </span>
+                    Nota: Su cuenta tiene permisos como
+                    {adminID.includes(userState) ? (
+                      <span className="ml-[3px]">administrador</span>
+                    ) : (
+                      <span className="ml-[3px]">dirigente</span>
+                    )}
+                  </div>
+                  {/*//* Cuenta y boton de registrar votante */}
+                  <div className="w-full bg-white py-5 px-4">
+                    {/*//* Cuenta */}
+                    <h1>
+                      Sesión iniciada con la cuenta: {""}
+                      <span className=" font-semibold">{userState}</span>
+                    </h1>
+                    {/*//* Registrar votante button */}
+                    <button
+                      onClick={() => {
+                        setCreateModal(true);
+                      }}
+                      className={
+                        adminID.includes(userState)
+                          ? "mt-5 py-[13px] text-[13px] font-medium text-white w-full md:max-w-[150px] text-center transition-all bg-[#0061FE] hover:bg-[#2645e0] rounded-sm"
+                          : "hidden"
+                      }
+                    >
+                      <div> Registrar votante</div>
+                    </button>
+                  </div>
+                </div>
+
                 {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
                 <section>
                   {/*//* Buscar + Icono */}
@@ -645,7 +670,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         key={index}
                       >
                         {/*//* Nombre + Apellido */}
-                        <div>
+                        <div className="capitalize">
                           {item.nombre} {item.apellido}
                         </div>
                         {/*//* Cédula */}
@@ -687,7 +712,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       className={`border py-[13px] px-4 select-none rounded-sm relative ${
                         mobileTable === "cedula"
                           ? " pointer-events-none"
-                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium  "
+                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
                       }`}
                       onClick={() => {
                         setMobileTable("cedula");
@@ -709,7 +734,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       className={`border py-[13px] px-4 select-none rounded-sm relative  ${
                         mobileTable === "mesa"
                           ? " pointer-events-none"
-                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium  "
+                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
                       }`}
                       onClick={() => {
                         setMobileTable("mesa");
@@ -731,7 +756,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       className={`border py-[13px] px-4 select-none rounded-sm relative ${
                         mobileTable === "centro"
                           ? " pointer-events-none"
-                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium  "
+                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
                       }`}
                       onClick={() => {
                         setMobileTable("centro");
@@ -753,7 +778,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       className={`border py-[13px] px-4 select-none rounded-sm relative ${
                         mobileTable === "activista"
                           ? " pointer-events-none"
-                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium  "
+                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
                       }`}
                       onClick={() => {
                         setMobileTable("activista");
@@ -906,7 +931,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         key={index}
                       >
                         {/*//* Nombre + Apellido */}
-                        <div className=" w-full flex items-center">
+                        <div className=" w-full flex items-center capitalize">
                           {item.nombre} <br /> {item.apellido}
                         </div>
                         {/*//* Cédula */}
@@ -981,11 +1006,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     </button>
                   </div>
                 </div>
-
-                {/*//SECTION: USER ID  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-                <section className="mt-20 mb-4  text-[12px] text-center text-[#0061FE]">
-                  user: {userState}
-                </section>
               </div>
               {/*//* Page toggle button */}
               <div
@@ -1064,7 +1084,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         setCreateModal(false);
                       }}
                     >
-                      <Info />
+                      <Close />
                     </button>
                   </div>
                 </div>
@@ -1146,7 +1166,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     value={formInfo.centro_de_votacion}
                     onChange={handleChange}
                     required
-                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                   >
                     <option value="">Ninguno</option>
                     {escuelas_bd.map((item, index) => (
@@ -1165,7 +1185,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     value={formInfo.mesa}
                     onChange={handleChange}
                     required
-                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                   >
                     <option value="">Ninguno</option>
                     {mesas_bd.map((item, index) => (
@@ -1186,7 +1206,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     value={formInfo.activista}
                     onChange={handleChange}
                     required
-                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                   >
                     <option value="">Ninguno</option>
                     {activistaID.map((email, index) => (
@@ -1200,7 +1220,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 {/*//* Guardar button */}
                 <button
                   type="submit"
-                  className={`py-[16px] text-sm mt-2 font-medium tracking-wide text-white w-full text-center transition-all  ${
+                  className={`py-[16px] text-sm mt-2 font-medium tracking-wide text-white w-full text-center transition-all rounded-sm  ${
                     votanteExiste
                       ? "bg-[#F0F0F0] pointer-events-none"
                       : " bg-[#0061FE]"
@@ -1224,7 +1244,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 key={index}
                 className="relative w-full text-[15px] overflow-hidden"
               >
-                <div className=" w-full flex flex-col p-8 my-auto gap-5">
+                <div className=" w-full flex flex-col py-8 px-10 my-auto gap-5">
                   {/*//* Votante + close button */}
                   <div className="flex justify-between items-center w-full">
                     <h1 className=" text-[25px] font-semibold flex items-center ">
@@ -1248,9 +1268,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         className=" my-auto"
                         onClick={() => {
                           setInfoModal(false);
+                          setUpdate(false);
                         }}
                       >
-                        <Info />
+                        <Close />
                       </button>
                     </div>
                   </div>
@@ -1308,7 +1329,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             Nombre
                           </div>
                           <div className=" flex justify-between">
-                            <div>
+                            <div className=" capitalize">
                               {item.nombre} {item.apellido}
                             </div>
                             <div
@@ -1554,7 +1575,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               value={editInfo.centro_de_votacion}
                               onChange={handleChangeEdit}
                               required
-                              className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                              className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                             >
                               <option value="">Ninguno</option>
                               {escuelas_bd.map((item, index) => (
@@ -1628,7 +1649,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               value={editInfo.mesa}
                               onChange={handleChangeEdit}
                               required
-                              className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                              className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                             >
                               <option value="">Ninguno</option>
                               {mesas_bd.map((item, index) => (
@@ -1702,7 +1723,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               value={editInfo.estado_de_votacion}
                               onChange={handleChangeEdit}
                               required
-                              className="border  py-[13px] px-1 cursor-pointer  text-sm focus:border-[#0989FF] focus:outline-none w-full "
+                              className="border  py-[13px] px-1 cursor-pointer  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                             >
                               <option value="">Eliga una opcion</option>
                               <option value="si">SI</option>

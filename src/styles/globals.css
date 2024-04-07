@@ -155,9 +155,6 @@ button {
   background-position: center;
 }
 
-.banner {
-  background-image: url(../assets/banner.webp);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: left;
+.shadow {
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }

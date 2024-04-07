@@ -2,28 +2,32 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
-import Close from "@/icons/Close";
-import InputForm from "@/components/InputForm";
-import Filter from "@/icons/Filter";
-import Search from "@/icons/Search";
-import Sort from "@/icons/Sort";
-import { keyMaker } from "@/components/keyMaker";
 import {
   firebase_delete,
   firebase_edit,
   firebase_read,
   firebase_write,
 } from "@/firebase/firebase";
+
+import InputForm from "@/components/InputForm";
+import { keyMaker } from "@/components/keyMaker";
+
 import Check from "@/icons/Check";
 import Caution from "@/icons/Caution";
 import Card from "@/components/Card";
 import User from "@/icons/User";
 import Clip from "@/icons/Clip";
 import Build from "@/icons/Build";
-import Vote from "@/icons/Vote";
 import Si from "@/icons/Si";
 import Chart from "@/icons/Chart";
 import List from "@/icons/List";
+import Filter from "@/icons/Filter";
+import Search from "@/icons/Search";
+import Sort from "@/icons/Sort";
+import Close from "@/icons/Close";
+
+import ProgressBar from "@ramonak/react-progress-bar";
+import Card_Chart from "@/components/Card_Chart";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -488,8 +492,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           {pageToggle ? (
             <>
               <div className=" bg-white px-4 pageSize">
-                {/*//* Banner */}
-                <div className=" w-full rounded-sm overflow-hidden shadow text-sm mb-10 ">
+                {/*//SECTION: BANNER // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                <section className=" w-full rounded-sm overflow-hidden shadow text-sm mb-10 ">
                   {/*//* Nota */}
                   <div className="w-full bg-[#FFF6E7] text-[#D9A382] text-[13px] py-3 px-4 flex font-medium">
                     <span className="mr-2 mt-[2px] text-[#FFC061]">
@@ -525,7 +529,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       <div> Registrar votante</div>
                     </button>
                   </div>
-                </div>
+                </section>
 
                 <div
                   className={
@@ -1057,7 +1061,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 }}
                 className={
                   adminID.includes(userState)
-                    ? "  w-14 aspect-square rounded-full bg-[#0061FE] fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
+                    ? "  w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
                     : "hidden"
                 }
               >
@@ -1067,43 +1071,59 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           ) : (
             <>
               {/*//SECTION: PAGINA DE GRAFICAS  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-              {/*//* Votos totales */}
-              <div>
-                VOTOS TOTALES:{" "}
-                <span>
-                  {conteoVotantesSi}/{data.length}
-                </span>
-              </div>
+              <section className="px-4 pageSize">
+                {/*//* Votos totales */}
+                <div>
+                  VOTOS TOTALES:{" "}
+                  <span>
+                    {conteoVotantesSi}/{data.length}
+                    <ProgressBar
+                      completed={(conteoVotantesSi * 100) / data.length}
+                      maxCompleted={100}
+                    />
+                  </span>
+                </div>
 
-              {/*//* Votos de activistas */}
-              <ul>
-                {conteoCombinadoA.map(({ activista, cantidadS, cantidadT }) => (
-                  <li key={activista}>
-                    {activista}: {cantidadS}/{cantidadT}
-                  </li>
-                ))}
-              </ul>
+                {/*//* Votos de las escuelas */}
+                <div className=" mt-10 lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 grid w-full gap-6">
+                  {conteoCombinadoE.map(
+                    ({ centro_de_votacion, cantidadS, cantidadT }) => (
+                      <div key={centro_de_votacion}>
+                        <Card_Chart
+                          t1={centro_de_votacion}
+                          actual={cantidadS}
+                          total={cantidadT}
+                        />
+                      </div>
+                    )
+                  )}
+                </div>
 
-              {/*//* Votos de las escuelas */}
-              <ul>
-                {conteoCombinadoE.map(
-                  ({ centro_de_votacion, cantidadS, cantidadT }) => (
-                    <li key={centro_de_votacion}>
-                      {centro_de_votacion}: {cantidadS}/{cantidadT}
-                    </li>
-                  )
-                )}
-              </ul>
+                {/*//* Votos de activistas */}
+                <ul className="mt-10">
+                  {conteoCombinadoA.map(
+                    ({ activista, cantidadS, cantidadT }) => (
+                      <li key={activista}>
+                        {activista}: {cantidadS}/{cantidadT}
+                        <ProgressBar
+                          completed={(cantidadS * 100) / cantidadT}
+                          maxCompleted={100}
+                        />
+                      </li>
+                    )
+                  )}
+                </ul>
 
-              {/*//* Page toggle button */}
-              <div
-                onClick={() => {
-                  setPageToggle(!pageToggle);
-                }}
-                className=" w-14 aspect-square rounded-full bg-[#0061FE] fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
-              >
-                <List />
-              </div>
+                {/*//* Page toggle button */}
+                <div
+                  onClick={() => {
+                    setPageToggle(!pageToggle);
+                  }}
+                  className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
+                >
+                  <List />
+                </div>
+              </section>
             </>
           )}
         </>

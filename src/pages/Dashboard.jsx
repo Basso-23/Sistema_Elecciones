@@ -16,6 +16,12 @@ import {
 } from "@/firebase/firebase";
 import Check from "@/icons/Check";
 import Caution from "@/icons/Caution";
+import Card from "@/components/Card";
+import User from "@/icons/User";
+import Clip from "@/icons/Clip";
+import Build from "@/icons/Build";
+import Vote from "@/icons/Vote";
+import Si from "@/icons/Si";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -481,9 +487,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
             <>
               <div className=" bg-white px-4 pageSize">
                 {/*//* Banner */}
-                <div className=" w-full rounded-sm overflow-hidden shadow text-sm mb-10 font-medium">
+                <div className=" w-full rounded-sm overflow-hidden shadow text-sm mb-10 ">
                   {/*//* Nota */}
-                  <div className="w-full bg-[#FFF6E7] text-[#D9A382] text-[13px] py-3 px-4 flex">
+                  <div className="w-full bg-[#FFF6E7] text-[#D9A382] text-[13px] py-3 px-4 flex font-medium">
                     <span className="mr-2 mt-[2px] text-[#FFC061]">
                       <Caution />
                     </span>
@@ -495,7 +501,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     )}
                   </div>
                   {/*//* Cuenta y boton de registrar votante */}
-                  <div className="w-full bg-white py-5 px-4">
+                  <div className="w-full bg-white p-4">
                     {/*//* Cuenta */}
                     <h1>
                       Sesión iniciada con la cuenta: {""}
@@ -515,6 +521,33 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       <div> Registrar votante</div>
                     </button>
                   </div>
+                </div>
+
+                <div className=" lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 grid w-full mb-10 gap-6">
+                  <Card
+                    t1={"Votantes"}
+                    t2={"Total de votantes"}
+                    num={data.length}
+                    icon={<User />}
+                  />
+                  <Card
+                    t1={"Dirigentes"}
+                    t2={"Total de dirigentes"}
+                    num={activistaID.length}
+                    icon={<Clip />}
+                  />
+                  <Card
+                    t1={"Centro de votación"}
+                    t2={"Centro de votación disponibles"}
+                    num={escuelas_bd.length}
+                    icon={<Build />}
+                  />
+                  <Card
+                    t1={"Votos"}
+                    t2={"Total votos conseguidos"}
+                    num={conteoVotantesSi}
+                    icon={<Si />}
+                  />
                 </div>
 
                 {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
@@ -554,7 +587,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   {/*//SECTION: TABLE DESKTOP // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
                   <section className="hidden md:flex flex-col border-l border-r border-t w-full relative rounded-sm overflow-hidden">
                     {/*//* Titulos de la tabla */}
-                    <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#f8f8f8] px-4 uppercase py-5 text-[12px] font-semibold tracking-wider">
+                    <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#F3F6F9] text-[#878AA8] px-4 uppercase py-5 text-[11px] font-semibold tracking-wider">
                       {/*//* Nombre + Apellido */}
                       <div
                         className="flex justify-between cursor-pointer"
@@ -565,7 +598,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           className={
                             currentOrder === "nombre"
                               ? "mr-4 text-[#0061FE]"
-                              : "mr-4 text-[#a5a5a5]"
+                              : "mr-4 text-[#878AA8]"
                           }
                         >
                           <Sort />
@@ -581,7 +614,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           className={
                             currentOrder === "cedula"
                               ? "mr-4 text-[#0061FE]"
-                              : "mr-4 text-[#a5a5a5]"
+                              : "mr-4 text-[#878AA8]"
                           }
                         >
                           <Sort />
@@ -598,7 +631,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             className={
                               currentOrder === "estado_de_votacion"
                                 ? "mr-4 text-[#0061FE]"
-                                : "mr-4 text-[#a5a5a5]"
+                                : "mr-4 text-[#878AA8]"
                             }
                           >
                             <Sort />
@@ -614,7 +647,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             className={
                               currentOrder === "mesa"
                                 ? "mr-4 text-[#0061FE]"
-                                : "mr-4 text-[#a5a5a5]"
+                                : "mr-4 text-[#878AA8]"
                             }
                           >
                             <Sort />
@@ -631,7 +664,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           className={
                             currentOrder === "centro_de_votacion"
                               ? "mr-4 text-[#0061FE]"
-                              : "mr-4 text-[#a5a5a5]"
+                              : "mr-4 text-[#878AA8]"
                           }
                         >
                           <Sort />
@@ -648,7 +681,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           className={
                             currentOrder === "activista"
                               ? "mr-4 text-[#0061FE]"
-                              : "mr-4 text-[#a5a5a5]"
+                              : "mr-4 text-[#878AA8]"
                           }
                         >
                           <Sort />
@@ -799,18 +832,18 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   {/*//SECTION: TABLE MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
                   <section className="md:hidden flex flex-col border-l border-r border-t w-full relative select-none rounded-sm overflow-hidden">
                     {/*//* Titulos de la tabla */}
-                    <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#f8f8f8] px-2 uppercase py-5 text-[12px] font-semibold tracking-wider">
+                    <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#F3F6F9] text-[#878AA8] px-2 uppercase py-5 text-[11px] font-semibold tracking-wider">
                       {/*//* Nombre + Apellido */}
                       <button
-                        className="flex  justify-between"
+                        className="flex uppercase tracking-wide justify-between"
                         onClick={() => handleSort("nombre")}
                       >
-                        <div>Nombre</div>
+                        <div>NOMBRE</div>
                         <div
                           className={
                             currentOrder === "nombre"
                               ? "mr-4 text-[#0061FE]"
-                              : "mr-4 text-[#a5a5a5]"
+                              : "mr-4 text-[#878AA8]"
                           }
                         >
                           <Sort />
@@ -820,7 +853,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       <button
                         className={
                           mobileTable === "cedula"
-                            ? "flex  justify-between"
+                            ? "flex uppercase tracking-wide justify-between"
                             : "hidden"
                         }
                         onClick={() => handleSort("cedula")}
@@ -830,7 +863,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           className={
                             currentOrder === "cedula"
                               ? "mr-2 text-[#0061FE]"
-                              : "mr-2 text-[#a5a5a5]"
+                              : "mr-2 text-[#878AA8]"
                           }
                         >
                           <Sort />
@@ -841,7 +874,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       <button
                         className={
                           mobileTable === "mesa"
-                            ? "flex  justify-between"
+                            ? "flex uppercase tracking-wide justify-between"
                             : "hidden"
                         }
                         onClick={() => handleSort("mesa")}
@@ -851,7 +884,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           className={
                             currentOrder === "mesa"
                               ? "mr-2 text-[#0061FE]"
-                              : "mr-2 text-[#a5a5a5]"
+                              : "mr-2 text-[#878AA8]"
                           }
                         >
                           <Sort />
@@ -862,7 +895,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       <button
                         className={
                           mobileTable === "centro"
-                            ? "flex  justify-between "
+                            ? "flex uppercase tracking-wide justify-between "
                             : "hidden"
                         }
                         onClick={() => handleSort("centro_de_votacion")}
@@ -872,7 +905,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           className={
                             currentOrder === "centro_de_votacion"
                               ? "mr-2 text-[#0061FE]"
-                              : "mr-2 text-[#a5a5a5]"
+                              : "mr-2 text-[#878AA8]"
                           }
                         >
                           <Sort />
@@ -883,7 +916,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       <button
                         className={
                           mobileTable === "activista"
-                            ? "flex  justify-between "
+                            ? "flex uppercase tracking-wide justify-between "
                             : "hidden"
                         }
                         onClick={() => handleSort("activista")}
@@ -893,7 +926,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           className={
                             currentOrder === "activista"
                               ? "mr-2 text-[#0061FE]"
-                              : "mr-2 text-[#a5a5a5]"
+                              : "mr-2 text-[#878AA8]"
                           }
                         >
                           <Sort />
@@ -901,7 +934,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       </button>
                       {/*//* Voto */}
                       <button
-                        className="flex  justify-between"
+                        className="flex uppercase tracking-wide justify-between"
                         onClick={() => handleSort("estado_de_votacion")}
                       >
                         <div className="ml-4">Voto</div>
@@ -909,7 +942,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           className={
                             currentOrder === "estado_de_votacion"
                               ? "mr-4 text-[#0061FE]"
-                              : "mr-4 text-[#a5a5a5]"
+                              : "mr-4 text-[#878AA8]"
                           }
                         >
                           <Sort />

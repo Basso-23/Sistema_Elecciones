@@ -2,7 +2,7 @@ import React from "react";
 
 const Card = ({ t1, t2, num, icon }) => {
   return (
-    <div className=" h-[140px] w-full relative rounded-sm shadow">
+    <div className=" h-[130px] w-full relative rounded-sm shadow">
       <div className=" absolute left-4 top-3 text-[#878A99] text-[13px] font-medium">
         {t1}
       </div>

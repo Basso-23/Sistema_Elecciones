@@ -1058,6 +1058,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               <div
                 onClick={() => {
                   setPageToggle(!pageToggle);
+                  window.scrollTo(0, 0);
                 }}
                 className={
                   adminID.includes(userState)
@@ -1078,7 +1079,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <span>
                     {conteoVotantesSi}/{data.length}
                     <ProgressBar
-                      completed={(conteoVotantesSi * 100) / data.length}
+                      completed={parseInt(
+                        (conteoVotantesSi * 100) / data.length
+                      )}
                       maxCompleted={100}
                     />
                   </span>
@@ -1118,6 +1121,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 <div
                   onClick={() => {
                     setPageToggle(!pageToggle);
+                    window.scrollTo(0, 0);
                   }}
                   className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
                 >

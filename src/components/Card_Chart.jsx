@@ -3,7 +3,7 @@ import ProgressBar from "@ramonak/react-progress-bar";
 
 const Card_Chart = ({ t1, actual, total }) => {
   return (
-    <div className="  w-full relative rounded-sm shadow ">
+    <div className="  w-full relative rounded-sm border ">
       <div className=" border-b p-3 uppercase font-semibold text-[13px]">
         {t1}
       </div>

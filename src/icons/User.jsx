@@ -3,7 +3,7 @@ const User = () => {
     <svg
       stroke="currentColor"
       fill="currentColor"
-      stroke-width="0"
+      strokeWidth="0"
       viewBox="0 0 448 512"
       height="21px"
       width="21px"

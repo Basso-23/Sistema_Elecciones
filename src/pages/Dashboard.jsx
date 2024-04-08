@@ -1176,7 +1176,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     </button>
                   </div>
                 </div>
-                <div className=" md:flex md:flex-row flex flex-col-reverse gap-x-5 mt-10 w-full">
+                <div className=" md:flex md:flex-row flex flex-col-reverse gap-5 mt-10 w-full">
                   <section className="w-full md:max-w-[350px]">
                     {/*//* Filtro + Icono */}
                     <div className=" uppercase font-semibold  text-[#0061FE] flex text-[13px] ">

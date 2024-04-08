@@ -1126,7 +1126,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     {/*//* Nota */}
                     <div>
                       Nota: Para ver los datos mas recientes es necesario
-                      presionar el botón "Actualizar"
+                      presionar el botón &quot;Actualizar&quot;
                     </div>
                   </div>
 

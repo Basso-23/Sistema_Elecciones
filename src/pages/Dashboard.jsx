@@ -28,6 +28,7 @@ import Close from "@/icons/Close";
 
 import ProgressBar from "@ramonak/react-progress-bar";
 import Card_Chart from "@/components/Card_Chart";
+import Question from "@/icons/Question";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -70,6 +71,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [conteoCombinadoA, setConteoCombinadoA] = useState([]); //* Almacena (votos si de los votantes y total de votantes) asignados de cada activista
   const [conteoCombinadoE, setConteoCombinadoE] = useState([]); //* Almacena (votos si de los votantes y total de votantes) asignados de cada escuela
+
+  const [loader, setLoader] = useState(false);
 
   const mesas_bd = ["1", "2", "3", "4", "5"]; //* Mesas de la etiqueta select
   //* Escuelas de la etiqueta select
@@ -485,6 +488,15 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     setSearchTermCedula("");
   };
 
+  //FUNCTION: Actualizar
+  const actualizarBD = () => {
+    setLoader(true);
+    firebase_read("votantes", setData, "index");
+    setTimeout(() => {
+      setLoader(false);
+    }, 250);
+  };
+
   return (
     <main className="pt-8 pb-20">
       {load ? (
@@ -495,9 +507,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 {/*//SECTION: BANNER // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
                 <section className=" w-full rounded-sm overflow-hidden shadow text-sm mb-10 ">
                   {/*//* Nota */}
-                  <div className="w-full bg-[#FFF6E7] text-[#D9A382] text-[13px] py-3 px-4 flex font-medium">
-                    <span className="mr-2 mt-[2px] text-[#FFC061]">
-                      <Caution />
+                  <div className="w-full bg-[#CFEEFF] text-[#125486] text-[13px] py-3 px-4 flex font-medium">
+                    <span className="mr-[6px] mt-[2px] text-[#125486]">
+                      <Question />
                     </span>
                     <div>
                       Nota: Su cuenta tiene permisos como{" "}
@@ -1073,18 +1085,65 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
             <>
               {/*//SECTION: PAGINA DE GRAFICAS  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
               <section className="px-4 pageSize">
-                {/*//* Votos totales */}
-                <div>
-                  VOTOS TOTALES:{" "}
-                  <span>
-                    {conteoVotantesSi}/{data.length}
+                <div className=" w-full rounded-sm overflow-hidden shadow text-sm mb-10 ">
+                  <div className="w-full bg-[#FFF6E7] text-[#D9A382] text-[13px] py-3 px-4 flex font-medium">
+                    {/*//* Icon */}
+                    <span className="mr-[6px] mt-[2px] text-[#FFC061]">
+                      <Caution />
+                    </span>
+                    {/*//* Nota */}
+                    <div>
+                      Nota: Para ver los datos mas recientes es necesario
+                      presionar el botón "Actualizar"
+                    </div>
+                  </div>
+
+                  <div className="w-full bg-white px-4 py-5">
+                    {/*//* Votos totales */}
+
+                    <div className=" text-[30px] leading-none font-semibold text-[#0061FE] mb-4 ">
+                      {parseInt((conteoVotantesSi * 100) / data.length)}%{" "}
+                      <span className="text-[#878A99] text-[13px] font-medium">
+                        Votos conseguidos: {conteoVotantesSi}/{data.length}
+                      </span>
+                    </div>
+
                     <ProgressBar
                       completed={parseInt(
                         (conteoVotantesSi * 100) / data.length
                       )}
                       maxCompleted={100}
+                      bgColor="#0061FE"
+                      baseBgColor="#ecebf0"
+                      height="8px"
+                      isLabelVisible={false}
                     />
-                  </span>
+
+                    {/*//* Actualizar BD */}
+                    <button
+                      onClick={() => {
+                        actualizarBD();
+                      }}
+                      className={`mt-5 py-[13px] text-[13px] font-medium text-white w-full md:max-w-[150px] text-center transition-all  rounded-sm ${
+                        loader
+                          ? "bg-[#cbcbcb] pointer-events-none"
+                          : "bg-[#ffa825] hover:bg-[#eea02b]"
+                      }`}
+                    >
+                      {/*//*Loader */}
+                      {loader ? (
+                        <div className=" flex relative justify-center ">
+                          <div className="lds-ellipsis -ml-14 ">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div> Actualizar </div>
+                      )}
+                    </button>
+                  </div>
                 </div>
 
                 {/*//* Votos de las escuelas */}

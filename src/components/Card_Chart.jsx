@@ -3,11 +3,11 @@ import ProgressBar from "@ramonak/react-progress-bar";
 
 const Card_Chart = ({ t1, actual, total }) => {
   return (
-    <div className="  w-full relative rounded-sm shadow">
+    <div className="  w-full relative rounded-sm shadow ">
       <div className=" border-b p-3 uppercase font-semibold text-[13px]">
         {t1}
       </div>
-      <div className="px-3 py-4">
+      <div className="px-3 py-5">
         <div className=" flex gap-4 mb-2 items-center">
           <div className=" text-[20px] leading-none">
             {parseInt((actual * 100) / total)}%

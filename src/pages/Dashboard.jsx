@@ -71,8 +71,13 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [conteoCombinadoA, setConteoCombinadoA] = useState([]); //* Almacena (votos si de los votantes y total de votantes) asignados de cada activista
   const [conteoCombinadoE, setConteoCombinadoE] = useState([]); //* Almacena (votos si de los votantes y total de votantes) asignados de cada escuela
+  const [conteoCombinadoAno, setConteoCombinadoAno] = useState([]);
+  const [conteoCombinadoEno, setConteoCombinadoEno] = useState([]);
 
   const [currentChart, setCurrentChart] = useState("escuela");
+
+  const [searchChartActivista, setSearchChartActivista] = useState("");
+  const [searchChartEscuela, setSearchChartEscuela] = useState("");
 
   const [loader, setLoader] = useState(false);
 
@@ -412,6 +417,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     });
 
     setConteoCombinadoA(conteoFinal);
+    setConteoCombinadoAno(conteoFinal);
   }, [votosActivistas, conteoActivistas]);
 
   //FUNCTION: combina los conteos de votos "SÍ" y totales de las escuelas
@@ -428,6 +434,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     });
 
     setConteoCombinadoE(conteoFinal);
+    setConteoCombinadoEno(conteoFinal);
   }, [votosEscuelas, conteoEscuelas]);
 
   //FUNCTION: Ir a la página siguiente
@@ -497,6 +504,28 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     setTimeout(() => {
       setLoader(false);
     }, 250);
+  };
+
+  //FUNCTION: Search bar CHART escuela
+  const handleChartEscuela = (e) => {
+    const searchChartEscuela = e.target.value;
+    setSearchChartEscuela(searchChartEscuela);
+    const filtered = conteoCombinadoEno.filter((item) =>
+      item.centro_de_votacion
+        .toLowerCase()
+        .includes(searchChartEscuela.toLowerCase())
+    );
+    setConteoCombinadoE(filtered);
+  };
+
+  //FUNCTION: Search bar CHART activista
+  const handleChartActivista = (e) => {
+    const searchChartActivista = e.target.value;
+    setSearchChartActivista(searchChartActivista);
+    const filtered = conteoCombinadoAno.filter((item) =>
+      item.activista.toLowerCase().includes(searchChartActivista.toLowerCase())
+    );
+    setConteoCombinadoA(filtered);
   };
 
   return (
@@ -1147,67 +1176,95 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     </button>
                   </div>
                 </div>
+                <div className=" md:flex md:flex-row flex flex-col-reverse gap-x-5 mt-10 w-full">
+                  <section className="w-full md:max-w-[350px]">
+                    {/*//* Filtro + Icono */}
+                    <div className=" uppercase font-semibold  text-[#0061FE] flex text-[13px] ">
+                      <Filter />
+                      <h1 className=" text-[#0061FE] ">Filtro</h1>
+                    </div>{" "}
+                    <div className="mt-2 grid grid-cols-2 gap-2 text-[13px] md:max-w-[350px]">
+                      <button
+                        className={`border py-[13px] px-3 select-none rounded-sm relative ${
+                          currentChart === "escuela"
+                            ? " pointer-events-none flex gap-2"
+                            : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent flex"
+                        }`}
+                        onClick={() => {
+                          setCurrentChart("escuela");
+                        }}
+                      >
+                        <div> Centro de votación </div>
 
-                {/*//* Filtro + Icono */}
-                <div className="mt-10 uppercase font-semibold  text-[#0061FE] flex text-[13px] ">
-                  <Filter />
-                  <h1 className=" text-[#0061FE] ">Filtro</h1>
+                        <span
+                          className={
+                            currentChart === "escuela"
+                              ? "absolute right-3 top-[14px] text-[#0061FE]"
+                              : "hidden"
+                          }
+                        >
+                          <Check />
+                        </span>
+                      </button>
+                      <button
+                        className={`border py-[13px] px-3 select-none rounded-sm relative${
+                          currentChart === "activista"
+                            ? " pointer-events-none flex gap-2"
+                            : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent flex"
+                        }`}
+                        onClick={() => {
+                          setCurrentChart("activista");
+                        }}
+                      >
+                        <div> Dirigentes </div>
+                        <span
+                          className={
+                            currentChart === "activista"
+                              ? "absolute right-3 top-[14px] text-[#0061FE]"
+                              : "hidden"
+                          }
+                        >
+                          <Check />
+                        </span>
+                      </button>
+                    </div>
+                  </section>
+                  {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                  <section className="w-full md:max-w-[300px]">
+                    {/*//* Buscar + Icono */}
+                    <div className="uppercase font-semibold text-[13px] mb-2 text-[#0061FE] flex items-center">
+                      <Search />
+                      <h1 className=" text-[#0061FE] ml-1">Buscar</h1>
+                    </div>
+                    {/*//* Input buscar por cédula...*/}
+                    <div className=" md:flex gap-5">
+                      {currentChart === "escuela" ? (
+                        <div className=" md:max-w-[300px] w-full">
+                          <InputForm
+                            name=""
+                            value={searchChartEscuela}
+                            placeholder={"buscar por centro de votación"}
+                            type={"text"}
+                            onChange={handleChartEscuela}
+                          />
+                        </div>
+                      ) : (
+                        <div className=" md:max-w-[300px] w-full">
+                          <InputForm
+                            name=""
+                            value={searchChartActivista}
+                            placeholder={"buscar por dirigente"}
+                            type={"text"}
+                            onChange={handleChartActivista}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </section>
                 </div>
 
-                <div className="mt-2 grid grid-cols-2 gap-2 text-[13px] md:max-w-[350px]">
-                  <button
-                    className={`border py-[13px] px-3 select-none rounded-sm relative ${
-                      currentChart === "escuela"
-                        ? " pointer-events-none flex gap-2"
-                        : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent flex"
-                    }`}
-                    onClick={() => {
-                      setCurrentChart("escuela");
-                    }}
-                  >
-                    <div> Centro de votación </div>
-
-                    <span
-                      className={
-                        currentChart === "escuela"
-                          ? "absolute right-3 top-[14px] text-[#0061FE]"
-                          : "hidden"
-                      }
-                    >
-                      <Check />
-                    </span>
-                  </button>
-                  <button
-                    className={`border py-[13px] px-3 select-none rounded-sm relative${
-                      currentChart === "activista"
-                        ? " pointer-events-none flex gap-2"
-                        : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent flex"
-                    }`}
-                    onClick={() => {
-                      setCurrentChart("activista");
-                    }}
-                  >
-                    <div> Dirigentes </div>
-                    <span
-                      className={
-                        currentChart === "activista"
-                          ? "absolute right-3 top-[14px] text-[#0061FE]"
-                          : "hidden"
-                      }
-                    >
-                      <Check />
-                    </span>
-                  </button>
-                </div>
                 {currentChart === "escuela" ? (
-                  <div className="mt-5">
-                    <Card
-                      t1={"Centro de votación"}
-                      t2={"Centro de votación disponibles"}
-                      num={escuelas_bd.length}
-                      icon={<Build />}
-                    />
-
+                  <div className="mt-10">
                     {/*//* Votos de las escuelas */}
                     <div className=" mt-5 lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 grid w-full gap-6">
                       {conteoCombinadoE.map(
@@ -1224,14 +1281,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     </div>
                   </div>
                 ) : (
-                  <div className="mt-5">
-                    <Card
-                      t1={"Dirigentes"}
-                      t2={"Total de dirigentes"}
-                      num={activistaID.length}
-                      icon={<Clip />}
-                    />
-
+                  <div className="mt-10">
                     {/*//* Votos de activistas */}
                     <div className=" mt-5 lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 grid w-full gap-6">
                       {conteoCombinadoA.map(
@@ -1243,7 +1293,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <div className=" border-b p-3 font-semibold text-[13px] uppercase">
                               {activista.split("@")[0]}
                             </div>
-                            <div className=" w-full px-3 py-4">
+                            <div className=" w-full px-3 py-5">
                               <div className=" flex gap-4 mb-2 items-center">
                                 <div className=" text-[20px] leading-none">
                                   {parseInt((cantidadS * 100) / cantidadT)}%

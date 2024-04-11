@@ -534,9 +534,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         <>
           {pageToggle ? (
             <>
-              {/*//!PAGINA DE TABLAS  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+              {/*//!PAGINA DE TABLAS  ____________________________________________________________________________________________________ */}
               <div className=" bg-white px-4 pageSize">
-                {/*//SECTION: BANNER // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                {/*//SECTION: BANNER ____________________________________________________________________________________________________ */}
                 <section className=" w-full rounded-sm overflow-hidden shadow text-sm mb-10 ">
                   {/*//* Nota */}
                   <div className="w-full bg-[#CFEEFF] text-[#125486] text-[13px] py-3 px-4 flex font-medium">
@@ -575,7 +575,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
                 </section>
 
-                {/*//SECTION: CARDS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                {/*//SECTION: CARDS ____________________________________________________________________________________________________ */}
                 <section>
                   <div
                     className={
@@ -611,7 +611,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
                 </section>
 
-                {/*//SECTION: FILTROS MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                {/*//SECTION: FILTROS MOBILE ____________________________________________________________________________________________________ */}
                 <section className="md:hidden flex flex-col gap-2 text-[13px] mb-5">
                   {/*//* Filtro + Icono */}
                   <div className="uppercase font-semibold  text-[#0061FE] flex ">
@@ -709,7 +709,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </button>
                 </section>
 
-                {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                {/*//SECTION: SEARCHS INPUTS ____________________________________________________________________________________________________ */}
                 <section>
                   {/*//* Buscar + Icono */}
                   <div className="uppercase font-semibold text-[13px] mb-2 text-[#0061FE] flex items-center">
@@ -743,7 +743,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </section>
 
                 <div className="flex flex-col w-full ">
-                  {/*//SECTION: TABLE DESKTOP // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                  {/*//SECTION: TABLE DESKTOP ____________________________________________________________________________________________________ */}
                   <section className="hidden md:flex flex-col border-l border-r border-t w-full relative rounded-sm overflow-hidden">
                     {/*//* Titulos de la tabla */}
                     <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#F3F6F9] text-[#878AA8] px-4 uppercase py-5 text-[11px] font-semibold tracking-wider">
@@ -892,7 +892,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     ))}
                   </section>
 
-                  {/*//SECTION: TABLE MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                  {/*//SECTION: TABLE MOBILE ____________________________________________________________________________________________________ */}
                   <section className="md:hidden flex flex-col border-l border-r border-t w-full relative select-none rounded-sm overflow-hidden">
                     {/*//* Titulos de la tabla */}
                     <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#F3F6F9] text-[#878AA8] px-2 uppercase py-5 text-[11px] font-semibold tracking-wider">
@@ -1083,7 +1083,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     ))}
                   </section>
 
-                  {/*//SECTION: PAGINACION // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                  {/*//SECTION: PAGINACION ____________________________________________________________________________________________________ */}
                   <section className="mx-auto mt-10 flex gap-10">
                     {/*//* Pagina anterior */}
                     <button onClick={prevPage} disabled={currentPage === 1}>
@@ -1105,7 +1105,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </div>
               </div>
 
-              {/*//SECTION: PAGE TOGGLE BUTTON // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+              {/*//SECTION: PAGE TOGGLE BUTTON ____________________________________________________________________________________________________ */}
               <section
                 onClick={() => {
                   setPageToggle(!pageToggle);
@@ -1122,9 +1122,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
             </>
           ) : (
             <>
-              {/*//!PAGINA DE GRAFICAS  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+              {/*//!PAGINA DE GRAFICAS  ____________________________________________________________________________________________________ */}
               <div className="px-4 pageSize">
-                {/*//* BANNER */}
+                {/*//SECTION: BANNER ____________________________________________________________________________________________________ */}
                 <section className=" w-full rounded-sm overflow-hidden shadow text-sm ">
                   <div className="w-full bg-[#FFF6E7] text-[#D9A382] text-[13px] py-3 px-4 flex font-medium">
                     {/*//* Icon */}
@@ -1139,7 +1139,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
 
                   <div className="w-full bg-white px-4 py-5">
-                    {/*//* Votos totales */}
+                    {/*//* Votos totales porcentaje */}
                     <div className=" text-[30px] leading-none font-semibold text-[#0061FE] mb-4 ">
                       {parseInt((conteoVotantesSi * 100) / data.length)}%{" "}
                       <span className="text-[#878A99] text-[13px] font-medium">
@@ -1158,7 +1158,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       isLabelVisible={false}
                     />
 
-                    {/*//* Actualizar BD */}
+                    {/*//* Boton de actualizar */}
                     <button
                       onClick={() => {
                         actualizarBD();
@@ -1186,17 +1186,17 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </section>
 
                 <div className=" md:flex md:flex-row flex flex-col-reverse gap-5 mt-10 w-full">
-                  {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                  {/*//SECTION: SEARCH INPUTS ____________________________________________________________________________________________________ */}
                   <section className="w-full md:max-w-[300px]">
                     {/*//* Buscar + Icono */}
                     <div className="uppercase font-semibold text-[13px] mb-2 text-[#0061FE] flex items-center">
                       <Search />
                       <h1 className=" text-[#0061FE] ml-1">Buscar</h1>
                     </div>
-                    {/*//* Input buscar por cédula...*/}
                     <div className=" md:flex gap-5">
                       {currentChart === "escuela" ? (
                         <div className=" md:max-w-[300px] w-full">
+                          {/*//* Input buscar por centro de votacion*/}
                           <InputForm
                             name=""
                             value={searchChartEscuela}
@@ -1207,6 +1207,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         </div>
                       ) : (
                         <div className=" md:max-w-[300px] w-full">
+                          {/*//* Input buscar por dirigente*/}
                           <InputForm
                             name=""
                             value={searchChartActivista}
@@ -1218,6 +1219,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       )}
                     </div>
                   </section>
+
+                  {/*//SECTION: FILTROS GRAFICAS ____________________________________________________________________________________________________ */}
                   <section className="w-full md:max-w-[350px]">
                     {/*//* Filtro + Icono */}
                     <div className=" uppercase font-semibold  text-[#0061FE] flex text-[13px] ">
@@ -1225,6 +1228,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       <h1 className=" text-[#0061FE] ">Filtro</h1>
                     </div>{" "}
                     <div className="mt-2 grid grid-cols-2 gap-2 text-[13px] md:max-w-[350px]">
+                      {/*//* Centro de votacion */}
                       <button
                         className={`border py-[13px] px-3 select-none rounded-sm relative ${
                           currentChart === "escuela"
@@ -1247,6 +1251,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <Check />
                         </span>
                       </button>
+                      {/*//* Dirigentes */}
                       <button
                         className={`border py-[13px] px-3 select-none rounded-sm relative${
                           currentChart === "activista"
@@ -1272,6 +1277,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </section>
                 </div>
 
+                {/*//SECTION: GRAFICAS  ____________________________________________________________________________________________________ */}
                 {currentChart === "escuela" ? (
                   <div className="mt-10">
                     {/*//* Votos de las escuelas */}
@@ -1328,8 +1334,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
                 )}
 
-                {/*//* Page toggle button */}
-                <div
+                {/*//SECTION: PAGE TOGGLE BUTTON ____________________________________________________________________________________________________ */}
+                <section
                   onClick={() => {
                     setPageToggle(!pageToggle);
                     window.scrollTo(0, 0);
@@ -1337,16 +1343,16 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
                 >
                   <List />
-                </div>
+                </section>
               </div>
             </>
           )}
         </>
       ) : null}
 
-      {/*//SECTION: CREAR MODAL // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+      {/*//SECTION: CREAR MODAL ____________________________________________________________________________________________________ */}
       {createModal ? (
-        <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
+        <section className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
           <div className="w-full max-w-[400px] bg-white mb-10 flex h-fit lg:-mt-10">
             {/*//* Contenido de la tabla */}
             <div className="relative w-full text-[15px] overflow-hidden">
@@ -1513,12 +1519,12 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               </form>
             </div>
           </div>
-        </div>
+        </section>
       ) : null}
 
-      {/*//SECTION: VOTANTE INFO MODAL // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+      {/*//SECTION: VOTANTE INFO MODAL ____________________________________________________________________________________________________ */}
       {infoModal ? (
-        <div className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
+        <section className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
           <div className="w-full max-w-[400px] bg-white rounded-sm overflow-hidden flex h-fit lg:-mt-10 relative">
             {/*//* Contenido de la tabla */}
             {infoModal_db.map((item, index) => (
@@ -2077,7 +2083,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               </div>
             ))}
 
-            {/*//SECTION: DELETE MODAL // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+            {/*//SECTION: DELETE MODAL ____________________________________________________________________________________________________ */}
             {deleteModal ? (
               <div className="  absolute w-full h-full text-center text-sm bg-white flex flex-col items-center px-6">
                 <div className=" alert aspect-square h-20 mt-32"></div>
@@ -2115,7 +2121,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
               </div>
             ) : null}
           </div>
-        </div>
+        </section>
       ) : null}
     </main>
   );

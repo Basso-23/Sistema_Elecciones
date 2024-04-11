@@ -47,7 +47,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [mobileTable, setMobileTable] = useState("cedula"); //* Controla cual es la tabla que se vera en mobile
 
-  const [data, setData] = useState([]); //* Alamacena la base de datos entera NO se manupula
+  const [data, setData] = useState([]); //* Alamacena la base de datos entera NO se manipula
   const [sortedData, setSortedData] = useState([]); //* Alamacena la base de datos que se van a manipular
 
   const [deleteModal, setDeleteModal] = useState(false); //* Controla la ventana al hacer click en borrar
@@ -71,25 +71,25 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [conteoCombinadoA, setConteoCombinadoA] = useState([]); //* Almacena (votos si de los votantes y total de votantes) asignados de cada activista
   const [conteoCombinadoE, setConteoCombinadoE] = useState([]); //* Almacena (votos si de los votantes y total de votantes) asignados de cada escuela
-  const [conteoCombinadoAno, setConteoCombinadoAno] = useState([]);
-  const [conteoCombinadoEno, setConteoCombinadoEno] = useState([]);
+  const [conteoCombinadoAno, setConteoCombinadoAno] = useState([]); //* Alamacena (votos si de los votantes y total de votantes) asignados de cada activista NO se manipula
+  const [conteoCombinadoEno, setConteoCombinadoEno] = useState([]); //* Alamacena (votos si de los votantes y total de votantes) asignados de cada escuela NO se manipula
 
-  const [currentChart, setCurrentChart] = useState("escuela");
+  const [currentChart, setCurrentChart] = useState("escuela"); //* Maneja cual es la grafica que se enseña
 
-  const [searchChartActivista, setSearchChartActivista] = useState("");
-  const [searchChartEscuela, setSearchChartEscuela] = useState("");
+  const [searchChartActivista, setSearchChartActivista] = useState(""); //* Input de buscar por activista en las graficas
+  const [searchChartEscuela, setSearchChartEscuela] = useState(""); //* Input de buscar por escuela en las graficas
 
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(false); //* Loader del boton actualizar
 
   const mesas_bd = ["1", "2", "3", "4", "5"]; //* Mesas de la etiqueta select
-  //* Escuelas de la etiqueta select
+
   const escuelas_bd = [
     "escuela 1",
     "escuela 2",
     "escuela 3",
     "escuela 4",
     "escuela 5",
-  ];
+  ]; //* Escuelas de la etiqueta select
 
   const itemsToShow = 50; //* Cantidad de items a mostrar en la tabla
 
@@ -534,6 +534,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         <>
           {pageToggle ? (
             <>
+              {/*//!PAGINA DE TABLAS  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
               <div className=" bg-white px-4 pageSize">
                 {/*//SECTION: BANNER // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
                 <section className=" w-full rounded-sm overflow-hidden shadow text-sm mb-10 ">
@@ -551,7 +552,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       )}
                     </div>
                   </div>
-                  {/*//* Cuenta y boton de registrar votante */}
+
                   <div className="w-full bg-white p-4">
                     {/*//* Cuenta */}
                     <h1>
@@ -574,38 +575,139 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
                 </section>
 
-                <div
-                  className={
-                    adminID.includes(userState)
-                      ? " lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 grid w-full mb-10 gap-6"
-                      : "hidden"
-                  }
-                >
-                  <Card
-                    t1={"Votos"}
-                    t2={"Total votos conseguidos"}
-                    num={conteoVotantesSi}
-                    icon={<Si />}
-                  />
-                  <Card
-                    t1={"Votantes"}
-                    t2={"Total de votantes"}
-                    num={data.length}
-                    icon={<User />}
-                  />
-                  <Card
-                    t1={"Centro de votación"}
-                    t2={"Centro de votación disponibles"}
-                    num={escuelas_bd.length}
-                    icon={<Build />}
-                  />
-                  <Card
-                    t1={"Dirigentes"}
-                    t2={"Total de dirigentes"}
-                    num={activistaID.length}
-                    icon={<Clip />}
-                  />
-                </div>
+                {/*//SECTION: CARDS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                <section>
+                  <div
+                    className={
+                      adminID.includes(userState)
+                        ? " lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 grid w-full mb-10 gap-6"
+                        : "hidden"
+                    }
+                  >
+                    <Card
+                      t1={"Votos"}
+                      t2={"Total votos conseguidos"}
+                      num={conteoVotantesSi}
+                      icon={<Si />}
+                    />
+                    <Card
+                      t1={"Votantes"}
+                      t2={"Total de votantes"}
+                      num={data.length}
+                      icon={<User />}
+                    />
+                    <Card
+                      t1={"Centro de votación"}
+                      t2={"Centro de votación disponibles"}
+                      num={escuelas_bd.length}
+                      icon={<Build />}
+                    />
+                    <Card
+                      t1={"Dirigentes"}
+                      t2={"Total de dirigentes"}
+                      num={activistaID.length}
+                      icon={<Clip />}
+                    />
+                  </div>
+                </section>
+
+                {/*//SECTION: FILTROS MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                <section className="md:hidden flex flex-col gap-2 text-[13px] mb-5">
+                  {/*//* Filtro + Icono */}
+                  <div className="uppercase font-semibold  text-[#0061FE] flex ">
+                    <Filter />
+                    <h1 className=" text-[#0061FE] ">Filtro</h1>
+                  </div>
+
+                  {/*//* Filtro: cedula */}
+                  <button
+                    className={`border py-[13px] px-4 select-none rounded-sm relative ${
+                      mobileTable === "cedula"
+                        ? " pointer-events-none"
+                        : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
+                    }`}
+                    onClick={() => {
+                      setMobileTable("cedula");
+                    }}
+                  >
+                    Cédula
+                    <span
+                      className={
+                        mobileTable === "cedula"
+                          ? "absolute right-5 top-[14px] text-[#0061FE]"
+                          : "hidden"
+                      }
+                    >
+                      <Check />
+                    </span>
+                  </button>
+                  {/*//* Filtro: mesa */}
+                  <button
+                    className={`border py-[13px] px-4 select-none rounded-sm relative  ${
+                      mobileTable === "mesa"
+                        ? " pointer-events-none"
+                        : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
+                    }`}
+                    onClick={() => {
+                      setMobileTable("mesa");
+                    }}
+                  >
+                    Mesa
+                    <span
+                      className={
+                        mobileTable === "mesa"
+                          ? "absolute right-5 top-[14px] text-[#0061FE]"
+                          : "hidden"
+                      }
+                    >
+                      <Check />
+                    </span>
+                  </button>
+                  {/*//* Filtro: centro de votacion */}
+                  <button
+                    className={`border py-[13px] px-4 select-none rounded-sm relative ${
+                      mobileTable === "centro"
+                        ? " pointer-events-none"
+                        : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
+                    }`}
+                    onClick={() => {
+                      setMobileTable("centro");
+                    }}
+                  >
+                    Centro de votación
+                    <span
+                      className={
+                        mobileTable === "centro"
+                          ? "absolute right-5 top-[14px] text-[#0061FE]"
+                          : "hidden"
+                      }
+                    >
+                      <Check />
+                    </span>
+                  </button>
+                  {/*//* Filtro: activista */}
+                  <button
+                    className={`border py-[13px] px-4 select-none rounded-sm relative ${
+                      mobileTable === "activista"
+                        ? " pointer-events-none"
+                        : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
+                    }`}
+                    onClick={() => {
+                      setMobileTable("activista");
+                    }}
+                  >
+                    Dirigente
+                    <span
+                      className={
+                        mobileTable === "activista"
+                          ? "absolute right-5 top-[14px] text-[#0061FE]"
+                          : "hidden"
+                      }
+                    >
+                      <Check />
+                    </span>
+                  </button>
+                </section>
 
                 {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
                 <section>
@@ -789,103 +891,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       </div>
                     ))}
                   </section>
-                  {/*//SECTION: FILTROS MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-                  <section className="md:hidden flex flex-col gap-2 text-[13px] mb-5">
-                    {/*//* Filtro + Icono */}
-                    <div className="uppercase font-semibold  text-[#0061FE] flex ">
-                      <Filter />
-                      <h1 className=" text-[#0061FE] ">Filtro</h1>
-                    </div>
 
-                    {/*//* Filtro: cedula */}
-                    <button
-                      className={`border py-[13px] px-4 select-none rounded-sm relative ${
-                        mobileTable === "cedula"
-                          ? " pointer-events-none"
-                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
-                      }`}
-                      onClick={() => {
-                        setMobileTable("cedula");
-                      }}
-                    >
-                      Cédula
-                      <span
-                        className={
-                          mobileTable === "cedula"
-                            ? "absolute right-5 top-[14px] text-[#0061FE]"
-                            : "hidden"
-                        }
-                      >
-                        <Check />
-                      </span>
-                    </button>
-                    {/*//* Filtro: mesa */}
-                    <button
-                      className={`border py-[13px] px-4 select-none rounded-sm relative  ${
-                        mobileTable === "mesa"
-                          ? " pointer-events-none"
-                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
-                      }`}
-                      onClick={() => {
-                        setMobileTable("mesa");
-                      }}
-                    >
-                      Mesa
-                      <span
-                        className={
-                          mobileTable === "mesa"
-                            ? "absolute right-5 top-[14px] text-[#0061FE]"
-                            : "hidden"
-                        }
-                      >
-                        <Check />
-                      </span>
-                    </button>
-                    {/*//* Filtro: centro de votacion */}
-                    <button
-                      className={`border py-[13px] px-4 select-none rounded-sm relative ${
-                        mobileTable === "centro"
-                          ? " pointer-events-none"
-                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
-                      }`}
-                      onClick={() => {
-                        setMobileTable("centro");
-                      }}
-                    >
-                      Centro de votación
-                      <span
-                        className={
-                          mobileTable === "centro"
-                            ? "absolute right-5 top-[14px] text-[#0061FE]"
-                            : "hidden"
-                        }
-                      >
-                        <Check />
-                      </span>
-                    </button>
-                    {/*//* Filtro: activista */}
-                    <button
-                      className={`border py-[13px] px-4 select-none rounded-sm relative ${
-                        mobileTable === "activista"
-                          ? " pointer-events-none"
-                          : "transition-all bg-[#0061FE] hover:bg-[#2645e0] text-white font-medium border-transparent "
-                      }`}
-                      onClick={() => {
-                        setMobileTable("activista");
-                      }}
-                    >
-                      Dirigente
-                      <span
-                        className={
-                          mobileTable === "activista"
-                            ? "absolute right-5 top-[14px] text-[#0061FE]"
-                            : "hidden"
-                        }
-                      >
-                        <Check />
-                      </span>
-                    </button>
-                  </section>
                   {/*//SECTION: TABLE MOBILE // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
                   <section className="md:hidden flex flex-col border-l border-r border-t w-full relative select-none rounded-sm overflow-hidden">
                     {/*//* Titulos de la tabla */}
@@ -1076,8 +1082,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       </div>
                     ))}
                   </section>
-                  {/*//* Paginación */}
-                  <div className="mx-auto mt-10 flex gap-10">
+
+                  {/*//SECTION: PAGINACION // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                  <section className="mx-auto mt-10 flex gap-10">
                     {/*//* Pagina anterior */}
                     <button onClick={prevPage} disabled={currentPage === 1}>
                       anterior
@@ -1094,11 +1101,12 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     >
                       siguiente
                     </button>
-                  </div>
+                  </section>
                 </div>
               </div>
-              {/*//* Page toggle button */}
-              <div
+
+              {/*//SECTION: PAGE TOGGLE BUTTON // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+              <section
                 onClick={() => {
                   setPageToggle(!pageToggle);
                   window.scrollTo(0, 0);
@@ -1110,14 +1118,14 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 }
               >
                 <Chart />
-              </div>
+              </section>
             </>
           ) : (
             <>
-              {/*//SECTION: PAGINA DE GRAFICAS  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-              <section className="px-4 pageSize">
+              {/*//!PAGINA DE GRAFICAS  // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+              <div className="px-4 pageSize">
                 {/*//* BANNER */}
-                <div className=" w-full rounded-sm overflow-hidden shadow text-sm ">
+                <section className=" w-full rounded-sm overflow-hidden shadow text-sm ">
                   <div className="w-full bg-[#FFF6E7] text-[#D9A382] text-[13px] py-3 px-4 flex font-medium">
                     {/*//* Icon */}
                     <span className="mr-[6px] mt-[2px] text-[#FFC061]">
@@ -1175,7 +1183,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       )}
                     </button>
                   </div>
-                </div>
+                </section>
+
                 <div className=" md:flex md:flex-row flex flex-col-reverse gap-5 mt-10 w-full">
                   {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
                   <section className="w-full md:max-w-[300px]">
@@ -1329,7 +1338,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 >
                   <List />
                 </div>
-              </section>
+              </div>
             </>
           )}
         </>

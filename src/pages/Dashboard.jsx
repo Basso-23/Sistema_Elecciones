@@ -1177,6 +1177,38 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
                 </div>
                 <div className=" md:flex md:flex-row flex flex-col-reverse gap-5 mt-10 w-full">
+                  {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
+                  <section className="w-full md:max-w-[300px]">
+                    {/*//* Buscar + Icono */}
+                    <div className="uppercase font-semibold text-[13px] mb-2 text-[#0061FE] flex items-center">
+                      <Search />
+                      <h1 className=" text-[#0061FE] ml-1">Buscar</h1>
+                    </div>
+                    {/*//* Input buscar por cédula...*/}
+                    <div className=" md:flex gap-5">
+                      {currentChart === "escuela" ? (
+                        <div className=" md:max-w-[300px] w-full">
+                          <InputForm
+                            name=""
+                            value={searchChartEscuela}
+                            placeholder={"buscar por centro de votación"}
+                            type={"text"}
+                            onChange={handleChartEscuela}
+                          />
+                        </div>
+                      ) : (
+                        <div className=" md:max-w-[300px] w-full">
+                          <InputForm
+                            name=""
+                            value={searchChartActivista}
+                            placeholder={"buscar por dirigente"}
+                            type={"text"}
+                            onChange={handleChartActivista}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </section>
                   <section className="w-full md:max-w-[350px]">
                     {/*//* Filtro + Icono */}
                     <div className=" uppercase font-semibold  text-[#0061FE] flex text-[13px] ">
@@ -1227,38 +1259,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <Check />
                         </span>
                       </button>
-                    </div>
-                  </section>
-                  {/*//SECTION: SEARCHS INPUTS // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
-                  <section className="w-full md:max-w-[300px]">
-                    {/*//* Buscar + Icono */}
-                    <div className="uppercase font-semibold text-[13px] mb-2 text-[#0061FE] flex items-center">
-                      <Search />
-                      <h1 className=" text-[#0061FE] ml-1">Buscar</h1>
-                    </div>
-                    {/*//* Input buscar por cédula...*/}
-                    <div className=" md:flex gap-5">
-                      {currentChart === "escuela" ? (
-                        <div className=" md:max-w-[300px] w-full">
-                          <InputForm
-                            name=""
-                            value={searchChartEscuela}
-                            placeholder={"buscar por centro de votación"}
-                            type={"text"}
-                            onChange={handleChartEscuela}
-                          />
-                        </div>
-                      ) : (
-                        <div className=" md:max-w-[300px] w-full">
-                          <InputForm
-                            name=""
-                            value={searchChartActivista}
-                            placeholder={"buscar por dirigente"}
-                            type={"text"}
-                            onChange={handleChartActivista}
-                          />
-                        </div>
-                      )}
                     </div>
                   </section>
                 </div>

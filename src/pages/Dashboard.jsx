@@ -30,6 +30,10 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import Card_Chart from "@/components/Card_Chart";
 import Question from "@/icons/Question";
 
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import DocuPDF from "@/lib/DocuPDF";
+import Download from "@/icons/Download";
+
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
   const [load, setLoad] = useState(false); //* Se encarga del delay en la carga de la pagina
@@ -1334,6 +1338,12 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
                 )}
 
+                {/*//SECTION: PDF DOWNLOAD BUTTON ____________________________________________________________________________________________________ */}
+                <PDFDownloadLink document={<DocuPDF />} fileName="tabla.pdf">
+                  <section className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-24 right-5 cursor-pointer transition-transform active:scale-95 text-white flex justify-center items-center">
+                    <Download />
+                  </section>
+                </PDFDownloadLink>
                 {/*//SECTION: PAGE TOGGLE BUTTON ____________________________________________________________________________________________________ */}
                 <section
                   onClick={() => {

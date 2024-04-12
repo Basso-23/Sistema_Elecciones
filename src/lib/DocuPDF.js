@@ -129,7 +129,10 @@ const DocuPDF = ({ data }) => {
                   </Text>
                 </View>
                 <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>{item.activista}</Text>
+                  <Text style={styles.tableCell}>
+                    {" "}
+                    {item.activista.split("@")[0]}
+                  </Text>
                 </View>
               </View>
             ))}

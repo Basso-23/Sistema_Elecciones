@@ -753,7 +753,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#F3F6F9] text-[#878AA8] px-4 uppercase py-5 text-[11px] font-semibold tracking-wider">
                       {/*//* Nombre + Apellido */}
                       <div
-                        className="flex justify-between cursor-pointer"
+                        className="flex justify-between sm:cursor-pointer"
                         onClick={() => handleSort("nombre")}
                       >
                         <div className="select-none">Nombre</div>
@@ -769,7 +769,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       </div>
                       {/*//* Cédula */}
                       <div
-                        className="flex justify-between cursor-pointer"
+                        className="flex justify-between sm:cursor-pointer"
                         onClick={() => handleSort("cedula")}
                       >
                         <div className="select-none">Cédula</div>
@@ -786,7 +786,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       <div className=" grid grid-cols-2">
                         {/*//* Voto */}
                         <div
-                          className=" flex justify-between cursor-pointer"
+                          className=" flex justify-between sm:cursor-pointer"
                           onClick={() => handleSort("estado_de_votacion")}
                         >
                           <div className="select-none">Voto</div>
@@ -802,7 +802,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         </div>
                         {/*//* Mesa */}
                         <div
-                          className=" flex justify-between cursor-pointer"
+                          className=" flex justify-between sm:cursor-pointer"
                           onClick={() => handleSort("mesa")}
                         >
                           <div className="select-none">Mesa</div>
@@ -819,7 +819,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       </div>
                       {/*//* Centro de Votación */}
                       <div
-                        className="flex justify-between cursor-pointer"
+                        className="flex justify-between sm:cursor-pointer"
                         onClick={() => handleSort("centro_de_votacion")}
                       >
                         <div className="select-none">Centro de Votación</div>
@@ -836,7 +836,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                       {/*//* Activista */}
                       <div
-                        className="flex justify-between cursor-pointer"
+                        className="flex justify-between sm:cursor-pointer"
                         onClick={() => handleSort("activista")}
                       >
                         <div className="select-none">Dirigente</div>
@@ -862,7 +862,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             setInfoModal(true);
                           }, 10);
                         }}
-                        className=" w-full grid grid-cols-5 border-b tablaContenido px-4 items-center text-[14px] cursor-pointer hover:text-[#0061FE] transition-all"
+                        className=" w-full grid grid-cols-5 border-b tablaContenido px-4 items-center text-[14px] sm:cursor-pointer hover:text-[#0061FE] transition-all"
                         key={index}
                       >
                         {/*//* Nombre + Apellido */}
@@ -873,16 +873,22 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         <div className=" w-full">{item.cedula}</div>
                         <div className=" grid grid-cols-2">
                           {/*//* Voto */}
-                          <div className="justify-center font-medium w-full">
+                          <div className="w-full">
                             {item.estado_de_votacion === "si" ? (
-                              <div className="text-[#7fe502]  ">SI</div>
+                              <span className="text-[#1FB46E] bg-[#EAFCF3] text-[12px] flex rounded-full gap-1 font-semibold px-[6px] items-center">
+                                <span className="text-[14px]">•</span>{" "}
+                                <span>Confirmado </span>
+                              </span>
                             ) : (
-                              <div className="text-red-600 ">NO</div>
+                              <span className="text-[#D86B8E] bg-[#F8E8ED] text-[12px] flex rounded-full gap-1 font-semibold px-[6px] items-center">
+                                <span className="text-[14px]">•</span>{" "}
+                                <span>Pendiente </span>
+                              </span>
                             )}
                           </div>
                           {/*//* Mesa */}
                           <div className="justify-center w-full">
-                            {item.mesa}
+                            <div className=" -ml-8"> {item.mesa} </div>
                           </div>
                         </div>
                         {/*//* Centro de Votación */}
@@ -1027,7 +1033,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             setInfoModal(true);
                           }, 10);
                         }}
-                        className=" w-full grid grid-cols-3 border-b tablaContenidoMobile px-2 items-center text-[14px] select-none cursor-pointer hover:text-[#0061FE] transition-all"
+                        className=" w-full grid grid-cols-3 border-b tablaContenidoMobile px-2 items-center text-[14px] select-none sm:cursor-pointer hover:text-[#0061FE] transition-all"
                         key={index}
                       >
                         {/*//* Nombre + Apellido */}
@@ -1048,9 +1054,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         {/*//* Mesa */}
                         <div
                           className={
-                            mobileTable === "mesa"
-                              ? "justify-center w-full flex"
-                              : "hidden"
+                            mobileTable === "mesa" ? " w-full flex" : "hidden"
                           }
                         >
                           {item.mesa}
@@ -1076,11 +1080,17 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           {item.activista.split("@")[0]}
                         </div>
                         {/*//* Voto */}
-                        <div className="justify-center font-medium w-full items-center flex">
+                        <div className="w-full flex items-center">
                           {item.estado_de_votacion === "si" ? (
-                            <span className="text-[#7fe502]   ">SI</span>
+                            <span className="text-[#1FB46E] bg-[#EAFCF3] text-[12px] flex rounded-full gap-1 font-semibold px-[6px] items-center ">
+                              <span className="text-[14px]">•</span>{" "}
+                              <span>Confirmado </span>
+                            </span>
                           ) : (
-                            <span className="text-red-600 ">NO</span>
+                            <span className="text-[#D86B8E] bg-[#F8E8ED] text-[12px] flex rounded-full gap-1 font-semibold px-[6px] items-center ">
+                              <span className="text-[14px]">•</span>{" "}
+                              <span>Pendiente </span>
+                            </span>
                           )}
                         </div>
                       </div>
@@ -1117,7 +1127,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 }}
                 className={
                   adminID.includes(userState)
-                    ? " w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
+                    ? " w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 sm:cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
                     : "hidden"
                 }
               >
@@ -1340,7 +1350,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                 {/*//SECTION: PDF DOWNLOAD BUTTON ____________________________________________________________________________________________________ */}
                 <PDFDownloadLink document={<DocuPDF />} fileName="tabla.pdf">
-                  <section className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-24 right-5 cursor-pointer transition-transform active:scale-95 text-white flex justify-center items-center">
+                  <section className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95 text-white flex justify-center items-center">
                     <Download />
                   </section>
                 </PDFDownloadLink>
@@ -1350,7 +1360,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     setPageToggle(!pageToggle);
                     window.scrollTo(0, 0);
                   }}
-                  className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
+                  className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 sm:cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
                 >
                   <List />
                 </section>
@@ -1464,7 +1474,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     value={formInfo.centro_de_votacion}
                     onChange={handleChange}
                     required
-                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
+                    className="border sm:cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                   >
                     <option value="">Ninguno</option>
                     {escuelas_bd.map((item, index) => (
@@ -1483,7 +1493,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     value={formInfo.mesa}
                     onChange={handleChange}
                     required
-                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
+                    className="border sm:cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                   >
                     <option value="">Ninguno</option>
                     {mesas_bd.map((item, index) => (
@@ -1504,7 +1514,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     value={formInfo.activista}
                     onChange={handleChange}
                     required
-                    className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
+                    className="border sm:cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                   >
                     <option value="">Ninguno</option>
                     {activistaID.map((email, index) => (
@@ -1873,7 +1883,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               value={editInfo.centro_de_votacion}
                               onChange={handleChangeEdit}
                               required
-                              className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
+                              className="border sm:cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                             >
                               <option value="">Ninguno</option>
                               {escuelas_bd.map((item, index) => (
@@ -1947,7 +1957,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               value={editInfo.mesa}
                               onChange={handleChangeEdit}
                               required
-                              className="border cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
+                              className="border sm:cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                             >
                               <option value="">Ninguno</option>
                               {mesas_bd.map((item, index) => (
@@ -2021,11 +2031,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               value={editInfo.estado_de_votacion}
                               onChange={handleChangeEdit}
                               required
-                              className="border  py-[13px] px-1 cursor-pointer  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
+                              className="border  py-[13px] px-1 sm:cursor-pointer  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
                             >
                               <option value="">Eliga una opcion</option>
-                              <option value="si">SI</option>
-                              <option value="no">NO</option>
+                              <option value="si">Si</option>
+                              <option value="no">No</option>
                             </select>
                           </div>
                           <div className="grid grid-cols-2">
@@ -2051,11 +2061,13 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             Voto
                           </div>
                           <div className=" flex justify-between">
-                            <div className="justify-center font-medium w-full">
+                            <div className="justify-center w-full text-sm">
                               {item.estado_de_votacion === "si" ? (
-                                <div className="text-[#7fe502]  ">SI</div>
+                                <div className="text-[#1FB46E]   ">
+                                  Confirmado
+                                </div>
                               ) : (
-                                <div className="text-red-600 ">NO</div>
+                                <div className="text-red-600 ">Pendiente</div>
                               )}
                             </div>
                             <div
@@ -2115,7 +2127,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       setDeleteModal(false);
                       setInfoModal(false);
                     }}
-                    className=" text-white bg-[#F24646] font-medium cursor-pointer flex items-center justify-center py-4 rounded-sm"
+                    className=" text-white bg-[#F24646] font-medium sm:cursor-pointer flex items-center justify-center py-4 rounded-sm"
                   >
                     <div className="">Borrar</div>
                   </div>
@@ -2123,7 +2135,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     onClick={() => {
                       setDeleteModal(false);
                     }}
-                    className=" text-[#6B6E7F] bg-[#F0F0F0] font-medium py-4 cursor-pointer flex items-center justify-center rounded-sm"
+                    className=" text-[#6B6E7F] bg-[#F0F0F0] font-medium py-4 sm:cursor-pointer flex items-center justify-center rounded-sm"
                   >
                     <div className="">Cancelar</div>
                   </div>

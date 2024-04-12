@@ -61,12 +61,12 @@ button {
 .tablaContenido div {
   display: flex;
   align-items: center;
-  height: 55px;
+  height: 50px;
 }
 
 .tablaContenidoMobile div {
   align-items: center;
-  height: 55px;
+  height: 50px;
 }
 
 .lds-ellipsis {

@@ -45,7 +45,7 @@ const DocuPDF = ({ data }) => {
       flexDirection: "row",
     },
     tableCol: {
-      width: "16.66%", // Ajuste para 6 columnas
+      width: "20%", // Ajuste para 6 columnas
       borderStyle: "solid",
       borderWidth: 0.5,
       borderLeftWidth: 0,
@@ -56,6 +56,24 @@ const DocuPDF = ({ data }) => {
       textAlign: "left",
       textTransform: "capitalize",
       padding: 2,
+      paddingLeft: 4,
+    },
+    gridVoto: {
+      width: "65%",
+      textAlign: "left",
+      textTransform: "capitalize",
+      padding: 2,
+      paddingLeft: 4,
+    },
+    gridMesa: {
+      width: "35%",
+      textAlign: "left",
+      textTransform: "capitalize",
+      padding: 2,
+      paddingLeft: 4,
+      borderStyle: "solid",
+      borderLeftWidth: 0.5,
+      borderColor: "#d1d1d1",
     },
   });
 
@@ -72,10 +90,10 @@ const DocuPDF = ({ data }) => {
                 <Text style={styles.tableCell}>Cédula </Text>
               </View>
               <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Voto</Text>
-              </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Mesa</Text>
+                <View style={styles.tableRow}>
+                  <Text style={styles.gridVoto}>Voto</Text>
+                  <Text style={styles.gridMesa}>Mesa</Text>
+                </View>
               </View>
               <View style={styles.tableCol}>
                 <Text style={styles.tableCell}>Centro de Votación</Text>
@@ -95,14 +113,15 @@ const DocuPDF = ({ data }) => {
                   <Text style={styles.tableCell}>{item.cedula}</Text>
                 </View>
                 <View style={styles.tableCol}>
-                  {item.estado_de_votacion === "si" ? (
-                    <Text style={styles.tableCell}>Confirmado </Text>
-                  ) : (
-                    <Text style={styles.tableCell}>Pendiente </Text>
-                  )}
-                </View>
-                <View style={styles.tableCol}>
-                  <Text style={styles.tableCell}>{item.mesa}</Text>
+                  <View style={styles.tableRow}>
+                    {item.estado_de_votacion === "si" ? (
+                      <Text style={styles.gridVoto}>Confirmado </Text>
+                    ) : (
+                      <Text style={styles.gridVoto}>Pendiente </Text>
+                    )}
+
+                    <Text style={styles.gridMesa}>{item.mesa}</Text>
+                  </View>
                 </View>
                 <View style={styles.tableCol}>
                   <Text style={styles.tableCell}>

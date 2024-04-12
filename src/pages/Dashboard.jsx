@@ -1349,7 +1349,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 )}
 
                 {/*//SECTION: PDF DOWNLOAD BUTTON ____________________________________________________________________________________________________ */}
-                <PDFDownloadLink document={<DocuPDF />} fileName="tabla.pdf">
+                <PDFDownloadLink
+                  document={<DocuPDF data={data} />}
+                  fileName="tabla.pdf"
+                >
                   <section className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95 text-white flex justify-center items-center">
                     <Download />
                   </section>

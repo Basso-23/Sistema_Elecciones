@@ -25,55 +25,103 @@ const DocuPDF = ({ data }) => {
     page: {
       flexDirection: "row",
       backgroundColor: "#ffffff",
-      fontSize: 10,
+      fontSize: 9,
     },
     section: {
       margin: 10,
       padding: 10,
       flexGrow: 1,
     },
-    table: {
-      display: "table",
-      width: "auto",
-      borderStyle: "solid",
-      borderWidth: 0.5,
-      borderRightWidth: 0,
-      borderBottomWidth: 0,
-      borderColor: "#d1d1d1",
-    },
-    tableRow: {
-      flexDirection: "row",
-    },
-    tableCol: {
-      width: "20%", // Ajuste para 6 columnas
+    headerLeft: {
+      width: "50%",
       borderStyle: "solid",
       borderWidth: 0.5,
       borderLeftWidth: 0,
       borderTopWidth: 0,
       borderColor: "#d1d1d1",
     },
+    headerRight: {
+      width: "50%",
+      borderStyle: "solid",
+      borderWidth: 0.5,
+      borderLeftWidth: 0,
+      borderTopWidth: 0,
+      borderColor: "#d1d1d1",
+    },
+    tableRowTitulos: {
+      marginTop: 10,
+      marginBottom: 10,
+      flexDirection: "row",
+      borderStyle: "solid",
+      borderWidth: 0.5,
+      borderColor: "#0061FE",
+      backgroundColor: "#0061FE",
+      color: "#ffffff",
+      fontSize: 8,
+    },
+    table: {
+      display: "table",
+      width: "auto",
+    },
+    tableRow: {
+      flexDirection: "row",
+    },
+    tableColNombre: {
+      width: "20%", // Ajuste para 6 columnas
+    },
+    tableColCedula: {
+      width: "15%", // Ajuste para 6 columnas
+    },
+    tableColVotoyMesa: {
+      width: "25%", // Ajuste para 6 columnas
+    },
+    tableColCentro: {
+      width: "20%", // Ajuste para 6 columnas
+    },
+    tableColDirigente: {
+      width: "20%", // Ajuste para 6 columnas
+    },
+    tableCellTitulo: {
+      textAlign: "left",
+      padding: 2,
+      paddingLeft: 6,
+      paddingTop: 8,
+      paddingBottom: 8,
+    },
+    tableRowContenido: {
+      flexDirection: "row",
+      borderStyle: "solid",
+      borderWidth: 0.5,
+      borderColor: "#e3e3e3",
+      borderBottomWidth: 0,
+      backgroundColor: "#f7f7f7",
+    },
     tableCell: {
       textAlign: "left",
       textTransform: "capitalize",
       padding: 2,
-      paddingLeft: 4,
+      paddingLeft: 6,
+      paddingTop: 8,
+      paddingBottom: 8,
+      fontWeight: "bold",
     },
-    gridVoto: {
-      width: "65%",
+    tableCellVoto: {
+      width: "50%",
       textAlign: "left",
       textTransform: "capitalize",
       padding: 2,
-      paddingLeft: 4,
+      paddingLeft: 6,
+      paddingTop: 8,
+      paddingBottom: 8,
     },
-    gridMesa: {
-      width: "35%",
-      textAlign: "left",
+    tableCellMesa: {
+      width: "50%",
+      textAlign: "center",
       textTransform: "capitalize",
       padding: 2,
-      paddingLeft: 4,
-      borderStyle: "solid",
-      borderLeftWidth: 0.5,
-      borderColor: "#d1d1d1",
+      paddingLeft: 6,
+      paddingTop: 8,
+      paddingBottom: 8,
     },
   });
 
@@ -82,55 +130,75 @@ const DocuPDF = ({ data }) => {
       <Page size="A4" style={styles.page}>
         <View style={styles.section}>
           <View style={styles.table}>
+            {/*//* Header */}
             <View style={styles.tableRow}>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Nombre</Text>
+              <View style={styles.headerLeft}>
+                <Text style={styles.tableCellTitulo}>LEFT</Text>
               </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Cédula </Text>
-              </View>
-              <View style={styles.tableCol}>
-                <View style={styles.tableRow}>
-                  <Text style={styles.gridVoto}>Voto</Text>
-                  <Text style={styles.gridMesa}>Mesa</Text>
-                </View>
-              </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Centro de Votación</Text>
-              </View>
-              <View style={styles.tableCol}>
-                <Text style={styles.tableCell}>Dirigente</Text>
+              <View style={styles.headerRight}>
+                <Text style={styles.tableCellTitulo}>RIGHT</Text>
               </View>
             </View>
+
+            {/*//* Titulos */}
+            <View style={styles.tableRowTitulos}>
+              <View style={styles.tableColNombre}>
+                <Text style={styles.tableCellTitulo}>NOMBRE</Text>
+              </View>
+              <View style={styles.tableColCedula}>
+                <Text style={styles.tableCellTitulo}>CEDULA </Text>
+              </View>
+              <View style={styles.tableColVotoyMesa}>
+                <View style={styles.tableRow}>
+                  <Text style={styles.tableCellVoto}>VOTO</Text>
+                  <Text style={styles.tableCellMesa}>MESA</Text>
+                </View>
+              </View>
+              <View style={styles.tableColCentro}>
+                <Text style={styles.tableCellTitulo}>CENTRO DE VOTACION</Text>
+              </View>
+              <View style={styles.tableColDirigente}>
+                <Text style={styles.tableCellTitulo}>DIRIGENTE</Text>
+              </View>
+            </View>
+            {/*//* Contenido de la tabla */}
             {sortedData.map((item, index) => (
-              <View key={index} style={styles.tableRow}>
-                <View style={styles.tableCol}>
+              <View key={index} style={styles.tableRowContenido}>
+                {/*//* Nombre */}
+                <View style={styles.tableColNombre}>
                   <Text style={styles.tableCell}>
                     {item.nombre} {item.apellido}
                   </Text>
                 </View>
-                <View style={styles.tableCol}>
+
+                {/*//* Cedula */}
+                <View style={styles.tableColCedula}>
                   <Text style={styles.tableCell}>{item.cedula}</Text>
                 </View>
-                <View style={styles.tableCol}>
+
+                {/*//* Voto y Mesa */}
+                <View style={styles.tableColVotoyMesa}>
                   <View style={styles.tableRow}>
                     {item.estado_de_votacion === "si" ? (
-                      <Text style={styles.gridVoto}>Confirmado </Text>
+                      <Text style={styles.tableCellVoto}>Confirmado </Text>
                     ) : (
-                      <Text style={styles.gridVoto}>Pendiente </Text>
+                      <Text style={styles.tableCellVoto}>Pendiente </Text>
                     )}
 
-                    <Text style={styles.gridMesa}>{item.mesa}</Text>
+                    <Text style={styles.tableCellMesa}>{item.mesa}</Text>
                   </View>
                 </View>
-                <View style={styles.tableCol}>
+
+                {/*//* Centro de votacion */}
+                <View style={styles.tableColCentro}>
                   <Text style={styles.tableCell}>
                     {item.centro_de_votacion}
                   </Text>
                 </View>
-                <View style={styles.tableCol}>
+
+                {/*//* Dirigente */}
+                <View style={styles.tableColDirigente}>
                   <Text style={styles.tableCell}>
-                    {" "}
                     {item.activista.split("@")[0]}
                   </Text>
                 </View>

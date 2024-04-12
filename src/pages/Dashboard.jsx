@@ -892,7 +892,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                         </div>
                         {/*//* Centro de Votación */}
-                        <div className="">{item.centro_de_votacion}</div>
+                        <div className=" capitalize">
+                          {item.centro_de_votacion}
+                        </div>
 
                         {/*//* Activista */}
                         <div className=" overflow-x-auto scroll1">
@@ -1063,7 +1065,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         {/*//* Centro de Votación */}
                         <div
                           className={
-                            mobileTable === "centro" ? "flex" : "hidden"
+                            mobileTable === "centro"
+                              ? "flex capitalize"
+                              : "hidden"
                           }
                         >
                           {item.centro_de_votacion}

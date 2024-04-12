@@ -750,7 +750,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   {/*//SECTION: TABLE DESKTOP ____________________________________________________________________________________________________ */}
                   <section className="hidden md:flex flex-col border-l border-r border-t w-full relative rounded-sm overflow-hidden">
                     {/*//* Titulos de la tabla */}
-                    <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#F3F6F9] text-[#878AA8] px-4 uppercase py-5 text-[11px] font-semibold tracking-wider">
+                    <div className=" w-full grid  grid-cols-5 mt-0  border-b bg-[#F3F6F9] text-[#878AA8] px-4 uppercase py-4 text-[11px] font-semibold tracking-wider">
                       {/*//* Nombre + Apellido */}
                       <div
                         className="flex justify-between sm:cursor-pointer"
@@ -905,7 +905,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   {/*//SECTION: TABLE MOBILE ____________________________________________________________________________________________________ */}
                   <section className="md:hidden flex flex-col border-l border-r border-t w-full relative select-none rounded-sm overflow-hidden">
                     {/*//* Titulos de la tabla */}
-                    <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#F3F6F9] text-[#878AA8] px-2 uppercase py-5 text-[11px] font-semibold tracking-wider">
+                    <div className=" w-full grid items-center  grid-cols-3 mt-0  border-b bg-[#F3F6F9] text-[#878AA8] px-2 uppercase py-4 text-[11px] font-semibold tracking-wider">
                       {/*//* Nombre + Apellido */}
                       <button
                         className="flex uppercase tracking-wide justify-between"

@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import {
+  Document,
+  Page,
+  Text,
+  View,
+  StyleSheet,
+  Font,
+} from "@react-pdf/renderer";
 
 const DocuPDF = ({ data }) => {
   const [contenido, setContenido] = useState([]);
@@ -21,11 +28,22 @@ const DocuPDF = ({ data }) => {
     setSortedData(sort);
   }, [data, contenido]);
 
+  Font.register({
+    family: "Bold",
+    src: "http://fonts.gstatic.com/s/robotocondensed/v13/b9QBgL0iMZfDSpmcXcE8nPOYkGiSOYDq_T7HbIOV1hA.ttf",
+  });
+
+  Font.register({
+    family: "Regular",
+    src: "http://fonts.gstatic.com/s/robotocondensed/v13/Zd2E9abXLFGSr9G3YK2MsKDbm6fPDOZJsR8PmdG62gY.ttf",
+  });
+
   const styles = StyleSheet.create({
     page: {
       flexDirection: "row",
       backgroundColor: "#ffffff",
       fontSize: 9,
+      fontFamily: "Regular",
     },
     section: {
       margin: 10,
@@ -50,11 +68,9 @@ const DocuPDF = ({ data }) => {
     },
     tableRowTitulos: {
       marginTop: 10,
-      marginBottom: 10,
+      marginBottom: 4,
       flexDirection: "row",
-      borderStyle: "solid",
-      borderWidth: 0.5,
-      borderColor: "#0061FE",
+      fontFamily: "Bold",
       backgroundColor: "#0061FE",
       color: "#ffffff",
       fontSize: 8,
@@ -90,10 +106,7 @@ const DocuPDF = ({ data }) => {
     },
     tableRowContenido: {
       flexDirection: "row",
-      borderStyle: "solid",
-      borderWidth: 0.5,
-      borderColor: "#e3e3e3",
-      borderBottomWidth: 0,
+      marginBottom: 4,
       backgroundColor: "#f7f7f7",
     },
     tableCell: {

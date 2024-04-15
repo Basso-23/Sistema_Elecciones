@@ -8,9 +8,19 @@ import {
   Font,
 } from "@react-pdf/renderer";
 
-const DocuPDF = ({ data }) => {
+const PDFdirigentes = ({ data, userState }) => {
   const [contenido, setContenido] = useState([]);
   const [sortedData, setSortedData] = useState([]);
+
+  const CurrentTime = () => {
+    const currentTime = new Date().toLocaleTimeString();
+    return <Text style={styles.fechaRight}>{currentTime}</Text>;
+  };
+
+  const CurrentDate = () => {
+    const currentDate = new Date().toLocaleDateString();
+    return <Text style={styles.fechaRight}>{currentDate}</Text>;
+  };
 
   useEffect(() => {
     setContenido(data);
@@ -204,12 +214,12 @@ const DocuPDF = ({ data }) => {
               {/*//* Fecha */}
               <View style={styles.tableRowFecha}>
                 <Text style={styles.fechaLeft}>Fecha: </Text>
-                <Text style={styles.fechaRight}>12/4/2024</Text>
+                <CurrentDate />
               </View>
               {/*//* Hora */}
               <View style={styles.tableRow}>
                 <Text style={styles.fechaLeft}>Hora: </Text>
-                <Text style={styles.fechaRight}>15:51:04</Text>
+                <CurrentTime />
               </View>
             </View>
           </View>
@@ -224,7 +234,9 @@ const DocuPDF = ({ data }) => {
           <View style={styles.tableRowInfo}>
             <View style={styles.infoLeft}>
               <Text style={styles.infoTitle}>Registro emitido por: </Text>
-              <Text style={styles.infoValue}>carlos.baso </Text>
+              {userState ? (
+                <Text style={styles.infoValue}>{userState.split("@")[0]} </Text>
+              ) : null}
             </View>
             <View style={styles.infoRight}>
               <Text style={styles.infoTitle}>Ordenado por: </Text>
@@ -303,4 +315,4 @@ const DocuPDF = ({ data }) => {
   );
 };
 
-export default DocuPDF;
+export default PDFdirigentes;

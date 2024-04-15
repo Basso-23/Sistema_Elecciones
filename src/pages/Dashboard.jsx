@@ -31,7 +31,7 @@ import Card_Chart from "@/components/Card_Chart";
 import Question from "@/icons/Question";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import DocuPDF from "@/lib/DocuPDF";
+import PDFdirigentes from "@/lib/PDFdirigentes";
 import Download from "@/icons/Download";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
@@ -82,6 +82,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [searchChartActivista, setSearchChartActivista] = useState(""); //* Input de buscar por activista en las graficas
   const [searchChartEscuela, setSearchChartEscuela] = useState(""); //* Input de buscar por escuela en las graficas
+
+  const [download, setDownload] = useState(false);
 
   const [loader, setLoader] = useState(false); //* Loader del boton actualizar
 
@@ -1353,14 +1355,56 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 )}
 
                 {/*//SECTION: PDF DOWNLOAD BUTTON ____________________________________________________________________________________________________ */}
-                <PDFDownloadLink
-                  document={<DocuPDF data={data} />}
-                  fileName="tabla.pdf"
-                >
-                  <section className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95 text-white flex justify-center items-center">
-                    <Download />
-                  </section>
-                </PDFDownloadLink>
+                <section>
+                  <div
+                    onClick={() => {
+                      setDownload(!download);
+                    }}
+                    className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center ${
+                      download
+                        ? "bg-white text-[#0061FE] border"
+                        : "bg-[#0061FE] hover:bg-[#2645e0] text-white"
+                    }`}
+                  >
+                    {download ? <Close /> : <Download />}
+                  </div>
+
+                  {download ? (
+                    <>
+                      <div className="right-5 bottom-[230px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[190px]">
+                        <PDFDownloadLink
+                          document={
+                            <PDFdirigentes data={data} userState={userState} />
+                          }
+                          fileName="Registro (dirigente).pdf"
+                        >
+                          <div className=" flex w-full justify-between items-center">
+                            Dirigente
+                            <div>
+                              <Download />
+                            </div>
+                          </div>
+                        </PDFDownloadLink>
+                      </div>
+                      <div className="right-5 bottom-[170px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[190px]">
+                        <PDFDownloadLink
+                          document={
+                            <PDFdirigentes data={data} userState={userState} />
+                          }
+                          fileName="Registro (dirigente).pdf"
+                        >
+                          <div className=" flex w-full justify-between items-center">
+                            Centro de votación
+                            <div>
+                              <Download />
+                            </div>
+                          </div>
+                        </PDFDownloadLink>
+                      </div>
+                    </>
+                  ) : null}
+                </section>
+
                 {/*//SECTION: PAGE TOGGLE BUTTON ____________________________________________________________________________________________________ */}
                 <section
                   onClick={() => {

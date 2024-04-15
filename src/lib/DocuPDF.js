@@ -76,18 +76,48 @@ const DocuPDF = ({ data }) => {
       flexDirection: "column",
       width: 115,
     },
+    tableRowFecha: {
+      marginTop: -6,
+      marginBottom: 1,
+      flexDirection: "row",
+    },
     fechaLeft: {
-      fontSize: 10,
+      fontSize: 9,
       width: "50%",
       paddingLeft: 8,
       fontFamily: "Bold",
     },
     fechaRight: {
-      fontSize: 10,
+      fontSize: 9,
       width: "50%",
       fontFamily: "Regular",
       textAlign: "right",
       paddingRight: 8,
+    },
+    tableRowInfo: {
+      flexDirection: "row",
+      marginTop: 3,
+      marginBottom: 11,
+    },
+    infoLeft: {
+      width: "50%",
+      fontFamily: "Regular",
+    },
+    infoRight: {
+      width: "50%",
+      fontFamily: "Regular",
+      textAlign: "right",
+      paddingRight: 8,
+    },
+    infoTitle: {
+      fontFamily: "Regular",
+      fontSize: 9,
+      marginBottom: 3,
+    },
+    infoValue: {
+      fontFamily: "Bold",
+      fontSize: 12,
+      textTransform: "uppercase",
     },
     tableRowTitulos: {
       marginTop: 10,
@@ -164,18 +194,23 @@ const DocuPDF = ({ data }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/*//* Header */}
+        {/*//* Header Container */}
         <View style={styles.headerContainer}>
+          {/*//* Left */}
           <View style={styles.headerLeft}>
             <Text style={styles.tableCellTitulo}>LOGO</Text>
           </View>
+          {/*//* Right */}
           <View style={styles.headerRight}>
             <View style={styles.registroContainer}>
+              {/*//* Registro */}
               <Text style={styles.tableCellTitulo}>REGISTRO</Text>
-              <View style={styles.tableRow}>
+              {/*//* Fecha */}
+              <View style={styles.tableRowFecha}>
                 <Text style={styles.fechaLeft}>Fecha:</Text>
                 <Text style={styles.fechaRight}>12/4/2024</Text>
               </View>
+              {/*//* Hora */}
               <View style={styles.tableRow}>
                 <Text style={styles.fechaLeft}>Hora:</Text>
                 <Text style={styles.fechaRight}>15:51:04</Text>
@@ -183,7 +218,19 @@ const DocuPDF = ({ data }) => {
             </View>
           </View>
         </View>
+
         <View style={styles.section}>
+          {/*//* Info */}
+          <View style={styles.tableRowInfo}>
+            <View style={styles.infoLeft}>
+              <Text style={styles.infoTitle}>Registro emitido por: </Text>
+              <Text style={styles.infoValue}>carlos.baso </Text>
+            </View>
+            <View style={styles.infoRight}>
+              <Text style={styles.infoTitle}>Ordenado por: </Text>
+              <Text style={styles.infoValue}>Dirigente </Text>
+            </View>
+          </View>
           <View style={styles.table}>
             {/*//* Titulos */}
             <View style={styles.tableRowTitulos}>

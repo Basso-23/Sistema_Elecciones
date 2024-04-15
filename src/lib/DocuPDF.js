@@ -46,7 +46,7 @@ const DocuPDF = ({ data }) => {
       fontFamily: "Regular",
     },
     section: {
-      margin: 10,
+      margin: 20,
       padding: 10,
       flexGrow: 1,
     },
@@ -60,14 +60,17 @@ const DocuPDF = ({ data }) => {
       color: "#ffffff",
       width: "50%",
       padding: 20,
+      paddingLeft: 30,
       flexGrow: 1,
       alignItems: "flex-start",
       justifyContent: "center",
+      marginLeft: -6,
     },
     headerRight: {
       color: "#ffffff",
       width: "50%",
       padding: 20,
+      paddingRight: 30,
       flexGrow: 1,
       alignItems: "flex-end",
       justifyContent: "center",
@@ -75,28 +78,26 @@ const DocuPDF = ({ data }) => {
     registroContainer: {
       flexDirection: "column",
       width: 115,
+      marginRight: -8,
     },
     tableRowFecha: {
-      marginTop: -6,
-      marginBottom: 1,
+      marginTop: -4,
+      marginBottom: 2,
       flexDirection: "row",
     },
     fechaLeft: {
       fontSize: 9,
-      width: "50%",
       paddingLeft: 8,
-      fontFamily: "Bold",
+      fontFamily: "Regular",
     },
     fechaRight: {
       fontSize: 9,
-      width: "50%",
       fontFamily: "Regular",
-      textAlign: "right",
       paddingRight: 8,
     },
     tableRowInfo: {
       flexDirection: "row",
-      marginTop: 3,
+      marginTop: -6,
       marginBottom: 11,
     },
     infoLeft: {
@@ -107,12 +108,11 @@ const DocuPDF = ({ data }) => {
       width: "50%",
       fontFamily: "Regular",
       textAlign: "right",
-      paddingRight: 8,
     },
     infoTitle: {
       fontFamily: "Regular",
       fontSize: 9,
-      marginBottom: 3,
+      marginBottom: 2,
     },
     infoValue: {
       fontFamily: "Bold",
@@ -198,24 +198,24 @@ const DocuPDF = ({ data }) => {
         <View style={styles.headerContainer}>
           {/*//* Left */}
           <View style={styles.headerLeft}>
-            <Text style={styles.tableCellTitulo}>LOGO</Text>
-          </View>
-          {/*//* Right */}
-          <View style={styles.headerRight}>
             <View style={styles.registroContainer}>
               {/*//* Registro */}
               <Text style={styles.tableCellTitulo}>REGISTRO</Text>
               {/*//* Fecha */}
               <View style={styles.tableRowFecha}>
-                <Text style={styles.fechaLeft}>Fecha:</Text>
+                <Text style={styles.fechaLeft}>Fecha: </Text>
                 <Text style={styles.fechaRight}>12/4/2024</Text>
               </View>
               {/*//* Hora */}
               <View style={styles.tableRow}>
-                <Text style={styles.fechaLeft}>Hora:</Text>
+                <Text style={styles.fechaLeft}>Hora: </Text>
                 <Text style={styles.fechaRight}>15:51:04</Text>
               </View>
             </View>
+          </View>
+          {/*//* Right */}
+          <View style={styles.headerRight}>
+            <Text style={styles.tableCellTitulo}>LOGO</Text>
           </View>
         </View>
 
@@ -238,7 +238,7 @@ const DocuPDF = ({ data }) => {
                 <Text style={styles.tableCellTitulo}>NOMBRE</Text>
               </View>
               <View style={styles.tableColCedula}>
-                <Text style={styles.tableCellTitulo}>CEDULA </Text>
+                <Text style={styles.tableCellTitulo}>CÉDULA </Text>
               </View>
               <View style={styles.tableColVotoyMesa}>
                 <View style={styles.tableRow}>
@@ -247,7 +247,7 @@ const DocuPDF = ({ data }) => {
                 </View>
               </View>
               <View style={styles.tableColCentro}>
-                <Text style={styles.tableCellTitulo}>CENTRO DE VOTACION</Text>
+                <Text style={styles.tableCellTitulo}>CENTRO DE VOTACIÓN</Text>
               </View>
               <View style={styles.tableColDirigente}>
                 <Text style={styles.tableCellTitulo}>DIRIGENTE</Text>

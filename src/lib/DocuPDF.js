@@ -40,7 +40,7 @@ const DocuPDF = ({ data }) => {
 
   const styles = StyleSheet.create({
     page: {
-      flexDirection: "row",
+      flexDirection: "column",
       backgroundColor: "#ffffff",
       fontSize: 9,
       fontFamily: "Regular",
@@ -50,21 +50,44 @@ const DocuPDF = ({ data }) => {
       padding: 10,
       flexGrow: 1,
     },
+    headerContainer: {
+      flexDirection: "row",
+      backgroundColor: "#0061FE",
+      fontSize: 25,
+      fontFamily: "Bold",
+    },
     headerLeft: {
+      color: "#ffffff",
       width: "50%",
-      borderStyle: "solid",
-      borderWidth: 0.5,
-      borderLeftWidth: 0,
-      borderTopWidth: 0,
-      borderColor: "#d1d1d1",
+      padding: 20,
+      flexGrow: 1,
+      alignItems: "flex-start",
+      justifyContent: "center",
     },
     headerRight: {
+      color: "#ffffff",
       width: "50%",
-      borderStyle: "solid",
-      borderWidth: 0.5,
-      borderLeftWidth: 0,
-      borderTopWidth: 0,
-      borderColor: "#d1d1d1",
+      padding: 20,
+      flexGrow: 1,
+      alignItems: "flex-end",
+      justifyContent: "center",
+    },
+    registroContainer: {
+      flexDirection: "column",
+      width: 115,
+    },
+    fechaLeft: {
+      fontSize: 10,
+      width: "50%",
+      paddingLeft: 8,
+      fontFamily: "Bold",
+    },
+    fechaRight: {
+      fontSize: 10,
+      width: "50%",
+      fontFamily: "Regular",
+      textAlign: "right",
+      paddingRight: 8,
     },
     tableRowTitulos: {
       marginTop: 10,
@@ -141,18 +164,27 @@ const DocuPDF = ({ data }) => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <View style={styles.section}>
-          <View style={styles.table}>
-            {/*//* Header */}
-            <View style={styles.tableRow}>
-              <View style={styles.headerLeft}>
-                <Text style={styles.tableCellTitulo}>LEFT</Text>
+        {/*//* Header */}
+        <View style={styles.headerContainer}>
+          <View style={styles.headerLeft}>
+            <Text style={styles.tableCellTitulo}>LOGO</Text>
+          </View>
+          <View style={styles.headerRight}>
+            <View style={styles.registroContainer}>
+              <Text style={styles.tableCellTitulo}>REGISTRO</Text>
+              <View style={styles.tableRow}>
+                <Text style={styles.fechaLeft}>Fecha:</Text>
+                <Text style={styles.fechaRight}>12/4/2024</Text>
               </View>
-              <View style={styles.headerRight}>
-                <Text style={styles.tableCellTitulo}>RIGHT</Text>
+              <View style={styles.tableRow}>
+                <Text style={styles.fechaLeft}>Hora:</Text>
+                <Text style={styles.fechaRight}>15:51:04</Text>
               </View>
             </View>
-
+          </View>
+        </View>
+        <View style={styles.section}>
+          <View style={styles.table}>
             {/*//* Titulos */}
             <View style={styles.tableRowTitulos}>
               <View style={styles.tableColNombre}>
@@ -195,7 +227,7 @@ const DocuPDF = ({ data }) => {
                     {item.estado_de_votacion === "si" ? (
                       <Text style={styles.tableCellVoto}>Confirmado </Text>
                     ) : (
-                      <Text style={styles.tableCellVoto}>Pendiente </Text>
+                      <Text style={styles.tableCellVoto}>~ Pendiente </Text>
                     )}
 
                     <Text style={styles.tableCellMesa}>{item.mesa}</Text>

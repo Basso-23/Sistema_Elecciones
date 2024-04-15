@@ -25,6 +25,7 @@ import Filter from "@/icons/Filter";
 import Search from "@/icons/Search";
 import Sort from "@/icons/Sort";
 import Close from "@/icons/Close";
+import Download from "@/icons/Download";
 
 import ProgressBar from "@ramonak/react-progress-bar";
 import Card_Chart from "@/components/Card_Chart";
@@ -32,7 +33,7 @@ import Question from "@/icons/Question";
 
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PDFdirigentes from "@/lib/PDFdirigentes";
-import Download from "@/icons/Download";
+import PDFcentro from "@/lib/PDFcentro";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -1360,10 +1361,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     onClick={() => {
                       setDownload(!download);
                     }}
-                    className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center ${
+                    className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
                       download
                         ? "bg-white text-[#0061FE] border"
-                        : "bg-[#0061FE] hover:bg-[#2645e0] text-white"
+                        : "bg-[#0061FE] sm:hover:bg-[#2645e0] text-white"
                     }`}
                   >
                     {download ? <Close /> : <Download />}
@@ -1371,30 +1372,26 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                   {download ? (
                     <>
-                      <div className="right-5 bottom-[230px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[190px]">
+                      <div className="right-5 bottom-[230px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[200px]">
                         <PDFDownloadLink
-                          document={
-                            <PDFdirigentes data={data} userState={userState} />
-                          }
-                          fileName="Registro (dirigente).pdf"
+                          document={<PDFdirigentes userState={userState} />}
+                          fileName="Registro(dirigente).pdf"
                         >
                           <div className=" flex w-full justify-between items-center">
-                            Dirigente
+                            Por dirigente
                             <div>
                               <Download />
                             </div>
                           </div>
                         </PDFDownloadLink>
                       </div>
-                      <div className="right-5 bottom-[170px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[190px]">
+                      <div className="right-5 bottom-[170px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[200px]">
                         <PDFDownloadLink
-                          document={
-                            <PDFdirigentes data={data} userState={userState} />
-                          }
-                          fileName="Registro (dirigente).pdf"
+                          document={<PDFcentro userState={userState} />}
+                          fileName="Registro(centro).pdf"
                         >
                           <div className=" flex w-full justify-between items-center">
-                            Centro de votación
+                            Por centro de votación
                             <div>
                               <Download />
                             </div>
@@ -1409,6 +1406,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 <section
                   onClick={() => {
                     setPageToggle(!pageToggle);
+                    setDownload(false);
                     window.scrollTo(0, 0);
                   }}
                   className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 sm:cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"

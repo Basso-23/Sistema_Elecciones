@@ -9,13 +9,13 @@ import {
 } from "@react-pdf/renderer";
 import { firebase_read } from "@/firebase/firebase";
 
-const PDFdirigentes = ({ userState }) => {
+const PDFcentro = ({ userState }) => {
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
     console.log("firebase_read");
     //* Lee y asigna los datos de la BD requiere: (nombre de la coleccion, variable donde guardar los datos y nombre del campo por el que se ordenara)
-    firebase_read("votantes", setSortedData, "activista");
+    firebase_read("votantes", setSortedData, "centro_de_votacion");
   }, []);
 
   const CurrentTime = () => {
@@ -230,7 +230,7 @@ const PDFdirigentes = ({ userState }) => {
             </View>
             <View style={styles.infoRight}>
               <Text style={styles.infoTitle}>Ordenado por: </Text>
-              <Text style={styles.infoValue}>Dirigente </Text>
+              <Text style={styles.infoValue}>CENTRO DE VOTACIÓN </Text>
             </View>
           </View>
           <View style={styles.table}>
@@ -305,4 +305,4 @@ const PDFdirigentes = ({ userState }) => {
   );
 };
 
-export default PDFdirigentes;
+export default PDFcentro;

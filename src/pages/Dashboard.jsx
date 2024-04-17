@@ -84,7 +84,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const [searchChartActivista, setSearchChartActivista] = useState(""); //* Input de buscar por activista en las graficas
   const [searchChartEscuela, setSearchChartEscuela] = useState(""); //* Input de buscar por escuela en las graficas
 
-  const [download, setDownload] = useState(false);
+  const [download, setDownload] = useState(false); //* Controla si se ve los botones de descarga
 
   const [loader, setLoader] = useState(false); //* Loader del boton actualizar
 
@@ -1372,6 +1372,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                   {download ? (
                     <>
+                      {/*//* PDFdirigentes */}
                       <div className="right-5 bottom-[230px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[200px]">
                         <PDFDownloadLink
                           document={<PDFdirigentes userState={userState} />}
@@ -1385,6 +1386,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                         </PDFDownloadLink>
                       </div>
+                      {/*//* PDFcentro */}
                       <div className="right-5 bottom-[170px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[200px]">
                         <PDFDownloadLink
                           document={<PDFcentro userState={userState} />}

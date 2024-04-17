@@ -9,6 +9,9 @@ import {
   firebase_write,
 } from "@/firebase/firebase";
 
+import { ToastContainer, toast, Slide } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import InputForm from "@/components/InputForm";
 import { keyMaker } from "@/components/keyMaker";
 
@@ -88,14 +91,24 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [loader, setLoader] = useState(false); //* Loader del boton actualizar
 
-  const mesas_bd = ["1", "2", "3", "4", "5"]; //* Mesas de la etiqueta select
+  const mesas_bd = []; //* Mesas de la etiqueta select
+
+  for (let i = 3696; i <= 3780; i++) {
+    mesas_bd.push(i);
+  }
 
   const escuelas_bd = [
-    "escuela 1",
-    "escuela 2",
-    "escuela 3",
-    "escuela 4",
-    "escuela 5",
+    "ESC. CIRILO J. MARTINEZ",
+    "ESC. NARCISO GARAY",
+    "ESC. SANTA CRUZ",
+    "ESC. JOSE P. PAREDES",
+    "ESC. ASCANIO VILLALAZ PAZ",
+    "ESC. BILINGÜE ABRAHAM",
+    "ESC. BUEN PASTOR GETZEMANI",
+    "ESC. BUEN PASTOR JIREH",
+    "ESC. JUAN ARTURO MARTINELLI",
+    "CANCHA PARQUE BALMORAL",
+    "CANCHA LA FLORIDA",
   ]; //* Escuelas de la etiqueta select
 
   const itemsToShow = 50; //* Cantidad de items a mostrar en la tabla
@@ -204,6 +217,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     formInfo.estado_de_votacion = "";
 
     setCreateModal(false);
+    notifyCreado();
   };
 
   //FUNCTION: Maneja el onChange los input de EDIT
@@ -281,6 +295,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     editInfo.mesa = "";
     editInfo.activista = "";
     editInfo.estado_de_votacion = "";
+
+    //* Ordena por defecto despues de editar (por fecha)
+    setCurrentOrder("Por defecto");
+    notifyEditado();
   };
 
   //FUNCTION: Se ejecuta al cargar la pagina
@@ -535,8 +553,52 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     setConteoCombinadoA(filtered);
   };
 
+  const notifyCreado = () => {
+    toast.success("Votante creado exitosamente", {
+      position: "bottom-center",
+      autoClose: 3500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Slide,
+    });
+  };
+  const notifyEliminado = () => {
+    toast.success("Votante borrado exitosamente", {
+      position: "bottom-center",
+      autoClose: 3500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Slide,
+    });
+  };
+  const notifyEditado = () => {
+    toast.success("Votante editado exitosamente", {
+      position: "bottom-center",
+      autoClose: 3500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Slide,
+    });
+  };
+
   return (
     <main className="pt-8 pb-20">
+      {/* Container de la notificacion de correo copiado */}
+      <div className="text-[15px]">
+        <ToastContainer />
+      </div>
       {load ? (
         <>
           {pageToggle ? (
@@ -1105,7 +1167,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </section>
 
                   {/*//SECTION: PAGINACION ____________________________________________________________________________________________________ */}
-                  <section className="mx-auto mt-10 flex gap-10">
+                  <section className="mx-auto mt-10 flex gap-10 text-sm">
                     {/*//* Pagina anterior */}
                     <button onClick={prevPage} disabled={currentPage === 1}>
                       anterior
@@ -1360,6 +1422,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <div
                     onClick={() => {
                       setDownload(!download);
+                      setTimeout(() => {
+                        setDownload(false);
+                      }, "5000");
                     }}
                     className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
                       download
@@ -2114,11 +2179,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <div className=" flex justify-between">
                             <div className="justify-center w-full text-sm">
                               {item.estado_de_votacion === "si" ? (
-                                <div className="text-[#1FB46E]   ">
+                                <div className="text-[#1FB46E] font-light">
                                   Confirmado
                                 </div>
                               ) : (
-                                <div className="text-red-600 ">Pendiente</div>
+                                <div className="text-red-600">Pendiente</div>
                               )}
                             </div>
                             <div
@@ -2177,6 +2242,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       firebase_delete("votantes", tempKey, setData, "index");
                       setDeleteModal(false);
                       setInfoModal(false);
+                      notifyEliminado();
                     }}
                     className=" text-white bg-[#F24646] font-medium sm:cursor-pointer flex items-center justify-center py-4 rounded-sm"
                   >

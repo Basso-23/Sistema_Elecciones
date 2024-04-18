@@ -13,10 +13,14 @@ const PDFdirigentes = ({ userState }) => {
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
-    console.log("firebase_read");
+    //console.log("firebase_read");
     //* Lee y asigna los datos de la BD requiere: (nombre de la coleccion, variable donde guardar los datos y nombre del campo por el que se ordenara)
     firebase_read("votantes", setSortedData, "activista");
   }, []);
+
+  useEffect(() => {
+    console.log("DIRIGENTES:", sortedData);
+  }, [sortedData]);
 
   const CurrentTime = () => {
     const currentTime = new Date().toLocaleTimeString();

@@ -91,6 +91,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [loader, setLoader] = useState(false); //* Loader del boton actualizar
 
+  const [downloadReady, setDownloadReady] = useState(false);
+
   const mesas_bd = []; //* Mesas de la etiqueta select
 
   for (let i = 3696; i <= 3780; i++) {
@@ -1422,6 +1424,12 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <div
                     onClick={() => {
                       setDownload(!download);
+                      if (downloadReady) {
+                        setDownloadReady(false);
+                      }
+                      setTimeout(() => {
+                        setDownloadReady(true);
+                      }, "1000");
                     }}
                     className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
                       download
@@ -1436,31 +1444,55 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     <>
                       {/*//* PDFdirigentes */}
                       <div className="right-5 bottom-[230px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[200px]">
-                        <PDFDownloadLink
-                          document={<PDFdirigentes userState={userState} />}
-                          fileName="Registro(dirigente).pdf"
-                        >
-                          <div className=" flex w-full justify-between items-center">
-                            Por dirigente
-                            <div>
-                              <Download />
+                        {downloadReady ? (
+                          <>
+                            <PDFDownloadLink
+                              document={<PDFdirigentes userState={userState} />}
+                              fileName="Registro(dirigente).pdf"
+                            >
+                              <div className=" flex w-full justify-between items-center">
+                                Por dirigente
+                                <div>
+                                  <Download />
+                                </div>
+                              </div>
+                            </PDFDownloadLink>
+                          </>
+                        ) : (
+                          <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
+                            <div className="lds-ellipsis -ml-14 ">
+                              <div></div>
+                              <div></div>
+                              <div></div>
                             </div>
                           </div>
-                        </PDFDownloadLink>
+                        )}
                       </div>
                       {/*//* PDFcentro */}
                       <div className="right-5 bottom-[170px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[200px]">
-                        <PDFDownloadLink
-                          document={<PDFcentro userState={userState} />}
-                          fileName="Registro(centro).pdf"
-                        >
-                          <div className=" flex w-full justify-between items-center">
-                            Por centro de votación
-                            <div>
-                              <Download />
+                        {downloadReady ? (
+                          <>
+                            <PDFDownloadLink
+                              document={<PDFcentro userState={userState} />}
+                              fileName="Registro(centro).pdf"
+                            >
+                              <div className=" flex w-full justify-between items-center">
+                                Por centro de votación
+                                <div>
+                                  <Download />
+                                </div>
+                              </div>
+                            </PDFDownloadLink>
+                          </>
+                        ) : (
+                          <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
+                            <div className="lds-ellipsis -ml-14 ">
+                              <div></div>
+                              <div></div>
+                              <div></div>
                             </div>
                           </div>
-                        </PDFDownloadLink>
+                        )}
                       </div>
                     </>
                   ) : null}

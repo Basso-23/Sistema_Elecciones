@@ -1422,9 +1422,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <div
                     onClick={() => {
                       setDownload(!download);
-                      setTimeout(() => {
-                        setDownload(false);
-                      }, "5000");
                     }}
                     className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
                       download

@@ -18,6 +18,9 @@ const PDFcentro = ({ userState }) => {
     //* Lee y asigna los datos de la BD requiere: (nombre de la coleccion, variable donde guardar los datos y nombre del campo por el que se ordenara)
     firebase_read("votantes", setSortedData, "centro_de_votacion");
   }, []);
+  useEffect(() => {
+    //console.log("CENTRO:", sortedData);
+  }, [sortedData]);
 
   const CurrentTime = () => {
     const currentTime = new Date().toLocaleTimeString();

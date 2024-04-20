@@ -20,7 +20,7 @@ const PDFdirigentes = ({ userState }) => {
   }, []);
 
   useEffect(() => {
-    console.log("DIRIGENTES:", sortedData);
+    //console.log("DIRIGENTES:", sortedData);
   }, [sortedData]);
 
   const CurrentTime = () => {

@@ -1144,7 +1144,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         <div
                           className={
                             mobileTable === "activista"
-                              ? "overflow-x-auto scroll1 flex capitalize"
+                              ? "overflow-x-auto scroll1 flex capitalize mr-1"
                               : "hidden"
                           }
                         >

@@ -1133,11 +1133,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         <div
                           className={
                             mobileTable === "centro"
-                              ? "flex capitalize"
+                              ? "overflow-x-auto scroll1 flex capitalize mr-1"
                               : "hidden"
                           }
                         >
-                          {item.centro_de_votacion}
+                          {item.centro_de_votacion.replace(/\s/g, ".")}
                         </div>
 
                         {/*//* Activista */}

@@ -964,7 +964,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         </div>
 
                         {/*//* Activista */}
-                        <div className=" overflow-x-auto scroll1">
+                        <div className=" overflow-x-auto scroll1 capitalize">
                           {item.activista.split("@")[0]}
                         </div>
                       </div>
@@ -1144,7 +1144,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         <div
                           className={
                             mobileTable === "activista"
-                              ? "overflow-x-auto scroll1 flex"
+                              ? "overflow-x-auto scroll1 flex capitalize"
                               : "hidden"
                           }
                         >
@@ -1429,7 +1429,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       }
                       setTimeout(() => {
                         setDownloadReady(true);
-                      }, "1000");
+                      }, "500");
                     }}
                     className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
                       download
@@ -1443,7 +1443,13 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   {download ? (
                     <>
                       {/*//* PDFdirigentes */}
-                      <div className="right-5 bottom-[230px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[200px]">
+                      <div
+                        className={`right-5 bottom-[230px] cursor-pointer text-[13px] text-white font-medium fixed py-[13px] px-3 select-none rounded-sm w-full max-w-[200px] ${
+                          !downloadReady
+                            ? "bg-[#cbcbcb] pointer-events-none"
+                            : "bg-[#0061FE] hover:bg-[#2645e0]"
+                        }`}
+                      >
                         {downloadReady ? (
                           <>
                             <PDFDownloadLink
@@ -1469,7 +1475,13 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         )}
                       </div>
                       {/*//* PDFcentro */}
-                      <div className="right-5 bottom-[170px] cursor-pointer text-[13px] text-white font-medium fixed bg-[#0061FE] hover:bg-[#2645e0] py-[13px] px-3 select-none rounded-sm w-full max-w-[200px]">
+                      <div
+                        className={`right-5 bottom-[170px] cursor-pointer text-[13px] text-white font-medium fixed py-[13px] px-3 select-none rounded-sm w-full max-w-[200px] ${
+                          !downloadReady
+                            ? "bg-[#cbcbcb] pointer-events-none"
+                            : "bg-[#0061FE] hover:bg-[#2645e0]"
+                        }`}
+                      >
                         {downloadReady ? (
                           <>
                             <PDFDownloadLink
@@ -2208,11 +2220,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <div className=" flex justify-between">
                             <div className="justify-center w-full text-sm">
                               {item.estado_de_votacion === "si" ? (
-                                <div className="text-[#1FB46E] font-light">
-                                  Confirmado
-                                </div>
+                                <div>Confirmado</div>
                               ) : (
-                                <div className="text-red-600">Pendiente</div>
+                                <div>~ Pendiente</div>
                               )}
                             </div>
                             <div
@@ -2244,7 +2254,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </div>
 
                 {/*//* Activista */}
-                <div className="text-[#707070] border-t  font-light  text-[13px] text-center py-2 rrr-br-md rrr-bl-md overflow-x-auto scroll1 justify-center w-full ">
+                <div className="text-[#707070] border-t  font-normal  text-[13px] text-center py-2 rrr-br-md rrr-bl-md overflow-x-auto scroll1 justify-center w-full capitalize ">
                   {item.activista.split("@")[0]}
                 </div>
               </div>

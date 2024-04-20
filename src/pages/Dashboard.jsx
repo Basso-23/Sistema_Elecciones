@@ -1429,7 +1429,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       }
                       setTimeout(() => {
                         setDownloadReady(true);
-                      }, "500");
+                      }, "1000");
                     }}
                     className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
                       download

@@ -27,14 +27,28 @@ const Navbar = ({ userState, setUserState, adminID, activistaID }) => {
     <main className=" bg-white border-b z-50 fixed w-full sm:h-[70px] h-[50px] flex items-center">
       {/*//SECTION: Navbar container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
       <section className="flex justify-between py-4 sm:px-4 pageSize w-full">
-        <div className="flex gap-3 items-center">
-          {/*//* Logo */}
-          <div className=" sm:w-10 sm:h-10 w-[50px] h-[50px] bg-[#0061FE] justify-center items-center flex text-white p-[7px]">
-            <Vote />
-          </div>
-          {/*//* Titulo */}
-          <div className=" sm:flex hidden text-xl font-bold -tracking-wide ">
-            Registro de votantes
+        <div className="flex gap-2 items-center">
+          <div
+            className="bg-contain bg-center w-[60px]  aspect-[10/5] bg-no-repeat md:flex hidden"
+            style={{
+              backgroundImage:
+                "url('https://i.imgur.com/CzlwmDN.pngtu_url_de_imagen')",
+            }}
+          ></div>
+          <div
+            className="bg-contain bg-center w-[120px]  aspect-[10/5] bg-no-repeat md:ml-0 ml-2 mt-1"
+            style={{
+              backgroundImage: "url('https://i.imgur.com/KePacDj.png')",
+            }}
+          ></div>
+
+          <div className=" -mt-1 border-l pl-5 ml-3 md:flex hidden">
+            <div
+              className="bg-contain bg-center w-[105px]  aspect-[10/5] bg-no-repeat"
+              style={{
+                backgroundImage: "url('https://i.imgur.com/UyoAvKn.png')",
+              }}
+            ></div>
           </div>
         </div>
 

@@ -100,15 +100,15 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   }
 
   const escuelas_bd = [
-    "ESC. CIRILO J. MARTINEZ",
-    "ESC. NARCISO GARAY",
-    "ESC. SANTA CRUZ",
-    "ESC. JOSE P. PAREDES",
-    "ESC. ASCANIO VILLALAZ PAZ",
-    "ESC. BILINGÜE ABRAHAM",
-    "ESC. BUEN PASTOR GETZEMANI",
-    "ESC. BUEN PASTOR JIREH",
-    "ESC. JUAN ARTURO MARTINELLI",
+    "CIRILO J MARTINEZ",
+    "NARCISO GARAY",
+    "SANTA CRUZ",
+    "JOSE PABLO PAREDES",
+    "ASCANIO VILLALAZ",
+    "BILINGÜE ABRAHAM",
+    "BUEN PASTOR GETSEMNI",
+    "BUEN PASTOR JIREH",
+    "JUAN ARTURO MARTINELLI",
     "CANCHA PARQUE BALMORAL",
     "CANCHA LA FLORIDA",
   ]; //* Escuelas de la etiqueta select
@@ -1429,7 +1429,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       }
                       setTimeout(() => {
                         setDownloadReady(true);
-                      }, "1000");
+                      }, "1250");
                     }}
                     className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
                       download

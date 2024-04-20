@@ -6,6 +6,7 @@ import {
   View,
   StyleSheet,
   Font,
+  Image,
 } from "@react-pdf/renderer";
 import { firebase_read } from "@/firebase/firebase";
 
@@ -189,6 +190,10 @@ const PDFcentro = ({ userState }) => {
       paddingTop: 8,
       paddingBottom: 8,
     },
+    logo: {
+      width: 100, // Ancho deseado
+      height: 55, // Alto deseado
+    },
   });
 
   return (
@@ -215,7 +220,10 @@ const PDFcentro = ({ userState }) => {
           </View>
           {/*//* Right */}
           <View style={styles.headerRight}>
-            <Text style={styles.tableCellTitulo}>LOGO</Text>
+            <Image
+              style={styles.logo}
+              src={"https://i.imgur.com/4L784IZ.png"}
+            />
           </View>
         </View>
 

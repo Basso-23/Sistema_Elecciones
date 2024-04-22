@@ -42,7 +42,7 @@ const Navbar = ({ userState, setUserState, adminID, activistaID }) => {
             }}
           ></div>
 
-          <div className=" -mt-1 border-l pl-5 ml-3 md:flex hidden">
+          <div className=" -mt-1 border-l pl-5 ml-3 hidden">
             <div
               className="bg-contain bg-center w-[105px]  aspect-[10/5] bg-no-repeat"
               style={{

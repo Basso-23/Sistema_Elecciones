@@ -37,6 +37,7 @@ import Question from "@/icons/Question";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import PDFdirigentes from "@/lib/PDFdirigentes";
 import PDFcentro from "@/lib/PDFcentro";
+import PDFmesas from "@/lib/PDFmesas";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -942,13 +943,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           {/*//* Voto */}
                           <div className="w-full">
                             {item.estado_de_votacion === "si" ? (
-                              <span className="text-[#1FB46E] bg-[#EAFCF3] text-[12px] flex rounded-full gap-1 font-semibold px-[6px] items-center">
-                                <span className="text-[14px]">•</span>{" "}
+                              <span className="border-l-4 border-[#2FD572] text-[#22AD5D] bg-[#C2F2D7] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
                                 <span>Confirmado </span>
                               </span>
                             ) : (
-                              <span className="text-[#D86B8E] bg-[#F8E8ED] text-[12px] flex rounded-full gap-1 font-semibold px-[6px] items-center">
-                                <span className="text-[14px]">•</span>{" "}
+                              <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
                                 <span>Pendiente </span>
                               </span>
                             )}
@@ -1153,13 +1152,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         {/*//* Voto */}
                         <div className="w-full flex items-center">
                           {item.estado_de_votacion === "si" ? (
-                            <span className="text-[#1FB46E] bg-[#EAFCF3] text-[12px] flex rounded-full gap-1 font-semibold px-[6px] items-center ">
-                              <span className="text-[14px]">•</span>{" "}
+                            <span className="border-l-4 border-[#2FD572] text-[#22AD5D] bg-[#C2F2D7] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
                               <span>Confirmado </span>
                             </span>
                           ) : (
-                            <span className="text-[#D86B8E] bg-[#F8E8ED] text-[12px] flex rounded-full gap-1 font-semibold px-[6px] items-center ">
-                              <span className="text-[14px]">•</span>{" "}
+                            <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
                               <span>Pendiente </span>
                             </span>
                           )}
@@ -1429,7 +1426,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       }
                       setTimeout(() => {
                         setDownloadReady(true);
-                      }, "1500");
+                      }, "1000");
                     }}
                     className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
                       download
@@ -1442,6 +1439,38 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                   {download ? (
                     <>
+                      {/*//* PDFmesas */}
+                      <div
+                        className={`right-5 bottom-[290px] cursor-pointer text-[13px] text-white font-medium fixed py-[13px] px-3 select-none rounded-sm w-full max-w-[200px] ${
+                          !downloadReady
+                            ? "bg-[#cbcbcb] pointer-events-none"
+                            : "bg-[#0061FE] hover:bg-[#2645e0]"
+                        }`}
+                      >
+                        <PDFDownloadLink
+                          document={<PDFmesas userState={userState} />}
+                          fileName="Registro(mesa).pdf"
+                        >
+                          {downloadReady ? (
+                            <>
+                              <div className=" flex w-full justify-between items-center">
+                                Por mesa
+                                <div>
+                                  <Download />
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
+                              <div className="lds-ellipsis -ml-14 ">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                              </div>
+                            </div>
+                          )}
+                        </PDFDownloadLink>
+                      </div>
                       {/*//* PDFdirigentes */}
                       <div
                         className={`right-5 bottom-[230px] cursor-pointer text-[13px] text-white font-medium fixed py-[13px] px-3 select-none rounded-sm w-full max-w-[200px] ${
@@ -1715,18 +1744,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <div className="flex justify-between items-center w-full">
                     <h1 className=" text-[25px] font-semibold flex items-center ">
                       Votante
-                      <button
-                        onClick={() => {
-                          setDeleteModal(true);
-                        }}
-                        className={
-                          adminID.includes(userState) && !update
-                            ? " text-[15px] font-medium tracking-wide w-full text-[#d31504] text-center border-l ml-3 pl-3"
-                            : "hidden"
-                        }
-                      >
-                        Borrar
-                      </button>
                     </h1>
 
                     <div className="text-[#0061FE] flex">
@@ -1743,7 +1760,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
                   <form
                     onSubmit={handleSubmitEdit}
-                    className="w-full flex flex-col my-auto gap-5"
+                    className="w-full flex flex-col my-auto gap-1"
                   >
                     <div>
                       {/*//* Nombre + Apellido */}
@@ -1775,7 +1792,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
 
                           <button
-                            className="w-fit text-[#d31504]"
+                            className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2 mb-2"
                             onClick={() => {
                               setUpdate(false);
                             }}
@@ -1783,7 +1800,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             Cerrar
                           </button>
                           <button
-                            className="text-end w-fit ml-auto text-[#0061FE]"
+                            className="text-end w-fit ml-auto bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px] mb-2 mb-2"
                             type="submit"
                           >
                             Guardar
@@ -1812,8 +1829,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                                 }}
                                 className={
                                   selected != "nombre" && update
-                                    ? "text-[#c2c2c2] pointer-events-none"
-                                    : "text-[#0061FE]"
+                                    ? "bg-transparent text-transparent py-2 px-4 rounded-sm text-[13px]  pointer-events-none"
+                                    : "bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px]  "
                                 }
                               >
                                 Editar
@@ -1846,7 +1863,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit text-[#d31504]"
+                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1856,8 +1873,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <button
                               className={`text-end w-fit ml-auto  ${
                                 votanteExisteEdit
-                                  ? " text-[#c2c2c2] pointer-events-none"
-                                  : " text-[#0061FE]"
+                                  ? " transition-all bg-[#c2c2c2] text-white py-2 px-4 rounded-sm text-[13px] pointer-events-none"
+                                  : " bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px] "
                               }`}
                               type="submit"
                             >
@@ -1886,8 +1903,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                                 }}
                                 className={
                                   selected != "cedula" && update
-                                    ? "text-[#c2c2c2] pointer-events-none"
-                                    : "text-[#0061FE]"
+                                    ? "bg-transparent text-transparent py-2 px-4 rounded-sm text-[13px]  pointer-events-none"
+                                    : "bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px]  "
                                 }
                               >
                                 Editar
@@ -1914,7 +1931,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit text-[#d31504]"
+                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1922,7 +1939,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               Cerrar
                             </button>
                             <button
-                              className="text-end w-fit ml-auto text-[#0061FE]"
+                              className="text-end w-fit ml-auto bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               type="submit"
                             >
                               Guardar
@@ -1950,8 +1967,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                                 }}
                                 className={
                                   selected != "telefono" && update
-                                    ? "text-[#c2c2c2] pointer-events-none"
-                                    : "text-[#0061FE]"
+                                    ? "bg-transparent text-transparent py-2 px-4 rounded-sm text-[13px]  pointer-events-none"
+                                    : "bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px]  "
                                 }
                               >
                                 Editar
@@ -1979,7 +1996,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit text-[#d31504]"
+                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1987,7 +2004,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               Cerrar
                             </button>
                             <button
-                              className="text-end w-fit ml-auto text-[#0061FE]"
+                              className="text-end w-fit ml-auto bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               type="submit"
                             >
                               Guardar
@@ -2015,8 +2032,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                                 }}
                                 className={
                                   selected != "direccion" && update
-                                    ? "text-[#c2c2c2] pointer-events-none"
-                                    : "text-[#0061FE]"
+                                    ? "bg-transparent text-transparent py-2 px-4 rounded-sm text-[13px]  pointer-events-none"
+                                    : "bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px]  "
                                 }
                               >
                                 Editar
@@ -2053,7 +2070,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit text-[#d31504]"
+                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -2061,7 +2078,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               Cerrar
                             </button>
                             <button
-                              className="text-end w-fit ml-auto text-[#0061FE]"
+                              className="text-end w-fit ml-auto bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               type="submit"
                             >
                               Guardar
@@ -2089,8 +2106,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                                 }}
                                 className={
                                   selected != "centro_de_votacion" && update
-                                    ? "text-[#c2c2c2] pointer-events-none"
-                                    : "text-[#0061FE]"
+                                    ? "bg-transparent text-transparent py-2 px-4 rounded-sm text-[13px]  pointer-events-none"
+                                    : "bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px]  "
                                 }
                               >
                                 Editar
@@ -2127,7 +2144,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit text-[#d31504]"
+                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -2135,7 +2152,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               Cerrar
                             </button>
                             <button
-                              className="text-end w-fit ml-auto text-[#0061FE]"
+                              className="text-end w-fit ml-auto bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               type="submit"
                             >
                               Guardar
@@ -2163,8 +2180,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                                 }}
                                 className={
                                   selected != "mesa" && update
-                                    ? "text-[#c2c2c2] pointer-events-none"
-                                    : "text-[#0061FE]"
+                                    ? "bg-transparent text-transparent py-2 px-4 rounded-sm text-[13px]  pointer-events-none"
+                                    : "bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px]  "
                                 }
                               >
                                 Editar
@@ -2198,7 +2215,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit text-[#d31504]"
+                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -2206,7 +2223,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               Cerrar
                             </button>
                             <button
-                              className="text-end w-fit ml-auto text-[#0061FE]"
+                              className="text-end w-fit ml-auto bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               type="submit"
                             >
                               Guardar
@@ -2221,9 +2238,13 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <div className=" flex justify-between">
                             <div className="justify-center w-full text-sm">
                               {item.estado_de_votacion === "si" ? (
-                                <div>Confirmado</div>
+                                <span className="border-l-4 border-[#2FD572] text-[#22AD5D] bg-[#C2F2D7] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
+                                  <span>Confirmado </span>
+                                </span>
                               ) : (
-                                <div>~ Pendiente</div>
+                                <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
+                                  <span>Pendiente </span>
+                                </span>
                               )}
                             </div>
                             <div
@@ -2240,18 +2261,42 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                                 }}
                                 className={
                                   selected != "estado_de_votacion" && update
-                                    ? "text-[#c2c2c2] pointer-events-none"
-                                    : "text-[#0061FE]"
+                                    ? "bg-transparent text-transparent py-2 px-4 rounded-sm text-[13px]  pointer-events-none"
+                                    : "bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px]  "
                                 }
                               >
                                 Editar
                               </button>
                             </div>
+                            <button
+                              onClick={() => {
+                                setDeleteModal(true);
+                              }}
+                              className={
+                                adminID.includes(userState) && !update
+                                  ? " hidden transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] text-center font-normal "
+                                  : "hidden"
+                              }
+                            >
+                              Borrar
+                            </button>
                           </div>
                         </>
                       )}
                     </div>
                   </form>
+                  <button
+                    onClick={() => {
+                      setDeleteModal(true);
+                    }}
+                    className={
+                      adminID.includes(userState) && !update
+                        ? "  transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-3 px-4 rounded-sm text-[13px] text-center font-normal w-full"
+                        : "hidden"
+                    }
+                  >
+                    Borrar
+                  </button>
                 </div>
 
                 {/*//* Activista */}
@@ -2284,7 +2329,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       setInfoModal(false);
                       notifyEliminado();
                     }}
-                    className=" text-white bg-[#F24646] font-medium sm:cursor-pointer flex items-center justify-center py-4 rounded-sm"
+                    className=" bg-[#F24646] hover:bg-[#cd202f] transition-all text-[13px] text-white py-3 font-medium sm:cursor-pointer flex items-center justify-center rounded-sm"
                   >
                     <div className="">Borrar</div>
                   </div>
@@ -2292,7 +2337,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     onClick={() => {
                       setDeleteModal(false);
                     }}
-                    className=" text-[#6B6E7F] bg-[#F0F0F0] font-medium py-4 sm:cursor-pointer flex items-center justify-center rounded-sm"
+                    className=" text-[#6B6E7F] bg-[#ebebeb] hover:bg-[#e1e1e1] text-[13px] transition-all font-medium py-3 sm:cursor-pointer flex items-center justify-center rounded-sm"
                   >
                     <div className="">Cancelar</div>
                   </div>

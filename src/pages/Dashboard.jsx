@@ -652,7 +652,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   <div
                     className={
                       adminID.includes(userState)
-                        ? " lg:grid-cols-4 sm:grid-cols-2 grid-cols-1 grid w-full mb-10 gap-6"
+                        ? " lg:grid-cols-4 grid-cols-1 grid w-full mb-10 gap-6"
                         : "hidden"
                     }
                   >
@@ -943,11 +943,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           {/*//* Voto */}
                           <div className="w-full">
                             {item.estado_de_votacion === "si" ? (
-                              <span className="border-l-4 border-[#2FD572] text-[#22AD5D] bg-[#C2F2D7] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
+                              <span className="border-l-4 border-[#2FD572] text-[#22AD5D] bg-[#C2F2D7] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[2px]">
                                 <span>Confirmado </span>
                               </span>
                             ) : (
-                              <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
+                              <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[2px]">
                                 <span>Pendiente </span>
                               </span>
                             )}
@@ -1152,11 +1152,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         {/*//* Voto */}
                         <div className="w-full flex items-center">
                           {item.estado_de_votacion === "si" ? (
-                            <span className="border-l-4 border-[#2FD572] text-[#22AD5D] bg-[#C2F2D7] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
+                            <span className="border-l-4 border-[#2FD572] text-[#22AD5D] bg-[#C2F2D7] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[2px]">
                               <span>Confirmado </span>
                             </span>
                           ) : (
-                            <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
+                            <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[2px]">
                               <span>Pendiente </span>
                             </span>
                           )}
@@ -1559,7 +1559,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
       {/*//SECTION: CREAR MODAL ____________________________________________________________________________________________________ */}
       {createModal ? (
-        <section className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
+        <section className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[4lvh] px-3">
           <div className="w-full max-w-[400px] bg-white mb-10 flex h-fit lg:-mt-10">
             {/*//* Contenido de la tabla */}
             <div className="relative w-full text-[15px] overflow-hidden">
@@ -1731,7 +1731,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
       {/*//SECTION: VOTANTE INFO MODAL ____________________________________________________________________________________________________ */}
       {infoModal ? (
-        <section className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[8lvh] px-3">
+        <section className=" fixed w-full h-full bg-[#00000079] glass z-50 top-0 flex justify-center lg:items-center lg:pt-0 pt-[4lvh] px-3">
           <div className="w-full max-w-[400px] bg-white rounded-sm overflow-hidden flex h-fit lg:-mt-10 relative">
             {/*//* Contenido de la tabla */}
             {infoModal_db.map((item, index) => (
@@ -1792,7 +1792,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
 
                           <button
-                            className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2 mb-2"
+                            className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px]  mb-2"
                             onClick={() => {
                               setUpdate(false);
                             }}
@@ -1800,7 +1800,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             Cerrar
                           </button>
                           <button
-                            className="text-end w-fit ml-auto bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px] mb-2 mb-2"
+                            className="text-end w-fit ml-auto bg-[#0061FE] hover:bg-[#2645e0] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                             type="submit"
                           >
                             Guardar
@@ -2238,11 +2238,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <div className=" flex justify-between">
                             <div className="justify-center w-full text-sm">
                               {item.estado_de_votacion === "si" ? (
-                                <span className="border-l-4 border-[#2FD572] text-[#22AD5D] bg-[#C2F2D7] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
+                                <span className="border-l-4 border-[#2FD572] text-[#22AD5D] bg-[#C2F2D7] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[4px]">
                                   <span>Confirmado </span>
                                 </span>
                               ) : (
-                                <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-1">
+                                <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[4px]">
                                   <span>Pendiente </span>
                                 </span>
                               )}

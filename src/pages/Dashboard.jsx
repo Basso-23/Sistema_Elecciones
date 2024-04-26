@@ -947,7 +947,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                                 <span>Confirmado </span>
                               </span>
                             ) : (
-                              <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[2px]">
+                              <span className="border-l-4 border-[#ef3c3c] text-[#ef3c3c] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[2px]">
                                 <span>Pendiente </span>
                               </span>
                             )}
@@ -1156,7 +1156,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               <span>Confirmado </span>
                             </span>
                           ) : (
-                            <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[2px]">
+                            <span className="border-l-4 border-[#ef3c3c] text-[#ef3c3c] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[2px]">
                               <span>Pendiente </span>
                             </span>
                           )}
@@ -1428,7 +1428,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         setDownloadReady(true);
                       }, "1000");
                     }}
-                    className={` w-14 aspect-square rounded-full  fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
+                    className={` w-14 aspect-square rounded-full fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
                       download
                         ? "bg-white text-[#0061FE] border"
                         : "bg-[#0061FE] sm:hover:bg-[#2645e0] text-white"
@@ -1438,10 +1438,18 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                   </div>
 
                   {download ? (
-                    <>
-                      {/*//* PDFmesas */}
+                    <div className=" w-[250px] h-[100lvh] bg-white fixed right-0 top-0 sm:pt-[100px] pt-[75px] border-l z-40 text-white flex flex-col px-4">
+                      <button
+                        className="w-[210px] transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-[10px] px-4 rounded-sm text-[13px] mb-4 text-center absolute bottom-5 fixedCenterX"
+                        onClick={() => {
+                          setDownload(!download);
+                        }}
+                      >
+                        Cerrar
+                      </button>
+                      {/*//* PDFToda la Tabla */}
                       <div
-                        className={`right-5 bottom-[290px] cursor-pointer text-[13px] text-white font-medium fixed py-[13px] px-3 select-none rounded-sm w-full max-w-[200px] ${
+                        className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
                           !downloadReady
                             ? "bg-[#cbcbcb] pointer-events-none"
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
@@ -1453,7 +1461,40 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         >
                           {downloadReady ? (
                             <>
-                              <div className=" flex w-full justify-between items-center">
+                              <div className=" flex w-full justify-between gap-3 items-center ">
+                                Tabla completa
+                                <div>
+                                  <Download />
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
+                              <div className="lds-ellipsis -ml-14 ">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                              </div>
+                            </div>
+                          )}
+                        </PDFDownloadLink>
+                      </div>
+                      <div className=" h-1 w-full border-t mb-4 mt-5"></div>
+                      {/*//* PDFmesas */}
+                      <div
+                        className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
+                          !downloadReady
+                            ? "bg-[#cbcbcb] pointer-events-none"
+                            : "bg-[#0061FE] hover:bg-[#2645e0]"
+                        }`}
+                      >
+                        <PDFDownloadLink
+                          document={<PDFmesas userState={userState} />}
+                          fileName="Registro(mesa).pdf"
+                        >
+                          {downloadReady ? (
+                            <>
+                              <div className=" flex w-full justify-between gap-3 items-center ">
                                 Por mesa
                                 <div>
                                   <Download />
@@ -1471,9 +1512,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           )}
                         </PDFDownloadLink>
                       </div>
+                      <div className=" mt-2 w-full h-10 border mb-6"></div>
                       {/*//* PDFdirigentes */}
                       <div
-                        className={`right-5 bottom-[230px] cursor-pointer text-[13px] text-white font-medium fixed py-[13px] px-3 select-none rounded-sm w-full max-w-[200px] ${
+                        className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
                           !downloadReady
                             ? "bg-[#cbcbcb] pointer-events-none"
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
@@ -1503,10 +1545,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           )}
                         </PDFDownloadLink>
                       </div>
-
+                      <div className=" mt-2 w-full h-10 border mb-6"></div>
                       {/*//* PDFcentro */}
                       <div
-                        className={`right-5 bottom-[170px] cursor-pointer text-[13px] text-white font-medium fixed py-[13px] px-3 select-none rounded-sm w-full max-w-[200px] ${
+                        className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
                           !downloadReady
                             ? "bg-[#cbcbcb] pointer-events-none"
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
@@ -1536,7 +1578,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           )}
                         </PDFDownloadLink>
                       </div>
-                    </>
+                      <div className=" mt-2 w-full h-10 border mb-6"></div>
+                    </div>
                   ) : null}
                 </section>
 
@@ -1792,7 +1835,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
 
                           <button
-                            className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px]  mb-2"
+                            className="w-fit transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px]  mb-2"
                             onClick={() => {
                               setUpdate(false);
                             }}
@@ -1863,7 +1906,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
+                              className="w-fit transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1931,7 +1974,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
+                              className="w-fit transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -1996,7 +2039,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
+                              className="w-fit transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -2070,7 +2113,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
+                              className="w-fit transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -2144,7 +2187,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
+                              className="w-fit transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -2215,7 +2258,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           </div>
                           <div className="grid grid-cols-2">
                             <button
-                              className="w-fit transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
+                              className="w-fit transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] mb-2"
                               onClick={() => {
                                 setUpdate(false);
                               }}
@@ -2242,7 +2285,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                                   <span>Confirmado </span>
                                 </span>
                               ) : (
-                                <span className="border-l-4 border-[#F24646] text-[#F24646] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[4px]">
+                                <span className="border-l-4 border-[#ef3c3c] text-[#ef3c3c] bg-[#FFE1E2] text-[12px] w-[90px] text-center flex rounded-sm font-medium justify-center py-[4px]">
                                   <span>Pendiente </span>
                                 </span>
                               )}
@@ -2274,7 +2317,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               }}
                               className={
                                 adminID.includes(userState) && !update
-                                  ? " hidden transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] text-center font-normal "
+                                  ? " hidden transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-2 px-4 rounded-sm text-[13px] text-center font-normal "
                                   : "hidden"
                               }
                             >
@@ -2291,7 +2334,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     }}
                     className={
                       adminID.includes(userState) && !update
-                        ? "  transition-all bg-[#F24646] hover:bg-[#cd202f] text-white py-3 px-4 rounded-sm text-[13px] text-center font-normal w-full"
+                        ? "  transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-3 px-4 rounded-sm text-[13px] text-center font-normal w-full"
                         : "hidden"
                     }
                   >
@@ -2329,7 +2372,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       setInfoModal(false);
                       notifyEliminado();
                     }}
-                    className=" bg-[#F24646] hover:bg-[#cd202f] transition-all text-[13px] text-white py-3 font-medium sm:cursor-pointer flex items-center justify-center rounded-sm"
+                    className=" bg-[#ef3c3c] hover:bg-[#cd202f] transition-all text-[13px] text-white py-3 font-medium sm:cursor-pointer flex items-center justify-center rounded-sm"
                   >
                     <div className="">Borrar</div>
                   </div>

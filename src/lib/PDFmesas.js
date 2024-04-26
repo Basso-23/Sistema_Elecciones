@@ -243,7 +243,7 @@ const PDFmesas = ({ userState, modifierPDF_mesa }) => {
             </View>
             <View style={styles.infoRight}>
               <Text style={styles.infoTitle}>Ordenado por: </Text>
-              <Text style={styles.infoValue}>MESA </Text>
+              <Text style={styles.infoValue}>MESA: {modifierPDF_mesa}</Text>
             </View>
           </View>
           <View style={styles.table}>

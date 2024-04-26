@@ -244,7 +244,10 @@ const PDFdirigentes = ({ userState, modifierPDF_dirigente }) => {
             </View>
             <View style={styles.infoRight}>
               <Text style={styles.infoTitle}>Ordenado por: </Text>
-              <Text style={styles.infoValue}>Dirigente </Text>
+              <Text style={styles.infoValue}>
+                Dirigente:{" "}
+                {modifierPDF_dirigente.split("@")[0].replace(/\./g, " ")}
+              </Text>
             </View>
           </View>
           <View style={styles.table}>

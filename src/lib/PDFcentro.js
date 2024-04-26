@@ -243,7 +243,9 @@ const PDFcentro = ({ userState, modifierPDF_centro }) => {
             </View>
             <View style={styles.infoRight}>
               <Text style={styles.infoTitle}>Ordenado por: </Text>
-              <Text style={styles.infoValue}>CENTRO DE VOTACIÓN </Text>
+              <Text style={styles.infoValue}>
+                CENTRO DE VOTACIÓN: {modifierPDF_centro}
+              </Text>
             </View>
           </View>
           <View style={styles.table}>

@@ -616,7 +616,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   };
 
   return (
-    <main className="pt-8 pb-20">
+    <main className="pt-8 pb-20 min-h-screen">
       {/*//* Container de la notificacion  */}
       <div className="text-[15px]">
         <ToastContainer />
@@ -1437,6 +1437,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                 {/*//SECTION: PDF DOWNLOAD BUTTON ____________________________________________________________________________________________________ */}
                 <section>
+                  {/*//* Boton */}
                   <div
                     onClick={() => {
                       setDownload(!download);
@@ -1454,9 +1455,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                   {download ? (
                     <div className=" w-[250px] h-[100svh] min-h-[300px] bg-white fixed right-0 top-0 sm:pt-[95px] pt-[75px] border-l z-40 text-white flex flex-col px-4">
-                      <div className="text-[#303030] mb-6 text-sm">
+                      <div className="text-[#303030] mb-4 text-sm">
                         Seleccione un opción:
                       </div>
+
                       {/*//* PDF Tabla Completa */}
                       <div
                         className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
@@ -1489,10 +1491,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           )}
                         </PDFDownloadLink>
                       </div>
+
+                      {/*//* separador */}
                       <div className=" h-1 w-full border-t mb-4 mt-5"></div>
 
                       {/*//* PDFmesas */}
-
                       <select
                         value={modifierPDF_mesa}
                         onChange={onChangePDF_mesa}
@@ -1597,7 +1600,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       </div>
 
                       {/*//* PDFcentro */}
-
                       <select
                         value={modifierPDF_centro}
                         onChange={onChangePDF_centro}
@@ -1648,6 +1650,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         </PDFDownloadLink>
                       </div>
 
+                      {/*//* Boton de cerrar */}
                       <button
                         className="w-[210px] transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-[11px] px-4 rounded-sm text-[13px] mb-4 text-center absolute bottom-5 fixedCenterX"
                         onClick={() => {

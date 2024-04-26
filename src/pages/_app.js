@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import "@fontsource-variable/inter";
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
@@ -35,6 +36,7 @@ const App = ({ Component, pageProps, router }) => {
           adminID={adminID}
           activistaID={activistaID}
         />
+        <Footer />
       </div>
     </div>
   );

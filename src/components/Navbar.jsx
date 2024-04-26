@@ -29,7 +29,7 @@ const Navbar = ({ userState, setUserState, adminID, activistaID }) => {
       <section className="flex justify-between py-4 sm:px-4 pageSize w-full">
         <div className="flex gap-2 items-center">
           <div
-            className="bg-contain bg-center w-[60px]  aspect-[10/5] bg-no-repeat md:flex hidden"
+            className="bg-contain bg-center w-[60px]  aspect-[10/5] bg-no-repeat  hidden"
             style={{
               backgroundImage:
                 "url('https://i.imgur.com/CzlwmDN.pngtu_url_de_imagen')",

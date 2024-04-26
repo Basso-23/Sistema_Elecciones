@@ -93,11 +93,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [loader, setLoader] = useState(false); //* Loader del boton actualizar
 
-  const [downloadReady, setDownloadReady] = useState(false);
+  const [downloadReady, setDownloadReady] = useState(false); //* Loader de los botones de descarga
 
-  const [modifierPDF_centro, setModifierPDF_centro] = useState("");
-  const [modifierPDF_dirigente, setModifierPDF_dirigente] = useState("");
-  const [modifierPDF_mesa, setModifierPDF_mesa] = useState("");
+  const [modifierPDF_centro, setModifierPDF_centro] = useState(""); //* Centro de votacion seleccionado para la descarga del PDF
+  const [modifierPDF_dirigente, setModifierPDF_dirigente] = useState(""); //* Dirigente seleccionado para la descarga del PDF
+  const [modifierPDF_mesa, setModifierPDF_mesa] = useState(""); //* Mesa seleccionado para la descarga del PDF
 
   //* Mesas de la etiqueta select
   const mesas_bd = [];
@@ -106,17 +106,17 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   }
 
   const escuelas_bd = [
-    "CIRILO J MARTINEZ",
-    "NARCISO GARAY",
-    "SANTA CRUZ",
-    "JOSE PABLO PAREDES",
-    "ASCANIO VILLALAZ",
-    "BILINGÜE ABRAHAM",
-    "BUEN PASTOR GETSEMNI",
-    "BUEN PASTOR JIREH",
-    "JUAN ARTURO MARTINELLI",
-    "CANCHA PARQUE BALMORAL",
-    "CANCHA LA FLORIDA",
+    "Círilo J Martinez",
+    "Narciso Garay",
+    "Santa Cruz",
+    "Jose Pablo Paredes",
+    "Ascanio Villalaz",
+    "Bilingüe Abraham",
+    "Buen Pastor Getsemni",
+    "Buen Pastor Jireh",
+    "Juan Arturo Martinelli",
+    "Cancha Parque Balmoral",
+    "Cancha La Florida",
   ]; //* Escuelas de la etiqueta select
 
   const itemsToShow = 50; //* Cantidad de items a mostrar en la tabla
@@ -561,46 +561,50 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     setConteoCombinadoA(filtered);
   };
 
+  //FUNCTION: Notificacion de votante creado
   const notifyCreado = () => {
-    toast.success("Votante creado exitosamente", {
-      position: "bottom-center",
+    toast.success("Votante creado con éxito", {
+      position: "top-center",
       autoClose: 3500,
       hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
       progress: undefined,
       theme: "colored",
       transition: Slide,
     });
   };
+  //FUNCTION: Notificacion de votante borrado
   const notifyEliminado = () => {
-    toast.success("Votante borrado exitosamente", {
-      position: "bottom-center",
+    toast.success("Votante eliminado con éxito", {
+      position: "top-center",
       autoClose: 3500,
       hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
       progress: undefined,
       theme: "colored",
       transition: Slide,
     });
   };
+  //FUNCTION: Notificacion de votante editado
   const notifyEditado = () => {
-    toast.success("Votante editado exitosamente", {
-      position: "bottom-center",
+    toast.success("Votante editado con éxito", {
+      position: "top-center",
       autoClose: 3500,
       hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
+      closeOnClick: false,
+      pauseOnHover: false,
+      draggable: false,
       progress: undefined,
       theme: "colored",
       transition: Slide,
     });
   };
 
+  //FUNCTION: Controla los select de descarga de PDF
   const onChangePDF_mesa = (event) => {
     setModifierPDF_mesa(event.target.value);
   };
@@ -613,7 +617,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   return (
     <main className="pt-8 pb-20">
-      {/* Container de la notificacion de correo copiado */}
+      {/*//* Container de la notificacion  */}
       <div className="text-[15px]">
         <ToastContainer />
       </div>
@@ -1463,7 +1467,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       >
                         <PDFDownloadLink
                           document={<PDFcompleta userState={userState} />}
-                          fileName="Registro (completa).pdf"
+                          fileName="Registro_completo.pdf"
                         >
                           {downloadReady ? (
                             <>
@@ -1516,7 +1520,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               modifierPDF_mesa={modifierPDF_mesa}
                             />
                           }
-                          fileName="Registro (mesa).pdf"
+                          fileName={`Registro_mesa_${modifierPDF_mesa}.pdf`}
                         >
                           {downloadReady ? (
                             <>
@@ -1567,7 +1571,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               modifierPDF_dirigente={modifierPDF_dirigente}
                             />
                           }
-                          fileName="Registro (dirigente).pdf"
+                          fileName={`Registro_${modifierPDF_dirigente
+                            .split("@")[0]
+                            .replace(/\./g, " ")}.pdf`}
                         >
                           {downloadReady ? (
                             <>
@@ -1619,7 +1625,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               modifierPDF_centro={modifierPDF_centro}
                             />
                           }
-                          fileName="Registro (centro).pdf"
+                          fileName={`Registro_${modifierPDF_centro}.pdf`}
                         >
                           {downloadReady ? (
                             <>

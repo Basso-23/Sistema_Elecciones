@@ -1214,7 +1214,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 }}
                 className={
                   adminID.includes(userState)
-                    ? " w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 sm:cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
+                    ? " w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 sm:right-5 right-3 sm:cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
                     : "hidden"
                 }
               >
@@ -1448,7 +1448,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         setDownloadReady(true);
                       }, "1000");
                     }}
-                    className="w-14 aspect-square rounded-full fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center bg-[#0061FE] sm:hover:bg-[#2645e0] text-white "
+                    className="w-14 aspect-square rounded-full fixed bottom-24 sm:right-5 right-3 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center bg-[#0061FE] sm:hover:bg-[#2645e0] text-white "
                   >
                     <Download />
                   </div>
@@ -1673,7 +1673,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     setDownload(false);
                     window.scrollTo(0, 0);
                   }}
-                  className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 right-5 sm:cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
+                  className=" w-14 aspect-square rounded-full bg-[#0061FE] hover:bg-[#2645e0] fixed bottom-5 sm:right-5 right-3 sm:cursor-pointer transition-all active:scale-95 text-white flex justify-center items-center"
                 >
                   <List />
                 </section>

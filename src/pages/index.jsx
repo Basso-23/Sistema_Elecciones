@@ -135,7 +135,7 @@ const Login = ({ userState, setUserState }) => {
                 </div>
               </div>
             ) : (
-              <div> Continuar </div>
+              <div className=" text-[13px]"> Continuar </div>
             )}
           </button>
         </form>

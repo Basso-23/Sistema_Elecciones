@@ -30,13 +30,13 @@ const Footer = () => {
       </section>
       <section className=" pb-4">
         <div className="flex  flex-col  justify-center  mt-4 text-center pageSize text-[13px] px-4 text-[#5d5d5d]">
-          <div className=" flex items-center gap-1 justify-center">
+          <div className="hidden items-center gap-1 justify-center">
             <div> Creado por</div>
-            <strong className="text-[#000000]">Carlos Baso /</strong>
+            <strong className="text-[#000000] ">Carlos Baso /</strong>
 
-            <strong className="text-[#000000]"> 6203-5672</strong>
+            <strong className="text-[#000000] "> 6203-5672</strong>
           </div>
-          <div className=" mt-1">©2024 Todos los derechos reservados.</div>
+          <div className=" mt-0">©2024 Todos los derechos reservados.</div>
         </div>
       </section>
     </main>

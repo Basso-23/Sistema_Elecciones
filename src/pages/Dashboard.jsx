@@ -94,8 +94,12 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
   const [downloadReady, setDownloadReady] = useState(false);
 
-  const mesas_bd = []; //* Mesas de la etiqueta select
+  const [modifierPDF_centro, setModifierPDF_centro] = useState("");
+  const [modifierPDF_dirigente, setModifierPDF_dirigente] = useState("");
+  const [modifierPDF_mesa, setModifierPDF_mesa] = useState("");
 
+  //* Mesas de la etiqueta select
+  const mesas_bd = [];
   for (let i = 3696; i <= 3780; i++) {
     mesas_bd.push(i);
   }
@@ -596,6 +600,16 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     });
   };
 
+  const onChangePDF_mesa = (event) => {
+    setModifierPDF_mesa(event.target.value);
+  };
+  const onChangePDF_dirigente = (event) => {
+    setModifierPDF_dirigente(event.target.value);
+  };
+  const onChangePDF_centro = (event) => {
+    setModifierPDF_centro(event.target.value);
+  };
+
   return (
     <main className="pt-8 pb-20">
       {/* Container de la notificacion de correo copiado */}
@@ -964,7 +978,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                         {/*//* Activista */}
                         <div className=" overflow-x-auto scroll1 capitalize">
-                          {item.activista.split("@")[0]}
+                          {item.activista.split("@")[0].replace(/\./g, " ")}
                         </div>
                       </div>
                     ))}
@@ -1147,7 +1161,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                               : "hidden"
                           }
                         >
-                          {item.activista.split("@")[0]}
+                          {item.activista.split("@")[0].replace(/\./g, " ")}
                         </div>
                         {/*//* Voto */}
                         <div className="w-full flex items-center">
@@ -1388,7 +1402,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             className=" w-full rounded-sm border"
                           >
                             <div className=" border-b p-3 font-semibold text-[13px] uppercase">
-                              {activista.split("@")[0]}
+                              {activista.split("@")[0].replace(/\./g, " ")}
                             </div>
                             <div className=" w-full px-3 py-5">
                               <div className=" flex gap-4 mb-2 items-center">
@@ -1428,26 +1442,17 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         setDownloadReady(true);
                       }, "1000");
                     }}
-                    className={` w-14 aspect-square rounded-full fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center  ${
-                      download
-                        ? "bg-white text-[#0061FE] border"
-                        : "bg-[#0061FE] sm:hover:bg-[#2645e0] text-white"
-                    }`}
+                    className="w-14 aspect-square rounded-full fixed bottom-24 right-5 sm:cursor-pointer transition-transform active:scale-95  flex justify-center items-center bg-[#0061FE] sm:hover:bg-[#2645e0] text-white "
                   >
-                    {download ? <Close /> : <Download />}
+                    <Download />
                   </div>
 
                   {download ? (
-                    <div className=" w-[250px] h-[100lvh] bg-white fixed right-0 top-0 sm:pt-[100px] pt-[75px] border-l z-40 text-white flex flex-col px-4">
-                      <button
-                        className="w-[210px] transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-[10px] px-4 rounded-sm text-[13px] mb-4 text-center absolute bottom-5 fixedCenterX"
-                        onClick={() => {
-                          setDownload(!download);
-                        }}
-                      >
-                        Cerrar
-                      </button>
-                      {/*//* PDFToda la Tabla */}
+                    <div className=" w-[250px] h-[100svh] min-h-[300px] bg-white fixed right-0 top-0 sm:pt-[95px] pt-[75px] border-l z-40 text-white flex flex-col px-4">
+                      <div className="text-[#303030] mb-6 text-sm">
+                        Seleccione un opción:
+                      </div>
+                      {/*//* PDF Tabla Completa */}
                       <div
                         className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
                           !downloadReady
@@ -1456,8 +1461,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         }`}
                       >
                         <PDFDownloadLink
-                          document={<PDFmesas userState={userState} />}
-                          fileName="Registro(mesa).pdf"
+                          document={<PDFcentro userState={userState} />}
+                          fileName="Registro (Tabla Completa).pdf"
                         >
                           {downloadReady ? (
                             <>
@@ -1480,10 +1485,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         </PDFDownloadLink>
                       </div>
                       <div className=" h-1 w-full border-t mb-4 mt-5"></div>
+
                       {/*//* PDFmesas */}
                       <div
                         className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
-                          !downloadReady
+                          !downloadReady || modifierPDF_mesa === ""
                             ? "bg-[#cbcbcb] pointer-events-none"
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
                         }`}
@@ -1512,11 +1518,24 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           )}
                         </PDFDownloadLink>
                       </div>
-                      <div className=" mt-2 w-full h-10 border mb-6"></div>
+
+                      <select
+                        value={modifierPDF_mesa}
+                        onChange={onChangePDF_mesa}
+                        className=" mb-6 mt-2 border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm cursor-pointer"
+                      >
+                        <option value="">Ninguno</option>
+                        {mesas_bd.map((item, index) => (
+                          <option value={item} key={index}>
+                            {item}
+                          </option>
+                        ))}
+                      </select>
+
                       {/*//* PDFdirigentes */}
                       <div
                         className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
-                          !downloadReady
+                          !downloadReady || modifierPDF_dirigente === ""
                             ? "bg-[#cbcbcb] pointer-events-none"
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
                         }`}
@@ -1545,11 +1564,23 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           )}
                         </PDFDownloadLink>
                       </div>
-                      <div className=" mt-2 w-full h-10 border mb-6"></div>
+                      <select
+                        value={modifierPDF_dirigente}
+                        onChange={onChangePDF_dirigente}
+                        className=" mb-6 mt-2 border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm capitalize cursor-pointer"
+                      >
+                        <option value="">Ninguno</option>
+                        {activistaID.map((item, index) => (
+                          <option value={item} key={index}>
+                            {item.split("@")[0].replace(/\./g, " ")}
+                          </option>
+                        ))}
+                      </select>
+
                       {/*//* PDFcentro */}
                       <div
                         className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
-                          !downloadReady
+                          !downloadReady || modifierPDF_centro === ""
                             ? "bg-[#cbcbcb] pointer-events-none"
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
                         }`}
@@ -1578,7 +1609,30 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           )}
                         </PDFDownloadLink>
                       </div>
-                      <div className=" mt-2 w-full h-10 border mb-6"></div>
+                      <select
+                        value={modifierPDF_centro}
+                        onChange={onChangePDF_centro}
+                        className=" mb-6 mt-2 border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm capitalize cursor-pointer"
+                      >
+                        <option value="">Ninguno</option>
+                        {escuelas_bd.map((item, index) => (
+                          <option value={item} key={index}>
+                            {item}
+                          </option>
+                        ))}
+                      </select>
+
+                      <button
+                        className="w-[210px] transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-[11px] px-4 rounded-sm text-[13px] mb-4 text-center absolute bottom-5 fixedCenterX"
+                        onClick={() => {
+                          setDownload(!download);
+                          setModifierPDF_centro("");
+                          setModifierPDF_mesa("");
+                          setModifierPDF_dirigente("");
+                        }}
+                      >
+                        Cerrar
+                      </button>
                     </div>
                   ) : null}
                 </section>
@@ -1744,12 +1798,12 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     value={formInfo.activista}
                     onChange={handleChange}
                     required
-                    className="border sm:cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm "
+                    className="border sm:cursor-pointer py-[13px] px-1  text-sm focus:border-[#0989FF] focus:outline-none w-full rounded-sm capitalize"
                   >
                     <option value="">Ninguno</option>
                     {activistaID.map((email, index) => (
                       <option key={index} value={email}>
-                        {email.split("@")[0]}
+                        {email.split("@")[0].replace(/\./g, " ")}
                       </option>
                     ))}
                   </select>
@@ -2344,7 +2398,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
 
                 {/*//* Activista */}
                 <div className="text-[#707070] border-t  font-normal  text-[13px] text-center py-2 rrr-br-md rrr-bl-md overflow-x-auto scroll1 justify-center w-full capitalize ">
-                  {item.activista.split("@")[0]}
+                  {item.activista.split("@")[0].replace(/\./g, " ")}
                 </div>
               </div>
             ))}
@@ -2359,7 +2413,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                     Borrar votante?
                   </h1>
                   <h2 className=" text-[#858585] mt-2">
-                    ¿Estás seguro de que deseas eliminar este artículo? Esta
+                    ¿Estás seguro de que deseas eliminar este votante? Esta
                     acción no se puede deshacer.
                   </h2>
                 </div>

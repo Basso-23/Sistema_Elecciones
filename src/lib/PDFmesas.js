@@ -236,7 +236,9 @@ const PDFmesas = ({ userState }) => {
             <View style={styles.infoLeft}>
               <Text style={styles.infoTitle}>Registro emitido por: </Text>
               {userState ? (
-                <Text style={styles.infoValue}>{userState.split("@")[0]} </Text>
+                <Text style={styles.infoValue}>
+                  {userState.split("@")[0].replace(/\./g, " ")}{" "}
+                </Text>
               ) : null}
             </View>
             <View style={styles.infoRight}>
@@ -304,7 +306,7 @@ const PDFmesas = ({ userState }) => {
                 {/*//* Dirigente */}
                 <View style={styles.tableColDirigente}>
                   <Text style={styles.tableCell}>
-                    {item.activista.split("@")[0]}
+                    {item.activista.split("@")[0].replace(/\./g, " ")}
                   </Text>
                 </View>
               </View>

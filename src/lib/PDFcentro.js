@@ -10,7 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import { firebase_read } from "@/firebase/firebase";
 
-const PDFcentro = ({ userState }) => {
+const PDFcentro = ({ userState, modifierPDF_centro }) => {
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
@@ -269,48 +269,50 @@ const PDFcentro = ({ userState }) => {
               </View>
             </View>
             {/*//* Contenido de la tabla */}
-            {sortedData.map((item, index) => (
-              <View key={index} style={styles.tableRowContenido}>
-                {/*//* Nombre */}
-                <View style={styles.tableColNombre}>
-                  <Text style={styles.tableCell}>
-                    {item.nombre} {item.apellido}
-                  </Text>
-                </View>
+            {sortedData
+              .filter((item) => item.centro_de_votacion === modifierPDF_centro)
+              .map((item, index) => (
+                <View key={index} style={styles.tableRowContenido}>
+                  {/*//* Nombre */}
+                  <View style={styles.tableColNombre}>
+                    <Text style={styles.tableCell}>
+                      {item.nombre} {item.apellido}
+                    </Text>
+                  </View>
 
-                {/*//* Cedula */}
-                <View style={styles.tableColCedula}>
-                  <Text style={styles.tableCell}>{item.cedula}</Text>
-                </View>
+                  {/*//* Cedula */}
+                  <View style={styles.tableColCedula}>
+                    <Text style={styles.tableCell}>{item.cedula}</Text>
+                  </View>
 
-                {/*//* Voto y Mesa */}
-                <View style={styles.tableColVotoyMesa}>
-                  <View style={styles.tableRow}>
-                    {item.estado_de_votacion === "si" ? (
-                      <Text style={styles.tableCellVoto}>Confirmado </Text>
-                    ) : (
-                      <Text style={styles.tableCellVoto}>~ Pendiente </Text>
-                    )}
+                  {/*//* Voto y Mesa */}
+                  <View style={styles.tableColVotoyMesa}>
+                    <View style={styles.tableRow}>
+                      {item.estado_de_votacion === "si" ? (
+                        <Text style={styles.tableCellVoto}>Confirmado </Text>
+                      ) : (
+                        <Text style={styles.tableCellVoto}>~ Pendiente </Text>
+                      )}
 
-                    <Text style={styles.tableCellMesa}>{item.mesa}</Text>
+                      <Text style={styles.tableCellMesa}>{item.mesa}</Text>
+                    </View>
+                  </View>
+
+                  {/*//* Centro de votacion */}
+                  <View style={styles.tableColCentro}>
+                    <Text style={styles.tableCell}>
+                      {item.centro_de_votacion}
+                    </Text>
+                  </View>
+
+                  {/*//* Dirigente */}
+                  <View style={styles.tableColDirigente}>
+                    <Text style={styles.tableCell}>
+                      {item.activista.split("@")[0].replace(/\./g, " ")}
+                    </Text>
                   </View>
                 </View>
-
-                {/*//* Centro de votacion */}
-                <View style={styles.tableColCentro}>
-                  <Text style={styles.tableCell}>
-                    {item.centro_de_votacion}
-                  </Text>
-                </View>
-
-                {/*//* Dirigente */}
-                <View style={styles.tableColDirigente}>
-                  <Text style={styles.tableCell}>
-                    {item.activista.split("@")[0].replace(/\./g, " ")}
-                  </Text>
-                </View>
-              </View>
-            ))}
+              ))}
           </View>
         </View>
       </Page>

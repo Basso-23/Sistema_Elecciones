@@ -10,13 +10,13 @@ import {
 } from "@react-pdf/renderer";
 import { firebase_read } from "@/firebase/firebase";
 
-const PDFmesas = ({ userState, modifierPDF_mesa }) => {
+const PDFcompleta = ({ userState }) => {
   const [sortedData, setSortedData] = useState([]);
 
   useEffect(() => {
     //console.log("firebase_read");
     //* Lee y asigna los datos de la BD requiere: (nombre de la coleccion, variable donde guardar los datos y nombre del campo por el que se ordenara)
-    firebase_read("votantes", setSortedData, "mesa");
+    firebase_read("votantes", setSortedData, "centro_de_votacion");
   }, []);
   useEffect(() => {
     //console.log("CENTRO:", sortedData);
@@ -243,7 +243,7 @@ const PDFmesas = ({ userState, modifierPDF_mesa }) => {
             </View>
             <View style={styles.infoRight}>
               <Text style={styles.infoTitle}>Ordenado por: </Text>
-              <Text style={styles.infoValue}>MESA </Text>
+              <Text style={styles.infoValue}>TABLA COMPLETA </Text>
             </View>
           </View>
           <View style={styles.table}>
@@ -269,50 +269,48 @@ const PDFmesas = ({ userState, modifierPDF_mesa }) => {
               </View>
             </View>
             {/*//* Contenido de la tabla */}
-            {sortedData
-              .filter((item) => item.mesa === modifierPDF_mesa)
-              .map((item, index) => (
-                <View key={index} style={styles.tableRowContenido}>
-                  {/*//* Nombre */}
-                  <View style={styles.tableColNombre}>
-                    <Text style={styles.tableCell}>
-                      {item.nombre} {item.apellido}
-                    </Text>
-                  </View>
+            {sortedData.map((item, index) => (
+              <View key={index} style={styles.tableRowContenido}>
+                {/*//* Nombre */}
+                <View style={styles.tableColNombre}>
+                  <Text style={styles.tableCell}>
+                    {item.nombre} {item.apellido}
+                  </Text>
+                </View>
 
-                  {/*//* Cedula */}
-                  <View style={styles.tableColCedula}>
-                    <Text style={styles.tableCell}>{item.cedula}</Text>
-                  </View>
+                {/*//* Cedula */}
+                <View style={styles.tableColCedula}>
+                  <Text style={styles.tableCell}>{item.cedula}</Text>
+                </View>
 
-                  {/*//* Voto y Mesa */}
-                  <View style={styles.tableColVotoyMesa}>
-                    <View style={styles.tableRow}>
-                      {item.estado_de_votacion === "si" ? (
-                        <Text style={styles.tableCellVoto}>Confirmado </Text>
-                      ) : (
-                        <Text style={styles.tableCellVoto}>~ Pendiente </Text>
-                      )}
+                {/*//* Voto y Mesa */}
+                <View style={styles.tableColVotoyMesa}>
+                  <View style={styles.tableRow}>
+                    {item.estado_de_votacion === "si" ? (
+                      <Text style={styles.tableCellVoto}>Confirmado </Text>
+                    ) : (
+                      <Text style={styles.tableCellVoto}>~ Pendiente </Text>
+                    )}
 
-                      <Text style={styles.tableCellMesa}>{item.mesa}</Text>
-                    </View>
-                  </View>
-
-                  {/*//* Centro de votacion */}
-                  <View style={styles.tableColCentro}>
-                    <Text style={styles.tableCell}>
-                      {item.centro_de_votacion}
-                    </Text>
-                  </View>
-
-                  {/*//* Dirigente */}
-                  <View style={styles.tableColDirigente}>
-                    <Text style={styles.tableCell}>
-                      {item.activista.split("@")[0].replace(/\./g, " ")}
-                    </Text>
+                    <Text style={styles.tableCellMesa}>{item.mesa}</Text>
                   </View>
                 </View>
-              ))}
+
+                {/*//* Centro de votacion */}
+                <View style={styles.tableColCentro}>
+                  <Text style={styles.tableCell}>
+                    {item.centro_de_votacion}
+                  </Text>
+                </View>
+
+                {/*//* Dirigente */}
+                <View style={styles.tableColDirigente}>
+                  <Text style={styles.tableCell}>
+                    {item.activista.split("@")[0].replace(/\./g, " ")}
+                  </Text>
+                </View>
+              </View>
+            ))}
           </View>
         </View>
       </Page>
@@ -320,4 +318,4 @@ const PDFmesas = ({ userState, modifierPDF_mesa }) => {
   );
 };
 
-export default PDFmesas;
+export default PDFcompleta;

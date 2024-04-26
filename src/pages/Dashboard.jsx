@@ -38,6 +38,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import PDFdirigentes from "@/lib/PDFdirigentes";
 import PDFcentro from "@/lib/PDFcentro";
 import PDFmesas from "@/lib/PDFmesas";
+import PDFcompleta from "@/lib/PDFcompleta";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
@@ -1461,8 +1462,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         }`}
                       >
                         <PDFDownloadLink
-                          document={<PDFcentro userState={userState} />}
-                          fileName="Registro (Tabla Completa).pdf"
+                          document={<PDFcompleta userState={userState} />}
+                          fileName="Registro (completa).pdf"
                         >
                           {downloadReady ? (
                             <>
@@ -1487,44 +1488,13 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                       <div className=" h-1 w-full border-t mb-4 mt-5"></div>
 
                       {/*//* PDFmesas */}
-                      <div
-                        className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
-                          !downloadReady || modifierPDF_mesa === ""
-                            ? "bg-[#cbcbcb] pointer-events-none"
-                            : "bg-[#0061FE] hover:bg-[#2645e0]"
-                        }`}
-                      >
-                        <PDFDownloadLink
-                          document={<PDFmesas userState={userState} />}
-                          fileName="Registro(mesa).pdf"
-                        >
-                          {downloadReady ? (
-                            <>
-                              <div className=" flex w-full justify-between gap-3 items-center ">
-                                Por mesa
-                                <div>
-                                  <Download />
-                                </div>
-                              </div>
-                            </>
-                          ) : (
-                            <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
-                              <div className="lds-ellipsis -ml-14 ">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                              </div>
-                            </div>
-                          )}
-                        </PDFDownloadLink>
-                      </div>
 
                       <select
                         value={modifierPDF_mesa}
                         onChange={onChangePDF_mesa}
-                        className=" mb-6 mt-2 border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm cursor-pointer"
+                        className="  border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm cursor-pointer"
                       >
-                        <option value="">Ninguno</option>
+                        <option value="">Mesa</option>
                         {mesas_bd.map((item, index) => (
                           <option value={item} key={index}>
                             {item}
@@ -1532,22 +1502,26 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         ))}
                       </select>
 
-                      {/*//* PDFdirigentes */}
                       <div
-                        className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
-                          !downloadReady || modifierPDF_dirigente === ""
+                        className={`mb-6 mt-2 cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
+                          !downloadReady || modifierPDF_mesa === ""
                             ? "bg-[#cbcbcb] pointer-events-none"
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
                         }`}
                       >
                         <PDFDownloadLink
-                          document={<PDFdirigentes userState={userState} />}
-                          fileName="Registro(dirigente).pdf"
+                          document={
+                            <PDFmesas
+                              userState={userState}
+                              modifierPDF_mesa={modifierPDF_mesa}
+                            />
+                          }
+                          fileName="Registro (mesa).pdf"
                         >
                           {downloadReady ? (
                             <>
-                              <div className=" flex w-full justify-between items-center">
-                                Por dirigente
+                              <div className=" flex w-full justify-between gap-3 items-center ">
+                                Descargar
                                 <div>
                                   <Download />
                                 </div>
@@ -1564,12 +1538,14 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           )}
                         </PDFDownloadLink>
                       </div>
+
+                      {/*//* PDFdirigentes */}
                       <select
                         value={modifierPDF_dirigente}
                         onChange={onChangePDF_dirigente}
-                        className=" mb-6 mt-2 border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm capitalize cursor-pointer"
+                        className="border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm capitalize cursor-pointer"
                       >
-                        <option value="">Ninguno</option>
+                        <option value="">Dirigente</option>
                         {activistaID.map((item, index) => (
                           <option value={item} key={index}>
                             {item.split("@")[0].replace(/\./g, " ")}
@@ -1577,22 +1553,26 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         ))}
                       </select>
 
-                      {/*//* PDFcentro */}
                       <div
-                        className={`cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
-                          !downloadReady || modifierPDF_centro === ""
+                        className={`mb-6 mt-2 cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
+                          !downloadReady || modifierPDF_dirigente === ""
                             ? "bg-[#cbcbcb] pointer-events-none"
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
                         }`}
                       >
                         <PDFDownloadLink
-                          document={<PDFcentro userState={userState} />}
-                          fileName="Registro(centro).pdf"
+                          document={
+                            <PDFdirigentes
+                              userState={userState}
+                              modifierPDF_dirigente={modifierPDF_dirigente}
+                            />
+                          }
+                          fileName="Registro (dirigente).pdf"
                         >
                           {downloadReady ? (
                             <>
                               <div className=" flex w-full justify-between items-center">
-                                Por centro de votación
+                                Descargar
                                 <div>
                                   <Download />
                                 </div>
@@ -1609,18 +1589,58 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           )}
                         </PDFDownloadLink>
                       </div>
+
+                      {/*//* PDFcentro */}
+
                       <select
                         value={modifierPDF_centro}
                         onChange={onChangePDF_centro}
-                        className=" mb-6 mt-2 border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm capitalize cursor-pointer"
+                        className=" border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm cursor-pointer"
                       >
-                        <option value="">Ninguno</option>
+                        <option value="">Centro de votación</option>
                         {escuelas_bd.map((item, index) => (
                           <option value={item} key={index}>
                             {item}
                           </option>
                         ))}
                       </select>
+
+                      <div
+                        className={`mb-6 mt-2 cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
+                          !downloadReady || modifierPDF_centro === ""
+                            ? "bg-[#cbcbcb] pointer-events-none"
+                            : "bg-[#0061FE] hover:bg-[#2645e0]"
+                        }`}
+                      >
+                        <PDFDownloadLink
+                          document={
+                            <PDFcentro
+                              userState={userState}
+                              modifierPDF_centro={modifierPDF_centro}
+                            />
+                          }
+                          fileName="Registro (centro).pdf"
+                        >
+                          {downloadReady ? (
+                            <>
+                              <div className=" flex w-full justify-between items-center">
+                                Descargar
+                                <div>
+                                  <Download />
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
+                              <div className="lds-ellipsis -ml-14 ">
+                                <div></div>
+                                <div></div>
+                                <div></div>
+                              </div>
+                            </div>
+                          )}
+                        </PDFDownloadLink>
+                      </div>
 
                       <button
                         className="w-[210px] transition-all bg-[#ef3c3c] hover:bg-[#cd202f] text-white py-[11px] px-4 rounded-sm text-[13px] mb-4 text-center absolute bottom-5 fixedCenterX"

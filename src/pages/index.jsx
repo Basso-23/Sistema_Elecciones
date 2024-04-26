@@ -74,7 +74,7 @@ const Login = ({ userState, setUserState }) => {
   };
 
   return (
-    <main className=" flex justify-center px-6">
+    <main className=" flex justify-center px-6 min-h-screen">
       {/*//SECTION: Form container // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // */}
       <section className="mt-[120px] h-fit w-full justify-center flex">
         <form

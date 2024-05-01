@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import { useRouter } from "next/router";
 import { signOut } from "firebase/auth";
 import { auth } from "@/firebase/firebase";
+import Head from "next/head";
 
 const App = ({ Component, pageProps, router }) => {
   //* Almacena la el ID del usuario al iniciar sesion
@@ -20,6 +21,10 @@ const App = ({ Component, pageProps, router }) => {
   );
   return (
     <div style={{ fontFamily: "Inter Variable, sans-serif" }}>
+      <Head>
+        <title>Sistema de votacion - Papacat</title>
+        <meta name="description" content="Sistema de votacion - Papacat" />
+      </Head>
       <Navbar
         userState={userState}
         setUserState={setUserState}

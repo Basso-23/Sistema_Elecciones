@@ -94,7 +94,7 @@ const Login = ({ userState, setUserState }) => {
               name="email"
               value={formLogin.email}
               placeholder={""}
-              type={"email"}
+              type={"text"}
               onChange={handleChange}
             />
           </div>

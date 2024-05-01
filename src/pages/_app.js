@@ -22,8 +22,8 @@ const App = ({ Component, pageProps, router }) => {
   return (
     <div style={{ fontFamily: "Inter Variable, sans-serif" }}>
       <Head>
-        <title>Sistema de votacion - Papacat</title>
-        <meta name="description" content="Sistema de votacion - Papacat" />
+        <title>Sistema de votación - Papacat</title>
+        <meta name="description" content="Sistema de votación - Papacat" />
       </Head>
       <Navbar
         userState={userState}

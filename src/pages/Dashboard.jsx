@@ -106,18 +106,12 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   }
 
   const escuelas_bd = [
-    "Ascanio Villaláz",
     "Caseta La Balmoral",
-    "Pastor Getzemani",
     "Calle D Final",
-    "Caseta Florida",
     "Juan A. Martinelli",
     "Nueva Jerusalén",
-    "Caseta Balmoral",
-    "Ascanio Villalaz",
-    "Bilingue Cirilo J. Martinez",
     "Santa Cruz",
-    "Caseta La Florida",
+    "Caseta Florida",
     "Narciso Garay",
     "José P. Paredes",
     "Cancha La Florida",
@@ -126,7 +120,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     "Bilingüe Abraham",
     "Buen Pastor Jireh",
     "Ascanio Villaláz",
-    "Cirilo J. Martínez",
+    "Cirilo J. Martinez",
   ]; //* Escuelas de la etiqueta select
 
   const itemsToShow = 50; //* Cantidad de items a mostrar en la tabla

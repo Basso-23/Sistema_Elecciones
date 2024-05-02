@@ -34,12 +34,6 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import Card_Chart from "@/components/Card_Chart";
 import Question from "@/icons/Question";
 
-import { PDFDownloadLink } from "@react-pdf/renderer";
-import PDFdirigentes from "@/lib/PDFdirigentes";
-import PDFcentro from "@/lib/PDFcentro";
-import PDFmesas from "@/lib/PDFmesas";
-import PDFcompleta from "@/lib/PDFcompleta";
-
 import objectExporter from "..";
 
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
@@ -668,7 +662,142 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         },
       ],
       exportable: data,
-      fileName: "sample_excel",
+      fileName: "Tabla completa",
+      headerStyle:
+        "font-weight: bold; padding: 5px; border: 1px solid #dddddd;",
+      cellStyle:
+        "border: 1px solid lightgray; margin-bottom: -1px; text-transform: lowercase;",
+    });
+  }
+
+  function object2pdf_mesa(modifier) {
+    var docName = `Registro_mesa_${modifier}.pdf`;
+
+    // Generate the Pdf
+    objectExporter({
+      type: "pdf",
+      headers: [
+        {
+          alias: "Nombre",
+          name: "nombre",
+        },
+        {
+          alias: "Apellido",
+          name: "apellido",
+        },
+        {
+          alias: "Cédula",
+          name: "cedula",
+        },
+        {
+          alias: "Voto",
+          name: "estado_de_votacion",
+        },
+        {
+          alias: "Mesa",
+          name: "mesa",
+        },
+        {
+          alias: "Centro de Votación",
+          name: "centro_de_votacion",
+        },
+        {
+          alias: "Dirigente",
+          name: "activista",
+        },
+      ],
+      exportable: data.filter((item) => item.mesa === modifier),
+      fileName: docName,
+      headerStyle:
+        "font-weight: bold; padding: 5px; border: 1px solid #dddddd;",
+      cellStyle:
+        "border: 1px solid lightgray; margin-bottom: -1px; text-transform: lowercase;",
+    });
+  }
+
+  function object2pdf_centro(modifier) {
+    var docName = `Registro_centro_${modifier}.pdf`;
+
+    // Generate the Pdf
+    objectExporter({
+      type: "pdf",
+      headers: [
+        {
+          alias: "Nombre",
+          name: "nombre",
+        },
+        {
+          alias: "Apellido",
+          name: "apellido",
+        },
+        {
+          alias: "Cédula",
+          name: "cedula",
+        },
+        {
+          alias: "Voto",
+          name: "estado_de_votacion",
+        },
+        {
+          alias: "Mesa",
+          name: "mesa",
+        },
+        {
+          alias: "Centro de Votación",
+          name: "centro_de_votacion",
+        },
+        {
+          alias: "Dirigente",
+          name: "activista",
+        },
+      ],
+      exportable: data.filter((item) => item.centro_de_votacion === modifier),
+      fileName: docName,
+      headerStyle:
+        "font-weight: bold; padding: 5px; border: 1px solid #dddddd;",
+      cellStyle:
+        "border: 1px solid lightgray; margin-bottom: -1px; text-transform: lowercase;",
+    });
+  }
+
+  function object2pdf_dirigente(modifier) {
+    var docName = `Registro_dirigente_${modifier}.pdf`;
+
+    // Generate the Pdf
+    objectExporter({
+      type: "pdf",
+      headers: [
+        {
+          alias: "Nombre",
+          name: "nombre",
+        },
+        {
+          alias: "Apellido",
+          name: "apellido",
+        },
+        {
+          alias: "Cédula",
+          name: "cedula",
+        },
+        {
+          alias: "Voto",
+          name: "estado_de_votacion",
+        },
+        {
+          alias: "Mesa",
+          name: "mesa",
+        },
+        {
+          alias: "Centro de Votación",
+          name: "centro_de_votacion",
+        },
+        {
+          alias: "Dirigente",
+          name: "activista",
+        },
+      ],
+      exportable: data.filter((item) => item.activista === modifier),
+      fileName: docName,
       headerStyle:
         "font-weight: bold; padding: 5px; border: 1px solid #dddddd;",
       cellStyle:
@@ -1267,15 +1396,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </div>
               </div>
 
-              <div
-                onClick={() => {
-                  object2pdf();
-                }}
-                className=" mt-10 "
-              >
-                Descargar
-              </div>
-
               {/*//SECTION: PAGE TOGGLE BUTTON ____________________________________________________________________________________________________ */}
               <section
                 onClick={() => {
@@ -1537,31 +1657,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
                         }`}
                       >
-                        <PDFDownloadLink
-                          document={
-                            <PDFcompleta userState={userState} data={data} />
-                          }
-                          fileName="Registro_completo.pdf"
-                        >
-                          {downloadReady ? (
-                            <>
-                              <div className=" flex w-full justify-between gap-3 items-center ">
-                                Tabla completa
-                                <div>
-                                  <Download />
-                                </div>
-                              </div>
-                            </>
-                          ) : (
-                            <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
-                              <div className="lds-ellipsis -ml-14 ">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                              </div>
+                        {downloadReady ? (
+                          <div
+                            onClick={() => {
+                              object2pdf();
+                            }}
+                            className=" flex w-full justify-between gap-3 items-center "
+                          >
+                            Tabla completa
+                            <div>
+                              <Download />
                             </div>
-                          )}
-                        </PDFDownloadLink>
+                          </div>
+                        ) : (
+                          <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
+                            <div className="lds-ellipsis -ml-14 ">
+                              <div></div>
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/*//* separador */}
@@ -1588,35 +1704,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
                         }`}
                       >
-                        <PDFDownloadLink
-                          document={
-                            <PDFmesas
-                              userState={userState}
-                              modifierPDF_mesa={modifierPDF_mesa}
-                              data={data}
-                            />
-                          }
-                          fileName={`Registro_mesa_${modifierPDF_mesa}.pdf`}
-                        >
-                          {downloadReady ? (
-                            <>
-                              <div className=" flex w-full justify-between gap-3 items-center ">
-                                Descargar
-                                <div>
-                                  <Download />
-                                </div>
-                              </div>
-                            </>
-                          ) : (
-                            <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
-                              <div className="lds-ellipsis -ml-14 ">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                              </div>
+                        {downloadReady ? (
+                          <div
+                            onClick={() => {
+                              object2pdf_mesa(modifierPDF_mesa);
+                            }}
+                            className=" flex w-full justify-between gap-3 items-center "
+                          >
+                            Imprimir
+                            <div>
+                              <Download />
                             </div>
-                          )}
-                        </PDFDownloadLink>
+                          </div>
+                        ) : (
+                          <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
+                            <div className="lds-ellipsis -ml-14 ">
+                              <div></div>
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/*//* PDFdirigentes */}
@@ -1640,37 +1748,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
                         }`}
                       >
-                        <PDFDownloadLink
-                          document={
-                            <PDFdirigentes
-                              userState={userState}
-                              modifierPDF_dirigente={modifierPDF_dirigente}
-                              data={data}
-                            />
-                          }
-                          fileName={`Registro_${modifierPDF_dirigente
-                            .split("@")[0]
-                            .replace(/\./g, " ")}.pdf`}
-                        >
-                          {downloadReady ? (
-                            <>
-                              <div className=" flex w-full justify-between items-center">
-                                Descargar
-                                <div>
-                                  <Download />
-                                </div>
-                              </div>
-                            </>
-                          ) : (
-                            <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
-                              <div className="lds-ellipsis -ml-14 ">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                              </div>
+                        {downloadReady ? (
+                          <div
+                            onClick={() => {
+                              object2pdf_dirigente(modifierPDF_dirigente);
+                            }}
+                            className=" flex w-full justify-between items-center"
+                          >
+                            Imprimir
+                            <div>
+                              <Download />
                             </div>
-                          )}
-                        </PDFDownloadLink>
+                          </div>
+                        ) : (
+                          <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
+                            <div className="lds-ellipsis -ml-14 ">
+                              <div></div>
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/*//* PDFcentro */}
@@ -1694,35 +1792,27 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             : "bg-[#0061FE] hover:bg-[#2645e0]"
                         }`}
                       >
-                        <PDFDownloadLink
-                          document={
-                            <PDFcentro
-                              userState={userState}
-                              modifierPDF_centro={modifierPDF_centro}
-                              data={data}
-                            />
-                          }
-                          fileName={`Registro_${modifierPDF_centro}.pdf`}
-                        >
-                          {downloadReady ? (
-                            <>
-                              <div className=" flex w-full justify-between items-center">
-                                Descargar
-                                <div>
-                                  <Download />
-                                </div>
-                              </div>
-                            </>
-                          ) : (
-                            <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
-                              <div className="lds-ellipsis -ml-14 ">
-                                <div></div>
-                                <div></div>
-                                <div></div>
-                              </div>
+                        {downloadReady ? (
+                          <div
+                            onClick={() => {
+                              object2pdf_centro(modifierPDF_centro);
+                            }}
+                            className=" flex w-full justify-between items-center"
+                          >
+                            Imprimir
+                            <div>
+                              <Download />
                             </div>
-                          )}
-                        </PDFDownloadLink>
+                          </div>
+                        ) : (
+                          <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
+                            <div className="lds-ellipsis -ml-14 ">
+                              <div></div>
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                        )}
                       </div>
 
                       {/*//* Boton de cerrar */}

@@ -477,11 +477,13 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   //FUNCTION: Ir a la página siguiente
   const nextPage = () => {
     setCurrentPage((prevPage) => prevPage + 1);
+    window.scrollTo(0, 0);
   };
 
   //FUNCTION: Ir a lapágina anterior
   const prevPage = () => {
     setCurrentPage((prevPage) => prevPage - 1);
+    window.scrollTo(0, 0);
   };
 
   //FUNCTION: Ordenar los datos según el campo seleccionado

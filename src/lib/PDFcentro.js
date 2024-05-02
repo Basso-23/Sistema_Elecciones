@@ -10,18 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import { firebase_read } from "@/firebase/firebase";
 
-const PDFcentro = ({ userState, modifierPDF_centro }) => {
-  const [sortedData, setSortedData] = useState([]);
-
-  useEffect(() => {
-    //console.log("firebase_read");
-    //* Lee y asigna los datos de la BD requiere: (nombre de la coleccion, variable donde guardar los datos y nombre del campo por el que se ordenara)
-    firebase_read("votantes", setSortedData, "centro_de_votacion");
-  }, []);
-  useEffect(() => {
-    //console.log("CENTRO:", sortedData);
-  }, [sortedData]);
-
+const PDFcentro = ({ userState, modifierPDF_centro, data }) => {
   const CurrentTime = () => {
     const currentTime = new Date().toLocaleTimeString();
     return <Text style={styles.fechaRight}>{currentTime}</Text>;
@@ -271,7 +260,7 @@ const PDFcentro = ({ userState, modifierPDF_centro }) => {
               </View>
             </View>
             {/*//* Contenido de la tabla */}
-            {sortedData
+            {data
               .filter((item) => item.centro_de_votacion === modifierPDF_centro)
               .map((item, index) => (
                 <View key={index} style={styles.tableRowContenido}>

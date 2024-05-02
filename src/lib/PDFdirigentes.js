@@ -10,19 +10,7 @@ import {
 } from "@react-pdf/renderer";
 import { firebase_read } from "@/firebase/firebase";
 
-const PDFdirigentes = ({ userState, modifierPDF_dirigente }) => {
-  const [sortedData, setSortedData] = useState([]);
-
-  useEffect(() => {
-    //console.log("firebase_read");
-    //* Lee y asigna los datos de la BD requiere: (nombre de la coleccion, variable donde guardar los datos y nombre del campo por el que se ordenara)
-    firebase_read("votantes", setSortedData, "activista");
-  }, []);
-
-  useEffect(() => {
-    //console.log("DIRIGENTES:", sortedData);
-  }, [sortedData]);
-
+const PDFdirigentes = ({ userState, modifierPDF_dirigente, data }) => {
   const CurrentTime = () => {
     const currentTime = new Date().toLocaleTimeString();
     return <Text style={styles.fechaRight}>{currentTime}</Text>;
@@ -273,7 +261,7 @@ const PDFdirigentes = ({ userState, modifierPDF_dirigente }) => {
               </View>
             </View>
             {/*//* Contenido de la tabla */}
-            {sortedData
+            {data
               .filter((item) => item.activista === modifierPDF_dirigente)
               .map((item, index) => (
                 <View key={index} style={styles.tableRowContenido}>

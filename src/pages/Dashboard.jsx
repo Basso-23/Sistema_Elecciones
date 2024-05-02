@@ -40,6 +40,8 @@ import PDFcentro from "@/lib/PDFcentro";
 import PDFmesas from "@/lib/PDFmesas";
 import PDFcompleta from "@/lib/PDFcompleta";
 
+import objectExporter from "..";
+
 const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const router = useRouter();
   const [load, setLoad] = useState(false); //* Se encarga del delay en la carga de la pagina
@@ -134,7 +136,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     centro_de_votacion: "",
     mesa: "",
     activista: "",
-    estado_de_votacion: false,
+    estado_de_votacion: "no",
   });
 
   const [editInfo, setEditInfo] = useState({
@@ -226,7 +228,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
     formInfo.centro_de_votacion = "";
     formInfo.mesa = "";
     formInfo.activista = "";
-    formInfo.estado_de_votacion = "";
+    formInfo.estado_de_votacion = "no";
 
     setCreateModal(false);
     notifyCreado();
@@ -620,6 +622,59 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   const onChangePDF_centro = (event) => {
     setModifierPDF_centro(event.target.value);
   };
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCTION
+  function createRandomString() {
+    var text = "";
+    var possible =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    for (var i = 0; i < 5; i++)
+      text += possible.charAt(Math.floor(Math.random() * possible.length));
+    return text;
+  }
+
+  function object2pdf() {
+    // Generate the Pdf
+    objectExporter({
+      type: "pdf",
+      headers: [
+        {
+          alias: "Nombre",
+          name: "nombre",
+        },
+        {
+          alias: "Apellido",
+          name: "apellido",
+        },
+        {
+          alias: "Cédula",
+          name: "cedula",
+        },
+        {
+          alias: "Voto",
+          name: "estado_de_votacion",
+        },
+        {
+          alias: "Mesa",
+          name: "mesa",
+        },
+        {
+          alias: "Centro de Votación",
+          name: "centro_de_votacion",
+        },
+        {
+          alias: "Dirigente",
+          name: "activista",
+        },
+      ],
+      exportable: data,
+      fileName: "sample_excel",
+      headerStyle:
+        "font-weight: bold; padding: 5px; border: 1px solid #dddddd;",
+      cellStyle:
+        "border: 1px solid lightgray; margin-bottom: -1px; text-transform: lowercase;",
+    });
+  }
 
   return (
     <main className="pt-8 pb-20 min-h-screen">
@@ -1212,6 +1267,15 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                 </div>
               </div>
 
+              <div
+                onClick={() => {
+                  object2pdf();
+                }}
+                className=" mt-10 "
+              >
+                Descargar
+              </div>
+
               {/*//SECTION: PAGE TOGGLE BUTTON ____________________________________________________________________________________________________ */}
               <section
                 onClick={() => {
@@ -1474,7 +1538,9 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         }`}
                       >
                         <PDFDownloadLink
-                          document={<PDFcompleta userState={userState} />}
+                          document={
+                            <PDFcompleta userState={userState} data={data} />
+                          }
                           fileName="Registro_completo.pdf"
                         >
                           {downloadReady ? (
@@ -1527,6 +1593,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <PDFmesas
                               userState={userState}
                               modifierPDF_mesa={modifierPDF_mesa}
+                              data={data}
                             />
                           }
                           fileName={`Registro_mesa_${modifierPDF_mesa}.pdf`}
@@ -1578,6 +1645,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <PDFdirigentes
                               userState={userState}
                               modifierPDF_dirigente={modifierPDF_dirigente}
+                              data={data}
                             />
                           }
                           fileName={`Registro_${modifierPDF_dirigente
@@ -1631,6 +1699,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                             <PDFcentro
                               userState={userState}
                               modifierPDF_centro={modifierPDF_centro}
+                              data={data}
                             />
                           }
                           fileName={`Registro_${modifierPDF_centro}.pdf`}

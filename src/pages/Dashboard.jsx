@@ -618,16 +618,10 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
   };
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////FUNCTION
-  function createRandomString() {
-    var text = "";
-    var possible =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    for (var i = 0; i < 5; i++)
-      text += possible.charAt(Math.floor(Math.random() * possible.length));
-    return text;
-  }
 
   function object2pdf() {
+    var docName = "TABLA COMPLETA";
+
     // Generate the Pdf
     objectExporter({
       type: "pdf",
@@ -663,15 +657,18 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
       ],
       exportable: data,
       fileName: "Tabla completa",
+      documentTitle: docName,
+      documentTitleStyle:
+        "font-weight: bold; font-family: 'Roboto Condensed', sans-serif; font-size:20px; text-transform: uppercase;",
       headerStyle:
-        "font-weight: bold; padding: 5px; border: 1px solid #dddddd;",
+        "font-weight: bold; font-family: 'Roboto Condensed', sans-serif; border: 0.5px solid lightgray; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align:start",
       cellStyle:
-        "border: 1px solid lightgray; margin-bottom: -1px; text-transform: lowercase;",
+        "font-weight: normal; font-family: 'Roboto Condensed', sans-serif; border: 0.5px solid lightgray; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align:start; text-transform: capitalize;",
     });
   }
 
   function object2pdf_mesa(modifier) {
-    var docName = `Registro_mesa_${modifier}.pdf`;
+    var docName = `MESA: ${modifier}`;
 
     // Generate the Pdf
     objectExporter({
@@ -707,16 +704,19 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         },
       ],
       exportable: data.filter((item) => item.mesa === modifier),
-      fileName: docName,
+      fileName: "Mesa",
+      documentTitle: docName,
+      documentTitleStyle:
+        "font-weight: bold; font-family: 'Roboto Condensed', sans-serif; font-size:20px; text-transform: uppercase;",
       headerStyle:
-        "font-weight: bold; padding: 5px; border: 1px solid #dddddd;",
+        "font-weight: bold; font-family: 'Roboto Condensed', sans-serif; border: 0.5px solid lightgray; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align:start",
       cellStyle:
-        "border: 1px solid lightgray; margin-bottom: -1px; text-transform: lowercase;",
+        "font-weight: normal; font-family: 'Roboto Condensed', sans-serif; border: 0.5px solid lightgray; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align:start; text-transform: capitalize;",
     });
   }
 
   function object2pdf_centro(modifier) {
-    var docName = `Registro_centro_${modifier}.pdf`;
+    var docName = `CENTRO DE VOTACION: ${modifier}`;
 
     // Generate the Pdf
     objectExporter({
@@ -752,16 +752,19 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         },
       ],
       exportable: data.filter((item) => item.centro_de_votacion === modifier),
-      fileName: docName,
+      fileName: "Centro",
+      documentTitle: docName,
+      documentTitleStyle:
+        "font-weight: bold; font-family: 'Roboto Condensed', sans-serif; font-size:20px; text-transform: uppercase;",
       headerStyle:
-        "font-weight: bold; padding: 5px; border: 1px solid #dddddd;",
+        "font-weight: bold; font-family: 'Roboto Condensed', sans-serif; border: 0.5px solid lightgray; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align:start",
       cellStyle:
-        "border: 1px solid lightgray; margin-bottom: -1px; text-transform: lowercase;",
+        "font-weight: normal; font-family: 'Roboto Condensed', sans-serif; border: 0.5px solid lightgray; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align:start; text-transform: capitalize;",
     });
   }
 
   function object2pdf_dirigente(modifier) {
-    var docName = `Registro_dirigente_${modifier}.pdf`;
+    var docName = `DIRIGENTE: ${modifier.split("@")[0].replace(/\./g, " ")}`;
 
     // Generate the Pdf
     objectExporter({
@@ -797,11 +800,14 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         },
       ],
       exportable: data.filter((item) => item.activista === modifier),
-      fileName: docName,
+      fileName: "Dirigente",
+      documentTitle: docName,
+      documentTitleStyle:
+        "font-weight: bold; font-family: 'Roboto Condensed', sans-serif; font-size:20px; text-transform: uppercase;",
       headerStyle:
-        "font-weight: bold; padding: 5px; border: 1px solid #dddddd;",
+        "font-weight: bold; font-family: 'Roboto Condensed', sans-serif; border: 0.5px solid lightgray; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align:start",
       cellStyle:
-        "border: 1px solid lightgray; margin-bottom: -1px; text-transform: lowercase;",
+        "font-weight: normal; font-family: 'Roboto Condensed', sans-serif; border: 0.5px solid lightgray; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align:start; text-transform: capitalize;",
     });
   }
 

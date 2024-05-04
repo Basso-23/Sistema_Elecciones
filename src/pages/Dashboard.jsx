@@ -655,7 +655,7 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           name: "activista",
         },
       ],
-      exportable: data,
+      exportable: sortObjectsArray(data, "cedula", "asc"),
       fileName: "Tabla completa",
       documentTitle: docName,
       documentTitleStyle:
@@ -703,7 +703,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           name: "activista",
         },
       ],
-      exportable: data.filter((item) => item.mesa === modifier),
+      exportable: sortObjectsArray(
+        data.filter((item) => item.mesa === modifier),
+        "cedula",
+        "asc"
+      ),
       fileName: "Mesa",
       documentTitle: docName,
       documentTitleStyle:
@@ -751,7 +755,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           name: "activista",
         },
       ],
-      exportable: data.filter((item) => item.centro_de_votacion === modifier),
+      exportable: sortObjectsArray(
+        data.filter((item) => item.centro_de_votacion === modifier),
+        "cedula",
+        "asc"
+      ),
       fileName: "Centro",
       documentTitle: docName,
       documentTitleStyle:
@@ -799,7 +807,11 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
           name: "activista",
         },
       ],
-      exportable: data.filter((item) => item.activista === modifier),
+      exportable: sortObjectsArray(
+        data.filter((item) => item.activista === modifier),
+        "cedula",
+        "asc"
+      ),
       fileName: "Dirigente",
       documentTitle: docName,
       documentTitleStyle:
@@ -810,6 +822,8 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
         "font-weight: normal; font-family: 'Roboto Condensed', sans-serif; border: 0.5px solid lightgray; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; text-align:start; text-transform: capitalize;",
     });
   }
+
+  const sortObjectsArray = require("sort-objects-array");
 
   return (
     <main className="pt-8 pb-20 min-h-screen">
@@ -1733,50 +1747,6 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                         )}
                       </div>
 
-                      {/*//* PDFdirigentes */}
-                      <select
-                        value={modifierPDF_dirigente}
-                        onChange={onChangePDF_dirigente}
-                        className="border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm capitalize cursor-pointer"
-                      >
-                        <option value="">Dirigente</option>
-                        {activistaID.map((item, index) => (
-                          <option value={item} key={index}>
-                            {item.split("@")[0].replace(/\./g, " ")}
-                          </option>
-                        ))}
-                      </select>
-
-                      <div
-                        className={`mb-6 mt-2 cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
-                          !downloadReady || modifierPDF_dirigente === ""
-                            ? "bg-[#cbcbcb] pointer-events-none"
-                            : "bg-[#0061FE] hover:bg-[#2645e0]"
-                        }`}
-                      >
-                        {downloadReady ? (
-                          <div
-                            onClick={() => {
-                              object2pdf_dirigente(modifierPDF_dirigente);
-                            }}
-                            className=" flex w-full justify-between items-center"
-                          >
-                            Imprimir
-                            <div>
-                              <Download />
-                            </div>
-                          </div>
-                        ) : (
-                          <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
-                            <div className="lds-ellipsis -ml-14 ">
-                              <div></div>
-                              <div></div>
-                              <div></div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
                       {/*//* PDFcentro */}
                       <select
                         value={modifierPDF_centro}
@@ -1802,6 +1772,50 @@ const Dashboard = ({ userState, setUserState, adminID, activistaID }) => {
                           <div
                             onClick={() => {
                               object2pdf_centro(modifierPDF_centro);
+                            }}
+                            className=" flex w-full justify-between items-center"
+                          >
+                            Imprimir
+                            <div>
+                              <Download />
+                            </div>
+                          </div>
+                        ) : (
+                          <div className=" flex relative justify-center mt-[2px] pointer-events-none ">
+                            <div className="lds-ellipsis -ml-14 ">
+                              <div></div>
+                              <div></div>
+                              <div></div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/*//* PDFdirigentes */}
+                      <select
+                        value={modifierPDF_dirigente}
+                        onChange={onChangePDF_dirigente}
+                        className="border  py-[13px] pl-2 text-sm text-black focus:outline-none w-full rounded-sm capitalize cursor-pointer"
+                      >
+                        <option value="">Dirigente</option>
+                        {activistaID.map((item, index) => (
+                          <option value={item} key={index}>
+                            {item.split("@")[0].replace(/\./g, " ")}
+                          </option>
+                        ))}
+                      </select>
+
+                      <div
+                        className={`mb-6 mt-2 cursor-pointer text-[13px] font-medium py-[10px] px-3 select-none rounded-sm ${
+                          !downloadReady || modifierPDF_dirigente === ""
+                            ? "bg-[#cbcbcb] pointer-events-none"
+                            : "bg-[#0061FE] hover:bg-[#2645e0]"
+                        }`}
+                      >
+                        {downloadReady ? (
+                          <div
+                            onClick={() => {
+                              object2pdf_dirigente(modifierPDF_dirigente);
                             }}
                             className=" flex w-full justify-between items-center"
                           >

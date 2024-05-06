@@ -6,7 +6,6 @@
 ![Alt text](https://i.imgur.com/y0Dmq2B.png)
 ![Alt text](https://i.imgur.com/GTjNF5e.png)
 ![Alt text](https://i.imgur.com/uO6atzL.png)
-![Alt text](https://i.imgur.com/uO6atzL.png)
 
 ## Getting Started
 
